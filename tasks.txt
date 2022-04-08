@@ -1,7 +1,8 @@
 x make simple test by using std::vector
 x search how to check the performance
   -> use clock or clock_gettime (wrap them like a cpp use) 
-- compile ft::vector
+x compile ft::vector
+x make compare test shell
 - test one by one
 - read p.798 programing c++ 4th (to learn enable_if)
 

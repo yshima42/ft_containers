@@ -30,8 +30,8 @@ $(OBJDIR_FT)/%.o: %.cpp
 	@if [ ! -e `dirname $@` ]; then mkdir -p `dirname $@`; fi
 	$(CXX) $(CXXFLAGS) -o $@ -D IS_FT=1 -c $<
 
-run		:	all
-	./tester_stl
+test		:	all
+	bash ./test.sh vector
 
 clean	:
 	rm -rf $(OBJDIR_STL) $(OBJDIR_FT)
