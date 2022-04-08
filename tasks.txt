@@ -4,5 +4,7 @@ x search how to check the performance
 x compile ft::vector
 x make compare test shell
 - test one by one
+  - constractor
+    - 
 - read p.798 programing c++ 4th (to learn enable_if)
 

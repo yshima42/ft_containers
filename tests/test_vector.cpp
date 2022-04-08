@@ -3,8 +3,8 @@
 
 void test_constractor()
 {
-  ft::vector<int> a(1, 2);
-  std::cout << "tester" << std::endl;
+  ft::vector<char> a;
+  ft::vector<int> v(1, 2);
 }
 
 void test_vector()
