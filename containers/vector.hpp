@@ -93,6 +93,19 @@ class vector {
   bool empty() const { return begin() == end(); }
   size_type capacity() const { return reserved_last - first; }
 
+  void push_back(const_reference value) {
+    if (size() + 1 > capacity()) {
+      size_type c = size();
+      if (c == 0)
+        c = 1;
+      else
+        c *= 2;
+      reserve(c);
+    }
+    construct(last, value);
+    ++last;
+  }
+
   // iterator access
   iterator begin() { return first; }
   iterator end() { return last; }
@@ -165,8 +178,6 @@ class vector {
       }
     }
   }
-
-
 
  private:
   pointer first;

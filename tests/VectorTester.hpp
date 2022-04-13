@@ -2,8 +2,7 @@
 #define VECTORTESTER_HPP
 
 #include <iostream>
-
-#include "test.hpp"
+#include <string>
 
 template <class T>
 class VectorTester {
@@ -13,6 +12,7 @@ class VectorTester {
   void test_all() {
     test_constructor();
     test_assignment_operator();
+    test_push_back();
   }
 
  private:
@@ -73,8 +73,27 @@ class VectorTester {
 
     ft::vector<T> v2(v1);
     v2 = v1;
-    print_vec(v, "assigned identical");
+    print_vec(v, "assigned identical vec");
   }
+
+  //skip for now
+  //void test_assign() {
+  //  ft::vector<char> characters;
+  //  characters.assign(5, 'a');
+  //  print_vec(characters, "characters.assign(5, 'a')");
+
+  //}
+  
+  void test_push_back() {
+    ft::vector<T> vec;
+    for (int i = 0; i < 10; ++i) {
+      vec.push_back(i);
+    }
+    print_vec(vec, "0 to 9");
+  }
+
+
+  
 
 };
 
