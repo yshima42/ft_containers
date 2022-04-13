@@ -41,6 +41,7 @@ class vector {
   //  (void)alloc;
   //}
 
+  // copy constructor
   vector(vector const& other) 
     : first(NULL), last(NULL), reserved_last(NULL), alloc(other.alloc) { 
     reserve(other.size());
@@ -50,7 +51,12 @@ class vector {
     last = first + other.size();
   }
 
-  ~vector(){};
+  // destructor
+  ~vector(){
+    clear();
+    deallocate();
+  };
+
   vector& operator=(vector const& other) { (void)other; };
 
   // check size and capacity
@@ -141,7 +147,7 @@ class vector {
 
   // helper functions
   pointer allocate(size_type n) { return alloc.allocate(n); }
-  void delallocate() { alloc.deallocate(first, capacity()); }
+  void deallocate() { alloc.deallocate(first, capacity()); }
   void construct(pointer ptr) { alloc.construct(ptr, 0); }
   void construct(pointer ptr, const_reference value) {
     alloc.construct(ptr, value);

@@ -1,12 +1,13 @@
-#include "test.hpp"
 #include "benchmark_vector.hpp"
+
+#include <iomanip>
 #include <iostream>
 #include <sstream>
-#include <iomanip>
 #include <string>
 
-void bm_constructor(Timer time)
-{
+#include "test.hpp"
+
+void bm_constructor(Timer time) {
   std::string case_name = "constructor";
 
   time.start();
@@ -16,8 +17,7 @@ void bm_constructor(Timer time)
   std::cout << time << std::endl;
 }
 
-void benchmark_vector()
-{
+void benchmark_vector() {
   Timer time;
   bm_constructor(time);
 }

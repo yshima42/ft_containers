@@ -8,20 +8,21 @@
 #endif
 
 #if IS_FT
-#include "vector.hpp"
-#include <vector>
 #include <map>
-#include <stack>
 #include <set>
+#include <stack>
+#include <vector>
+
+#include "vector.hpp"
 // CREATE A REAL STL EXAMPLE
 #else
-#include <vector>
 #include <map>
-#include <stack>
 #include <set>
+#include <stack>
+#include <vector>
 namespace ft = std;
 #endif
 
 #include "Timer.hpp"
 
-#endif 
+#endif
