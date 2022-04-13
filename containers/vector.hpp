@@ -55,9 +55,38 @@ class vector {
   ~vector(){
     clear();
     deallocate();
-  };
-
-  vector& operator=(vector const& other) { (void)other; };
+  }
+  
+  //assignment operator
+  vector& operator=(vector const& other) { 
+    // 1.self assignment
+    if (this == &other) return *this; 
+    // 2.if the size is same
+    if (size() == other.size()) {
+      std::copy(other.begin(), other.end(), begin());
+    } 
+    // 3.other case
+    else 
+      if (capacity() >= other.size()) {
+        std::copy(other.begin(), other.begin() + other.size(), begin());
+        // copy the remaining
+        for (const_iterator src_iter = other.begin() + other.size(), src_end = other.end();
+             src_iter != src_end; ++src_iter, ++last) {
+            construct(last, *src_iter);
+          }
+      }
+      // not enough size
+      else {
+        destroy_until(rbegin());
+        reserve(other.size());
+        // copy
+        for (const_iterator src_iter = other.begin(), src_end = other.end(), dest_iter = begin();
+             src_iter != src_end; ++src_iter, ++dest_iter, ++last) {
+            construct(last, *src_iter);
+        }
+    }
+    return *this;
+  }
 
   // check size and capacity
   size_type size() const { return end() - begin(); }

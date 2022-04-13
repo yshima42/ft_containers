@@ -24,5 +24,6 @@ namespace ft = std;
 #endif
 
 #include "Timer.hpp"
+#include "color.hpp"
 
 #endif

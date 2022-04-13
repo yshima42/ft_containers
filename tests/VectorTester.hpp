@@ -12,6 +12,7 @@ class VectorTester {
   ~VectorTester() {}
   void test_all() {
     test_constructor();
+    test_assignment_operator();
   }
 
  private:
@@ -31,12 +32,13 @@ class VectorTester {
 
   void print_vec_elems(ft::vector<T> &vec) {
     std::cout << "elems->";
-    for (typename ft::vector<T>::iterator itr = vec.begin(); itr != vec.end(); ++itr)
-      std::cout << *itr << " "; 
+    for (typename ft::vector<T>::iterator iter = vec.begin(); iter != vec.end(); ++iter)
+      std::cout << *iter << " "; 
     std::cout << std::endl;
   }
 
   void test_constructor() {
+    std::cout << YELLOW << "< constructor >" << RESET << std::endl;
     ft::vector<T> a;
     print_vec(a, "a");
 
@@ -61,7 +63,17 @@ class VectorTester {
   }
 
   void test_assignment_operator() {
-    
+    ft::vector<T> v;
+    v = _base_vec;
+    print_vec(v, "to no_size");
+
+    ft::vector<T> v1(20);
+    v1 = _base_vec;
+    print_vec(v, "to v1(20)");
+
+    ft::vector<T> v2(v1);
+    v2 = v1;
+    print_vec(v, "assigned identical");
   }
 
 };
