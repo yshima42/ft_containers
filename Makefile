@@ -33,6 +33,12 @@ $(OBJDIR_FT)/%.o: %.cpp
 test		:	all
 	bash ./test.sh vector
 
+ft		: all
+	./tester_ft -t vector
+
+stl		: all
+	./tester_stl -t vector
+
 clean	:
 	rm -rf $(OBJDIR_STL) $(OBJDIR_FT)
 

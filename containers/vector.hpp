@@ -32,15 +32,23 @@ class vector {
     resize(count, value);
   }
 
-  template <class InputIt>
-  vector(InputIt first, InputIt last, const Allocator& alloc = Allocator())
-      : first(NULL), last(NULL), reserved_last(NULL), alloc(alloc) {
-    (void)first;
-    (void)last;
-    (void)alloc;
-  }
+  // need to add enable_if
+  //template <class InputIt>
+  //vector(InputIt first, InputIt last, const Allocator& alloc = Allocator())
+  //    : first(NULL), last(NULL), reserved_last(NULL), alloc(alloc) {
+  //  (void)first;
+  //  (void)last;
+  //  (void)alloc;
+  //}
 
-  vector(vector const& other) { (void)other; };
+  vector(vector const& other) 
+    : first(NULL), last(NULL), reserved_last(NULL), alloc(other.alloc) { 
+    reserve(other.size());
+    for (pointer dest = first, src = other.begin(), last = other.end(); src != last; ++dest, ++src) {
+      construct(dest, *src);
+    }
+    last = first + other.size();
+  }
 
   ~vector(){};
   vector& operator=(vector const& other) { (void)other; };
