@@ -12,7 +12,7 @@ class VectorTester {
   void test_all() {
     test_constructor();
     test_assignment_operator();
-    test_push_back();
+    test_push_back_pop_back();
   }
 
  private:
@@ -84,16 +84,18 @@ class VectorTester {
 
   //}
   
-  void test_push_back() {
+  void test_push_back_pop_back() {
     ft::vector<T> vec;
     for (int i = 0; i < 10; ++i) {
       vec.push_back(i);
     }
     print_vec(vec, "0 to 9");
+
+    for (int i = 0; i < 10; ++i) {
+      vec.pop_back();
+      print_vec(vec, "pop_back");
+    }
   }
-
-
-  
 
 };
 
