@@ -1,7 +1,14 @@
 NAME_STL	:=	tester_stl
 NAME_FT		:=	tester_ft
 
-SRCS			:=	tests/main.cpp tests/test_vector.cpp tests/Timer.cpp tests/benchmark_vector.cpp \
+SRCS			:=	tests/main.cpp \
+					tests/test_vector.cpp \
+					tests/Timer.cpp \
+					tests/benchmark_vector.cpp \
+					tests/test_map.cpp \
+					tests/test_stack.cpp \
+					tests/benchmark_map.cpp \
+					tests/benchmark_stack.cpp
 
 OBJDIR_STL	:=	./objs_stl
 OBJDIR_FT	:=	./objs_ft
