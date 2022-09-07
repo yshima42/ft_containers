@@ -63,7 +63,7 @@ class reverse_iterator
     typedef typename traits_type::value_type value_type;
     typedef typename traits_type::difference_type difference_type;
     typedef typename traits_type::reference reference;
-  }
+  };
 
 };  // namespace ft
 

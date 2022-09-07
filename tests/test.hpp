@@ -8,16 +8,11 @@
 #endif
 
 #if IS_FT
-#include <map>
-#include <set>
-#include <stack>
-#include <vector>
-
 #include "vector.hpp"
-// CREATE A REAL STL EXAMPLE
+#include "map.hpp"
+#include "stack.hpp"
 #else
 #include <map>
-#include <set>
 #include <stack>
 #include <vector>
 namespace ft = std;

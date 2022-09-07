@@ -12,7 +12,7 @@ OBJS_FT		:=	$(addprefix $(OBJDIR_FT)/, $(SRCS:.cpp=.o))
 INC				:=	-I./containers -I./tests
 
 CXX				:=	c++
-CXXFLAGS	:=	-Wall -Wextra -Werror -std=c++98 $(INC)
+CXXFLAGS	:=	-Wall -Wextra -Werror -std=c++98 -pedantic $(INC)
 
 all				:	$(NAME_STL) $(NAME_FT)
 
