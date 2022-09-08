@@ -13,8 +13,7 @@ void bm_constructor(Timer time) {
   time.start();
   ft::vector<int> a(2, 3);
   time.stop();
-  std::cout << std::setw(20) << std::left << case_name;
-  std::cout << time << std::endl;
+  print_time(case_name, time);
 }
 
 void benchmark_vector() {

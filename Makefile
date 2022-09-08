@@ -1,15 +1,7 @@
 NAME_STL	:=	tester_stl
 NAME_FT		:=	tester_ft
 
-SRCS			:=	tests/main.cpp \
-					tests/test_vector.cpp \
-					tests/Timer.cpp \
-					tests/benchmark_vector.cpp \
-					tests/test_map.cpp \
-					tests/test_stack.cpp \
-					tests/benchmark_map.cpp \
-					tests/benchmark_stack.cpp
-
+SRCS		:=	$(shell find * -name \*.cpp)
 OBJDIR_STL	:=	./objs_stl
 OBJDIR_FT	:=	./objs_ft
 
@@ -21,7 +13,7 @@ INC				:=	-I./containers -I./tests
 CXX				:=	c++
 CXXFLAGS	:=	-Wall -Wextra -Werror -std=c++98 -pedantic $(INC)
 
-all				:	$(NAME_STL) $(NAME_FT)
+all			:	$(NAME_STL) $(NAME_FT)
 
 $(NAME_STL)	:	$(OBJS_STL)
 	$(CXX) $(CXXFLAGS) -o $(NAME_STL) $(OBJS_STL)

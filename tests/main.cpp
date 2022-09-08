@@ -1,10 +1,10 @@
-#include "benchmark_vector.hpp"
-#include "benchmark_map.hpp"
-#include "benchmark_stack.hpp"
+#include "vector/benchmark_vector.hpp"
+#include "vector/test_vector.hpp"
+#include "map/benchmark_map.hpp"
+#include "map/test_map.hpp"
+#include "stack/benchmark_stack.hpp"
+#include "stack/test_stack.hpp"
 #include "test.hpp"
-#include "test_vector.hpp"
-#include "test_map.hpp"
-#include "test_stack.hpp"
 
 const std::string containers[] = {"vector", "map", "stack"};
 

@@ -18,7 +18,8 @@
 namespace ft = std;
 #endif
 
-#include "Timer.hpp"
-#include "color.hpp"
+#include "utils/Timer.hpp"
+#include "utils/color.hpp"
+#include "utils/utils.hpp"
 
 #endif
