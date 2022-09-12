@@ -8,7 +8,8 @@ class Timer {
  public:
   void start();
   void stop();
-  double print() const;
+  double elapsed_time() const;
+  void print(const std::string &case_name) const;
 
  private:
   clock_t start_time_;
