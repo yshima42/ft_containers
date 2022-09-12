@@ -6,12 +6,15 @@
 
 class Timer {
  public:
-  void start();
+  void start(const std::string &case_name);
   void stop();
-  double elapsed_time() const;
-  void print(const std::string &case_name) const;
+  double passed_time() const;
+  void print() const;
+
+  void stop_print();
 
  private:
+  std::string case_name_;
   clock_t start_time_;
   clock_t stop_time_;
 };
