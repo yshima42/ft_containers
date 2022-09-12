@@ -30,7 +30,7 @@ $(OBJDIR_FT)/%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -o $@ -D IS_FT=1 -c $<
 
 test		:	all
-	bash ./test.sh vector
+	bash tests/exec_test.sh vector
 
 ft		: all
 	./tester_ft -t vector
