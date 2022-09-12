@@ -1,4 +1,3 @@
-#include "vector/benchmark_vector.hpp"
 #include "vector/test_vector.hpp"
 #include "map/benchmark_map.hpp"
 #include "map/test_map.hpp"
