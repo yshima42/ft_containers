@@ -22,6 +22,7 @@ class VectorBenchmark {
     test_constructor();
     test_assignment_operator();
     test_push_back_pop_back();
+    
   }
 
  private:

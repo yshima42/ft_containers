@@ -35,13 +35,13 @@ class vector {
   }
 
   // need to add enable_if
-  // template <class InputIt>
+  // template <typename InputIt>
   // vector(InputIt first, InputIt last, const Allocator& alloc = Allocator())
   //    : first(NULL), last(NULL), reserved_last(NULL), alloc(alloc) {
   //  (void)first;
   //  (void)last;
   //  (void)alloc;
-  //}
+  // }
 
   // copy constructor
   vector(vector const& other)
@@ -62,9 +62,9 @@ class vector {
 
   // assignment operator
   vector& operator=(vector const& other) {
-    // 1.self assignment
+    // 1.self assignment, do nothing
     if (this == &other) return *this;
-    // 2.if the size is same
+    // 2.if the size is same, copy everything
     if (size() == other.size()) {
       std::copy(other.begin(), other.end(), begin());
     }
@@ -80,7 +80,9 @@ class vector {
     }
     // not enough size
     else {
+      // destroy all the elements
       destroy_until(rbegin());
+      // reserve size
       reserve(other.size());
       // copy
       for (const_iterator src_iter = other.begin(), src_end = other.end(),
@@ -111,6 +113,18 @@ class vector {
   }
 
   void pop_back() { destroy(--last); }
+
+  // iterator insert(iterator position, const value_type &val) {
+  //   size_type offset = position - begin();
+  //   insert(position, 1, val);
+  //   return begin() + offset;
+  // }
+
+  // void insert(iterator position, size_type n, const value_type &val) {
+  //   size_type new_size() + n;
+  //   size_type offset = position - begin();
+  //   //途中
+  // }
 
   // iterator access
   iterator begin() { return first; }
@@ -156,28 +170,14 @@ class vector {
     alloc.deallocate(old_first, old_capacity);
   }
 
-  void resize(size_type sz) {
+  void resize(size_type sz, const_reference value) {
     // smaller than current elems
     if (sz < size()) {
       difference_type diff = size() - sz;
       destroy_until(rbegin() + diff);
       last = first + sz;
-    }
-    // biger than current elems
-    else if (sz > size()) {
-      reserve(sz);
-      for (; last != reserved_last; ++last) {
-        construct(last);
-      }
-    }
-  }
-
-  void resize(size_type sz, const_reference value) {
-    if (sz < size()) {
-      difference_type diff = size() - sz;
-      destroy_until(rbegin() + diff);
-      last = first + sz;
     } else if (sz > size()) {
+    // biger than current elems
       reserve(sz);
       for (; last != reserved_last; ++last) {
         construct(last, value);

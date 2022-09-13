@@ -13,6 +13,7 @@ class VectorTester {
     test_constructor();
     test_assignment_operator();
     test_push_back_pop_back();
+    test_reserve_resize();
   }
 
  private:
@@ -57,6 +58,9 @@ class VectorTester {
     ft::vector<T> v5(_base_vec);
     print_vec(v5, "v5(_base_vec)");
 
+    v5.clear();
+    print_vec(v5, "v5.clear");
+
     // need to add enable_if to move this test
     // ft::vector<int> v6(v4.begin(), v4.end());
     // std::cout << v6.size() << std::endl;
@@ -95,6 +99,18 @@ class VectorTester {
       vec.pop_back();
       print_vec(vec, "pop_back");
     }
+  }
+
+  void test_reserve_resize() {
+    ft::vector<T> vec;
+    vec.reserve(10);
+    print_vec(vec, "reserve(10)");
+
+    vec.resize(15, 0);
+    print_vec(vec, "resize(15)");
+
+    _base_vec.resize(6, 1);
+    print_vec(_base_vec, "_base_vec.resize(5)");
   }
 
 };
