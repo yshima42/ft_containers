@@ -6,6 +6,7 @@
 #include "../utils/algorithm.hpp"
 #include "../utils/iterator.hpp"
 #include "../utils/random_access_iterator.hpp"
+#include "../utils/utils.hpp"
 
 namespace ft {
 
@@ -23,12 +24,14 @@ class vector {
   typedef std::ptrdiff_t difference_type;
 
   // need to change later maybe
-  typedef pointer iterator;
-  typedef const_pointer const_iterator;
-  typedef std::reverse_iterator<iterator> reverse_iterator;
-  typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+  typedef typename ft::random_access_iterator<value_type> iterator;
+  typedef typename ft::random_access_iterator<const value_type> const_iterator;
+  typedef typename ft::reverse_iterator<iterator> reverse_iterator;
+  typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
   // constructor
+  //vector() : first_(NULL), last_(NULL), reserved_last_(NULL), alloc_(allocator_type()) {}
+
   explicit vector(const Allocator& alloc = allocator_type())
       : first_(NULL), last_(NULL), reserved_last_(NULL), alloc_(alloc) {}
 
@@ -38,20 +41,23 @@ class vector {
     resize(count, value);
   }
 
-  // need to add enable_if
-  // template <typename InputIt>
-  // vector(InputIt first, InputIt last, const Allocator& alloc = Allocator())
-  //    : first_(NULL), last_(NULL), reserved_last_(NULL), alloc_(alloc) {
-  //  (void)first;
-  //  (void)last;
-  //  (void)alloc;
-  // }
+  //need to add enable_if
+  template <typename InputIt>
+  vector(InputIt first, InputIt last, const Allocator& alloc = Allocator(), 
+        typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = NULL)
+     : first_(NULL), last_(NULL), reserved_last_(NULL), alloc_(alloc) {
+   (void)first;
+   (void)last;
+   (void)alloc;
+  }
 
   // copy constructor
   vector(vector const& other)
       : first_(NULL), last_(NULL), reserved_last_(NULL), alloc_(other.alloc_) {
     reserve(other.size());
-    for (pointer dest = first_, src = other.begin(), last = other.end();
+
+    pointer dest = first_;
+    for (const_iterator src = other.begin(), last = other.end();
          src != last; ++dest, ++src) {
       construct(dest, *src);
     }

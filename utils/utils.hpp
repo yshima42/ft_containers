@@ -80,12 +80,6 @@ struct __is_integral_helper<long> : public true_type {};
 template <>
 struct __is_integral_helper<unsigned long> : public true_type {};
 
-template <>
-struct __is_integral_helper<long long> : public true_type {};
-
-template <>
-struct __is_integral_helper<unsigned long long> : public true_type {};
-
 template <typename T>
 struct is_integral
     : public __is_integral_helper<typename remove_cv<T>::type>::type {};
@@ -98,4 +92,6 @@ struct enable_if<true, T> {
   typedef T type;
 };
 
-};  // namespace ft
+}  // namespace ft
+
+#endif
