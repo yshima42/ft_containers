@@ -142,6 +142,61 @@ class vector {
     }
   }
 
+  template <class InputIt>
+  void assign(InputIt first, InputIt last,
+              typename ft::enable_if<!ft::is_integral<InputIt>::value,
+                                     InputIt>::type* = NULL) {
+    size_type count = last - first;
+    if (count > capacity()) {
+      clear();
+      deallocate();
+
+      first_ = allocate(count);
+      last_ = first_;
+      reserved_last_ = first_ + count;
+      for (InputIt head = first; head != last; ++head) {
+        construct(last_++, *head);
+      }
+    } else if (count > size()) {
+      pointer ptr = first_;
+      for (size_type i = 0; i < count; ++i) {
+        if (i < size()) {
+          *(ptr++) = *first++;
+        } else {
+          construct(last_++, *first++);
+        }
+      }
+    } else {
+      clear();
+      for (InputIt head = first; head != last; ++head) {
+        construct(last_++, *head);
+      }
+    }
+  }
+
+  reference at(size_type i) {
+    if (i >= size()) {
+      throw std::out_of_range("vector");
+    }
+    return first_[i];
+  }
+
+  const_reference at(size_type i) const {
+    if (i >= size()) {
+      throw std::out_of_range("vector");
+    }
+    return first_[i];
+  }
+
+  reference operator[](size_type i) { return first_[i];}  
+  const_reference operator[](size_type i) const { return first_[i];}  
+  reference front() { return *begin(); }
+  const_reference front() const { return *begin(); }
+  reference back() { return *(end() - 1); }
+  const_reference back() const { return *(end() - 1); }
+  pointer data() {return first_;}
+  const_pointer data() const {return first_;}
+
   void push_back(const_reference value) {
     if (size() + 1 > capacity()) {
       size_type c = size();
@@ -174,8 +229,6 @@ class vector {
   iterator end() { return last_; }
   iterator begin() const { return first_; }
   iterator end() const { return last_; }
-  const_iterator cbegin() const { return first_; }
-  const_iterator cend() const { return last_; }
 
   // この4つ意味わからないので後ほど検討->reverse_iteratorのconstructorを使っている
   reverse_iterator rbegin() { return reverse_iterator(last_); }
@@ -237,7 +290,7 @@ class vector {
   // helper functions
   pointer allocate(size_type n) { return alloc_.allocate(n); }
   void deallocate() { alloc_.deallocate(first_, capacity()); }
-  void construct(pointer ptr) { alloc_.construct(ptr, 0); }
+  void construct(pointer ptr) { alloc_.construct(ptr, T()); }
   void construct(pointer ptr, const_reference value) {
     alloc_.construct(ptr, value);
   }

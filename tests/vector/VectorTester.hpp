@@ -14,8 +14,11 @@ class VectorTester {
     test_constructor();
     test_assignment_operator();
     test_assign();
+    test_at();
+    test_operators();
     test_push_back_pop_back();
     test_reserve_resize();
+    test_small_funcs();
   }
 
  private:
@@ -75,6 +78,7 @@ class VectorTester {
   }
 
   void test_assignment_operator() {
+    std::cout << YELLOW << "< assignment operator >" << RESET << std::endl;
     ft::vector<T> v;
     v = _base_vec;
     print_vec(v, "to no_size");
@@ -89,17 +93,41 @@ class VectorTester {
   }
 
   void test_assign() {
+   std::cout << YELLOW << "< assign >" << RESET << std::endl;
    ft::vector<T> characters;
    characters.assign(5, 'a');
    print_vec(characters, "characters.assign(5, 'a')");
 
-  //  ft::vector<T> it_assign;
-  //  it_assign.assign(characters.begin(), characters.end());
-  //  print_vec(it_assign, "it_assign.assign(characters.begin(), characters.end())");
+   ft::vector<T> it_assign;
+   it_assign.assign(characters.begin(), characters.end());
+   print_vec(it_assign, "it_assign.assign(characters.begin(), characters.end())");
 
+  }
+
+  void test_at() {
+   std::cout << YELLOW << "< at >" << RESET << std::endl;
+    try {
+      std::cout << _base_vec.at(0) << std::endl;
+      std::cout << _base_vec.at(3) << std::endl;
+      std::cout << _base_vec.at(6) << std::endl;
+    } catch (std::out_of_range &e) {
+      std::cout << e.what() << std::endl;
+    }
+  }
+
+  void test_operators() {
+    std::cout << YELLOW << "< operators >" << RESET << std::endl;
+    try {
+      std::cout << _base_vec[0] << std::endl;
+      std::cout << _base_vec[3] << std::endl;
+      //std::cout << _base_vec[6] << std::endl;
+    } catch (std::out_of_range &e) {
+      std::cout << e.what() << std::endl;
+    }
   }
   
   void test_push_back_pop_back() {
+   std::cout << YELLOW << "< push_back, pop_back >" << RESET << std::endl;
     ft::vector<T> vec;
     for (int i = 0; i < 10; ++i) {
       vec.push_back(i);
@@ -113,6 +141,7 @@ class VectorTester {
   }
 
   void test_reserve_resize() {
+   std::cout << YELLOW << "< reserve, resize >" << RESET << std::endl;
     ft::vector<T> vec;
     vec.reserve(10);
     print_vec(vec, "reserve(10)");
@@ -122,6 +151,14 @@ class VectorTester {
 
     _base_vec.resize(6, 1);
     print_vec(_base_vec, "_base_vec.resize(5)");
+  }
+
+  void test_small_funcs() {
+   std::cout << YELLOW << "< small funcs >" << RESET << std::endl;
+   std::cout << _base_vec.front() << std::endl;
+   std::cout << _base_vec.back() << std::endl;
+   std::cout << *(_base_vec.data()) << std::endl;
+
   }
 
 };
