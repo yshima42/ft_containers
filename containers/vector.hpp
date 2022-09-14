@@ -30,9 +30,13 @@ class vector {
   typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
   // constructor
-  //vector() : first_(NULL), last_(NULL), reserved_last_(NULL), alloc_(allocator_type()) {}
+  vector()
+      : first_(NULL),
+        last_(NULL),
+        reserved_last_(NULL),
+        alloc_(allocator_type()) {}
 
-  explicit vector(const Allocator& alloc = allocator_type())
+  explicit vector(const Allocator& alloc)
       : first_(NULL), last_(NULL), reserved_last_(NULL), alloc_(alloc) {}
 
   explicit vector(size_type count, const T& value = T(),
@@ -41,15 +45,15 @@ class vector {
     resize(count, value);
   }
 
-  //need to add enable_if 
   template <typename InputIt>
-  vector(InputIt first, InputIt last, const Allocator& alloc = Allocator(), 
-        typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = NULL)
-     : first_(NULL), last_(NULL), reserved_last_(NULL), alloc_(alloc) {
-      reserve(ft::distance(first, last));
-      for(InputIt i = first; i != last; ++i) {
-        push_back(*i);
-      }
+  vector(InputIt first, InputIt last, const Allocator& alloc = Allocator(),
+         typename ft::enable_if<!ft::is_integral<InputIt>::value,
+                                InputIt>::type* = NULL)
+      : first_(NULL), last_(NULL), reserved_last_(NULL), alloc_(alloc) {
+    reserve(ft::distance(first, last));
+    for (InputIt i = first; i != last; ++i) {
+      push_back(*i);
+    }
   }
 
   // copy constructor
@@ -58,8 +62,8 @@ class vector {
     reserve(other.size());
 
     pointer dest = first_;
-    for (const_iterator src = other.begin(), last = other.end();
-         src != last; ++dest, ++src) {
+    for (const_iterator src = other.begin(), last = other.end(); src != last;
+         ++dest, ++src) {
       construct(dest, *src);
     }
     last_ = first_ + other.size();
@@ -109,6 +113,34 @@ class vector {
   size_type size() const { return end() - begin(); }
   bool empty() const { return begin() == end(); }
   size_type capacity() const { return reserved_last_ - first_; }
+
+  void assign(size_type count, const T& value) {
+    if (count > capacity()) {
+      clear();
+      deallocate();
+
+      first_ = allocate(count);
+      last_ = first_;
+      reserved_last_ = first_ + count;
+      for (size_type i = 0; i < count; ++i) {
+        construct(last_++, value);
+      }
+    } else if (count > size()) {
+      pointer ptr = first_;
+      for (size_type i = 0; i < count; ++i) {
+        if (i < size()) {
+          *(ptr++) = value;
+        } else {
+          construct(last_++, value);
+        }
+      }
+    } else {
+      clear();
+      for (size_type i = 0; i < count; ++i) {
+        construct(last_++, value);
+      }
+    }
+  }
 
   void push_back(const_reference value) {
     if (size() + 1 > capacity()) {

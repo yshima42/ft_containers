@@ -13,6 +13,7 @@ class VectorTester {
   void test_all() {
     test_constructor();
     test_assignment_operator();
+    test_assign();
     test_push_back_pop_back();
     test_reserve_resize();
   }
@@ -69,7 +70,7 @@ class VectorTester {
     print_vec(v5, "v5.clear");
 
     // need to add enable_if to move this test
-    ft::vector<int> v6(v4.begin(), v4.end());
+    ft::vector<T> v6(v4.begin(), v4.end());
     print_vec(v6, "v6(v4.begin(), v4.end())");
   }
 
@@ -87,13 +88,16 @@ class VectorTester {
     print_vec(v, "assigned identical vec");
   }
 
-  //skip for now
-  //void test_assign() {
-  //  ft::vector<char> characters;
-  //  characters.assign(5, 'a');
-  //  print_vec(characters, "characters.assign(5, 'a')");
+  void test_assign() {
+   ft::vector<T> characters;
+   characters.assign(5, 'a');
+   print_vec(characters, "characters.assign(5, 'a')");
 
-  //}
+  //  ft::vector<T> it_assign;
+  //  it_assign.assign(characters.begin(), characters.end());
+  //  print_vec(it_assign, "it_assign.assign(characters.begin(), characters.end())");
+
+  }
   
   void test_push_back_pop_back() {
     ft::vector<T> vec;
