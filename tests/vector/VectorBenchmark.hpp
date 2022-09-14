@@ -3,9 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include <iomanip>
 #include <sstream>
-
 #include "test.hpp"
 
 template <class T>

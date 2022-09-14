@@ -60,9 +60,11 @@ class reverse_iterator
   typedef ft::iterator_traits<Iter> traits_type;
 
  public:
+  typedef Iter iterator_type;
   typedef typename traits_type::iterator_category iterator_category;
   typedef typename traits_type::value_type value_type;
   typedef typename traits_type::difference_type difference_type;
+  typedef typename traits_type::pointer pointer;
   typedef typename traits_type::reference reference;
 
   // constructor
@@ -130,17 +132,9 @@ class reverse_iterator
     _current += n;
     return *this;
   }
-
-  template <class Iterator>
-  typename ft::reverse_iterator<Iterator>::difference_type operator-(
-      const ft::reverse_iterator<Iterator>& lhs,
-      const ft::reverse_iterator<Iterator>& rhs) {
-    return rhs.base() - lhs.base();
-  }
 };
 
 // nomember_functions
-// なぜ実装するのか確認（constでも動かすため）
 template <class Iterator1, class Iterator2>
 bool operator==(const ft::reverse_iterator<Iterator1>& lhs,
                 const ft::reverse_iterator<Iterator2>& rhs) {
@@ -212,6 +206,6 @@ typename ft::iterator_traits<InputIterator>::difference_type distance(
   return (ret);
 }
 
-};  // namespace ft
+}  // namespace ft
 
 #endif
