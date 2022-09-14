@@ -41,14 +41,15 @@ class vector {
     resize(count, value);
   }
 
-  //need to add enable_if
+  //need to add enable_if 
   template <typename InputIt>
   vector(InputIt first, InputIt last, const Allocator& alloc = Allocator(), 
         typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = NULL)
      : first_(NULL), last_(NULL), reserved_last_(NULL), alloc_(alloc) {
-   (void)first;
-   (void)last;
-   (void)alloc;
+      reserve(ft::distance(first, last));
+      for(InputIt i = first; i != last; ++i) {
+        push_back(*i);
+      }
   }
 
   // copy constructor

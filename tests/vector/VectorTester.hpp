@@ -69,8 +69,8 @@ class VectorTester {
     print_vec(v5, "v5.clear");
 
     // need to add enable_if to move this test
-    // ft::vector<int> v6(v4.begin(), v4.end());
-    // std::cout << v6.size() << std::endl;
+    ft::vector<int> v6(v4.begin(), v4.end());
+    print_vec(v6, "v6(v4.begin(), v4.end())");
   }
 
   void test_assignment_operator() {
