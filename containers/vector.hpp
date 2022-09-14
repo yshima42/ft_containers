@@ -105,7 +105,7 @@ class vector {
       if (c == 0)
         c = 1;
       else
-        c *= 2; // オーバーフロー処理
+        c *= 2;  // オーバーフロー処理
       reserve(c);
     }
     construct(last_, value);
