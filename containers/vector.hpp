@@ -26,18 +26,18 @@ class vector {
 
   // constructor
   explicit vector(const Allocator& alloc = allocator_type())
-      : first(NULL), last(NULL), reserved_last(NULL), alloc(alloc) {}
+      : first_(NULL), last_(NULL), reserved_last_(NULL), alloc_(alloc) {}
 
   explicit vector(size_type count, const T& value = T(),
                   const Allocator& alloc = Allocator())
-      : first(NULL), last(NULL), reserved_last(NULL), alloc(alloc) {
+      : first_(NULL), last_(NULL), reserved_last_(NULL), alloc_(alloc) {
     resize(count, value);
   }
 
   // need to add enable_if
   // template <typename InputIt>
   // vector(InputIt first, InputIt last, const Allocator& alloc = Allocator())
-  //    : first(NULL), last(NULL), reserved_last(NULL), alloc(alloc) {
+  //    : first_(NULL), last_(NULL), reserved_last_(NULL), alloc_(alloc) {
   //  (void)first;
   //  (void)last;
   //  (void)alloc;
@@ -45,13 +45,13 @@ class vector {
 
   // copy constructor
   vector(vector const& other)
-      : first(NULL), last(NULL), reserved_last(NULL), alloc(other.alloc) {
+      : first_(NULL), last_(NULL), reserved_last_(NULL), alloc_(other.alloc_) {
     reserve(other.size());
-    for (pointer dest = first, src = other.begin(), last = other.end();
+    for (pointer dest = first_, src = other.begin(), last = other.end();
          src != last; ++dest, ++src) {
       construct(dest, *src);
     }
-    last = first + other.size();
+    last_ = first_ + other.size();
   }
 
   // destructor
@@ -74,8 +74,8 @@ class vector {
       // copy the remaining
       for (const_iterator src_iter = other.begin() + other.size(),
                           src_end = other.end();
-           src_iter != src_end; ++src_iter, ++last) {
-        construct(last, *src_iter);
+           src_iter != src_end; ++src_iter, ++last_) {
+        construct(last_, *src_iter);
       }
     }
     // not enough size
@@ -87,8 +87,8 @@ class vector {
       // copy
       for (const_iterator src_iter = other.begin(), src_end = other.end(),
                           dest_iter = begin();
-           src_iter != src_end; ++src_iter, ++dest_iter, ++last) {
-        construct(last, *src_iter);
+           src_iter != src_end; ++src_iter, ++dest_iter, ++last_) {
+        construct(last_, *src_iter);
       }
     }
     return *this;
@@ -97,7 +97,7 @@ class vector {
   // check size and capacity
   size_type size() const { return end() - begin(); }
   bool empty() const { return begin() == end(); }
-  size_type capacity() const { return reserved_last - first; }
+  size_type capacity() const { return reserved_last_ - first_; }
 
   void push_back(const_reference value) {
     if (size() + 1 > capacity()) {
@@ -105,14 +105,14 @@ class vector {
       if (c == 0)
         c = 1;
       else
-        c *= 2;
+        c *= 2; // オーバーフロー処理
       reserve(c);
     }
-    construct(last, value);
-    ++last;
+    construct(last_, value);
+    ++last_;
   }
 
-  void pop_back() { destroy(--last); }
+  void pop_back() { destroy(--last_); }
 
   // iterator insert(iterator position, const value_type &val) {
   //   size_type offset = position - begin();
@@ -121,24 +121,24 @@ class vector {
   // }
 
   // void insert(iterator position, size_type n, const value_type &val) {
-  //   size_type new_size() + n;
+  //   size_type new_size = size() + n;
   //   size_type offset = position - begin();
-  //   //途中
+
   // }
 
   // iterator access
-  iterator begin() { return first; }
-  iterator end() { return last; }
-  iterator begin() const { return first; }
-  iterator end() const { return last; }
-  const_iterator cbegin() const { return first; }
-  const_iterator cend() const { return last; }
+  iterator begin() { return first_; }
+  iterator end() { return last_; }
+  iterator begin() const { return first_; }
+  iterator end() const { return last_; }
+  const_iterator cbegin() const { return first_; }
+  const_iterator cend() const { return last_; }
 
   // この4つ意味わからないので後ほど検討->reverse_iteratorのconstructorを使っている
-  reverse_iterator rbegin() { return reverse_iterator(last); }
-  reverse_iterator rend() { return reverse_iterator(first); }
-  const_reverse_iterator rbegin() const { return reverse_iterator(last); }
-  const_reverse_iterator rend() const { return reverse_iterator(first); }
+  reverse_iterator rbegin() { return reverse_iterator(last_); }
+  reverse_iterator rend() { return reverse_iterator(first_); }
+  const_reverse_iterator rbegin() const { return reverse_iterator(last_); }
+  const_reverse_iterator rend() const { return reverse_iterator(first_); }
 
   void clear() { destroy_until(rend()); }
 
@@ -147,19 +147,19 @@ class vector {
 
     pointer ptr = allocate(sz);
 
-    pointer old_first = first;
-    pointer old_last = last;
+    pointer old_first = first_;
+    pointer old_last = last_;
 
     size_type old_capacity = capacity();
 
-    first = ptr;
-    last = first;
-    reserved_last = first + sz;
+    first_ = ptr;
+    last_ = first_;
+    reserved_last_ = first_ + sz;
 
     for (pointer old_iter = old_first; old_iter != old_last;
-         ++old_iter, ++last) {
+         ++old_iter, ++last_) {
       //理解にはムーブセマンティクスを理解が必要
-      construct(last, *old_iter);
+      construct(last_, *old_iter);
     }
 
     for (reverse_iterator riter = reverse_iterator(old_last),
@@ -167,7 +167,7 @@ class vector {
          riter != rend; ++riter) {
       destroy(&*riter);
     }
-    alloc.deallocate(old_first, old_capacity);
+    alloc_.deallocate(old_first, old_capacity);
   }
 
   void resize(size_type sz, const_reference value) {
@@ -175,32 +175,32 @@ class vector {
     if (sz < size()) {
       difference_type diff = size() - sz;
       destroy_until(rbegin() + diff);
-      last = first + sz;
+      last_ = first_ + sz;
     } else if (sz > size()) {
-    // biger than current elems
+      // biger than current elems
       reserve(sz);
-      for (; last != reserved_last; ++last) {
-        construct(last, value);
+      for (; last_ != reserved_last_; ++last_) {
+        construct(last_, value);
       }
     }
   }
 
  private:
-  pointer first;
-  pointer last;
-  pointer reserved_last;
-  allocator_type alloc;
+  pointer first_;
+  pointer last_;
+  pointer reserved_last_;
+  allocator_type alloc_;
 
   // helper functions
-  pointer allocate(size_type n) { return alloc.allocate(n); }
-  void deallocate() { alloc.deallocate(first, capacity()); }
-  void construct(pointer ptr) { alloc.construct(ptr, 0); }
+  pointer allocate(size_type n) { return alloc_.allocate(n); }
+  void deallocate() { alloc_.deallocate(first_, capacity()); }
+  void construct(pointer ptr) { alloc_.construct(ptr, 0); }
   void construct(pointer ptr, const_reference value) {
-    alloc.construct(ptr, value);
+    alloc_.construct(ptr, value);
   }
-  void destroy(pointer ptr) { alloc.destroy(ptr); }
+  void destroy(pointer ptr) { alloc_.destroy(ptr); }
   void destroy_until(reverse_iterator rend) {
-    for (reverse_iterator riter = rbegin(); riter != rend; ++riter, --last)
+    for (reverse_iterator riter = rbegin(); riter != rend; ++riter, --last_)
       destroy(&*riter);
   }
 };

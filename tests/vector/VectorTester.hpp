@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 
+// constのテストも作る
 template <class T>
 class VectorTester {
  public:
@@ -27,12 +28,18 @@ class VectorTester {
   }
 
   void print_vec_info(ft::vector<T> &vec) {
+    // size()テスト
     std::cout << std::endl << "size->" << vec.size() << " " <<
+    // capacity()テスト
     "capacity->" << vec.capacity() << std::endl;
   }
 
   void print_vec_elems(ft::vector<T> &vec) {
     std::cout << "elems->";
+    // empty()テスト
+    if (vec.empty())
+      std::cout << "empty";
+    // iteratorテスト
     for (typename ft::vector<T>::iterator iter = vec.begin(); iter != vec.end(); ++iter)
       std::cout << *iter << " "; 
     std::cout << std::endl;
