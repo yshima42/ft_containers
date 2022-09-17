@@ -110,9 +110,20 @@ class vector {
   }
 
   // check size and capacity
+  // ok
   size_type size() const { return end() - begin(); }
+
+  // ok
   bool empty() const { return begin() == end(); }
+
+  // ok
   size_type capacity() const { return reserved_last_ - first_; }
+
+  // macの実装に合わせた
+  size_type max_size() const {
+    return std::min<size_type>(alloc_.max_size(),
+                               std::numeric_limits<difference_type>::max());
+  }
 
   void assign(size_type count, const T& value) {
     if (count > capacity()) {
@@ -188,14 +199,14 @@ class vector {
     return first_[i];
   }
 
-  reference operator[](size_type i) { return first_[i];}  
-  const_reference operator[](size_type i) const { return first_[i];}  
+  reference operator[](size_type i) { return first_[i]; }
+  const_reference operator[](size_type i) const { return first_[i]; }
   reference front() { return *begin(); }
   const_reference front() const { return *begin(); }
   reference back() { return *(end() - 1); }
   const_reference back() const { return *(end() - 1); }
-  pointer data() {return first_;}
-  const_pointer data() const {return first_;}
+  pointer data() { return first_; }
+  const_pointer data() const { return first_; }
 
   void push_back(const_reference value) {
     if (size() + 1 > capacity()) {
@@ -212,17 +223,28 @@ class vector {
 
   void pop_back() { destroy(--last_); }
 
-  // iterator insert(iterator position, const value_type &val) {
-  //   size_type offset = position - begin();
-  //   insert(position, 1, val);
-  //   return begin() + offset;
-  // }
+  iterator insert(iterator pos, const value_type& val) {
+    size_type offset = pos - begin();
+    insert(pos, 1, val);
+    return begin() + offset;
+  }
 
-  // void insert(iterator position, size_type n, const value_type &val) {
-  //   size_type new_size = size() + n;
-  //   size_type offset = position - begin();
+  void insert(iterator pos, size_type n, const value_type& val) {
+    if (cout == 0) return;
+    size_type new_size = size() + n;
+    size_type offset = pos - begin();
 
-  // }
+    if (new_size > capacity()) {
+      new_size = calc_new_capacity(new_size);
+    }
+  }
+
+  template <class InputIt>
+  void insert(iterator pos, InputIt first, InputIt last,
+              typename ft::enable_if<!ft::is_integral<InputIt>::value,
+                                     InputIt>::type* = NULL) {
+                          
+  }
 
   // iterator access
   iterator begin() { return first_; }
@@ -236,10 +258,16 @@ class vector {
   const_reverse_iterator rbegin() const { return reverse_iterator(last_); }
   const_reverse_iterator rend() const { return reverse_iterator(first_); }
 
+  // ok
   void clear() { destroy_until(rend()); }
 
   void reserve(size_type sz) {
     if (sz <= capacity()) return;
+    if (sz > max_size()) {
+      throw std::length_error(
+          "allocator<T>::allocate(size_t n) 'n' exceeds maximum supported "
+          "size");
+    }
 
     pointer ptr = allocate(sz);
 
