@@ -96,7 +96,8 @@ class vector {
     // not enough size
     else {
       // destroy all the elements
-      destroy_until(rbegin());
+      //destroy_until(rbegin());
+      clear();
       // reserve size
       reserve(other.size());
       // copy
@@ -311,7 +312,10 @@ class vector {
   const_reverse_iterator rend() const { return reverse_iterator(first_); }
 
   // ok
-  void clear() { destroy_until(rend()); }
+  void clear() {
+    destroy_range(first_, last_);
+    last_ = first_;
+  }
 
   void reserve(size_type sz) {
     if (sz <= capacity()) return;
@@ -369,26 +373,33 @@ class vector {
     }
     return alloc_.allocate(n);
   }
+
   void deallocate() { alloc_.deallocate(first_, capacity()); }
+
   void construct(pointer ptr) { alloc_.construct(ptr, T()); }
+
   void construct(pointer ptr, const_reference value) {
     alloc_.construct(ptr, value);
   }
+
   void construct_range(pointer first, pointer last) {
     for (pointer p = first; p < last; p++) {
       alloc_.construct(p);
     }
   }
+
   void destroy(pointer ptr) { alloc_.destroy(ptr); }
-  void destroy_until(reverse_iterator rend) {
-    for (reverse_iterator riter = rbegin(); riter != rend; ++riter, --last_)
-      destroy(&*riter);
-  }
+
   void destroy_range(pointer first, pointer last) {
     for (pointer p = first; p < last; p++) {
       alloc_.destroy(p);
     }
   }
+  // 最初使っていたが使うのやめた
+  // void destroy_until(reverse_iterator rend) {
+  //   for (reverse_iterator riter = rbegin(); riter != rend; ++riter, --last_)
+  //     destroy(&*riter);
+  // }
 };
 
 template <class T, class Alloc>
