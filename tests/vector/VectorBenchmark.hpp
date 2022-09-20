@@ -7,10 +7,13 @@
 
 #include "test.hpp"
 
+
 template <class T>
 class VectorBenchmark {
  private:
   Timer time_;
+
+  static const size_t LOOP_NUM = 10000;
 
  public:
   VectorBenchmark(ft::vector<T> &vec) : _base_vec(vec) {}
@@ -20,6 +23,8 @@ class VectorBenchmark {
     test_constructor();
     test_assignment_operator();
     test_push_back_pop_back();
+    test_assign();
+    test_reserve_resize();
   }
 
  private:
@@ -39,11 +44,11 @@ class VectorBenchmark {
     time_.stop_print();
 
     time_.start("constructor4");
-    ft::vector<T> v3(2, 3);
+    ft::vector<T> v3(LOOP_NUM, 3);
     time_.stop_print();
 
     time_.start("constructor5");
-    ft::vector<T> v4(2, 'x');
+    ft::vector<T> v4(LOOP_NUM, 'x');
     time_.stop_print();
 
     time_.start("constructor6");
@@ -72,17 +77,48 @@ class VectorBenchmark {
     ft::vector<T> vec;
 
     time_.start("push_back");
-    for (int i = 0; i < 10; ++i) {
+    for (size_t i = 0; i < LOOP_NUM; ++i) {
       vec.push_back(i);
     }
     time_.stop_print();
 
     time_.start("pop_back");
-    for (int i = 0; i < 10; ++i) {
+    for (size_t i = 0; i < LOOP_NUM; ++i) {
       vec.pop_back();
     }
     time_.stop_print();
   }
+
+  void test_assign() {
+    ft::vector<T> v;
+    time_.start("assign");
+    v.assign(LOOP_NUM, _base_vec.at(2));
+    time_.stop_print();
+
+    ft::vector<T> it_assign;
+    time_.start("assign iterator");
+    it_assign.assign(v.begin(), v.end());    
+    time_.stop_print();
+  }
+
+  void test_reserve_resize() {
+    ft::vector<T> vec;
+
+    time_.start("reserve");
+    vec.reserve(LOOP_NUM);
+    time_.stop_print();
+
+    time_.start("resize1");
+    vec.resize(LOOP_NUM, _base_vec.at(1));
+    time_.stop_print();
+
+    time_.start("resize2");
+    _base_vec.resize(LOOP_NUM, _base_vec.at(4));
+    time_.stop_print();
+  }
+
+  
+
 };
 
 #endif

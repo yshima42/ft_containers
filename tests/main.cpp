@@ -1,7 +1,6 @@
 #include "vector/test_vector.hpp"
 #include "map/benchmark_map.hpp"
 #include "map/test_map.hpp"
-#include "stack/benchmark_stack.hpp"
 #include "stack/test_stack.hpp"
 #include "test.hpp"
 

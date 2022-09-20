@@ -16,18 +16,18 @@ print_diff_log() {
   while read line
   do
     echo $line
-  done < diff.log
+  done < $1_diff.log
 }
 
 test_output() {
   echo "-- test output --"
   ./tester_stl -t $1 > $1_stl.log
   ./tester_ft -t $1 > $1_ft.log
-  diff $1_stl.log $1_ft.log > diff.log
+  diff $1_stl.log $1_ft.log > $1_diff.log
   if [ $? -eq 0 ]; then
     echo "[ OK ]"
   elif [ $? -eq 1 ]; then
-    print_diff_log
+    print_diff_log $1
   fi
   echo ""
 }
@@ -46,7 +46,7 @@ main() {
 
 main $1 $2
 
-rm bm_$1_ft.log bm_$1_stl.log $1_ft.log $1_stl.log diff.log
-rm bm_$2_ft.log bm_$2_stl.log $2_ft.log $2_stl.log diff.log
+rm bm_$1_ft.log bm_$1_stl.log $1_ft.log $1_stl.log $1_diff.log
+rm bm_$2_ft.log bm_$2_stl.log $2_ft.log $2_stl.log $2_diff.log
 
 exit 0

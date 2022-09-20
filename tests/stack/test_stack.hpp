@@ -1,6 +1,7 @@
-#ifndef TEST_STACK_HPP
-# define TEST_STACK_HPP
+#ifndef test_stack_hpp
+#define test_stack_hpp
 
 void test_stack();
+void benchmark_stack();
 
 #endif

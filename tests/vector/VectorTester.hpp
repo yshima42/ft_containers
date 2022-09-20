@@ -24,6 +24,7 @@ class VectorTester {
     test_insert();
     test_erase();
     test_swap();
+    test_get_allocator();
     test_small_funcs();
   }
 
@@ -99,14 +100,14 @@ class VectorTester {
 
   void test_assign() {
     std::cout << YELLOW << "< assign >" << RESET << std::endl;
-    ft::vector<T> characters;
-    characters.assign(5, _base_vec.at(2));
-    print_vec(characters, "characters.assign(5, _base_vec.at(2))");
+    ft::vector<T> v;
+    v.assign(5, _base_vec.at(2));
+    print_vec(v, "v.assign(5, _base_vec.at(2))");
 
     ft::vector<T> it_assign;
-    it_assign.assign(characters.begin(), characters.end());
+    it_assign.assign(v.begin(), v.end());
     print_vec(it_assign,
-              "it_assign.assign(characters.begin(), characters.end())");
+              "it_assign.assign(v.begin(), v.end())");
 
     //後ほど対応
     //  std::stringstream ss;
@@ -213,6 +214,13 @@ class VectorTester {
     swap(vec1, vec2);
     print_vec(vec1, "vec1 should be original");
     print_vec(vec2, "vec2 should be original");
+
+  }
+
+  void test_get_allocator() {
+    // 後ほど自分で作ったallocatorテストを追加する
+    std::cout << YELLOW << "< get_allocator >" << RESET << std::endl;
+    std::cout << _base_vec.get_allocator().max_size() << std::endl << std::endl;
 
   }
 

@@ -96,7 +96,7 @@ class vector {
     // not enough size
     else {
       // destroy all the elements
-      //destroy_until(rbegin());
+      // destroy_until(rbegin());
       clear();
       // reserve size
       reserve(other.size());
@@ -359,6 +359,8 @@ class vector {
       insert(end(), sz - size(), value);
     }
   }
+
+  allocator_type get_allocator() const { return alloc_; }
 
  private:
   pointer first_;
