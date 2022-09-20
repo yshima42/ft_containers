@@ -2,9 +2,9 @@
 #define VECTORTESTER_HPP
 
 #include <iostream>
-#include <string>
-#include <sstream>
 #include <iterator>
+#include <sstream>
+#include <string>
 #include <vector>
 
 // constのテストも作る
@@ -22,6 +22,8 @@ class VectorTester {
     test_push_back_pop_back();
     test_reserve_resize();
     test_insert();
+    test_erase();
+    test_swap();
     test_small_funcs();
   }
 
@@ -38,19 +40,20 @@ class VectorTester {
 
   void print_vec_info(ft::vector<T> &vec) {
     // size()テスト
-    std::cout << std::endl << "size->" << vec.size() << " " <<
-    // capacity()テスト
-    "capacity->" << vec.capacity() << std::endl;
+    std::cout << std::endl
+              << "size->" << vec.size() << " " <<
+        // capacity()テスト
+        "capacity->" << vec.capacity() << std::endl;
   }
 
   void print_vec_elems(ft::vector<T> &vec) {
     std::cout << "elems->";
     // empty()テスト
-    if (vec.empty())
-      std::cout << "empty";
+    if (vec.empty()) std::cout << "empty";
     // iteratorテスト
-    for (typename ft::vector<T>::iterator iter = vec.begin(); iter != vec.end(); ++iter)
-      std::cout << *iter << " "; 
+    for (typename ft::vector<T>::iterator iter = vec.begin(); iter != vec.end();
+         ++iter)
+      std::cout << *iter << " ";
     std::cout << std::endl;
   }
 
@@ -65,11 +68,8 @@ class VectorTester {
     ft::vector<T> v2(10);
     print_vec(v2, "v2(10)");
 
-    ft::vector<T> v3(2, 3);
-    print_vec(v3, "v3(2, 3)");
-
-    ft::vector<T> v4(2, 'x');
-    print_vec(v4, "v4(2, 'x')");
+    ft::vector<T> v3(2, _base_vec.at(1));
+    print_vec(v3, "v3(2, _base_vec.at(1))");
 
     ft::vector<T> v5(_base_vec);
     print_vec(v5, "v5(_base_vec)");
@@ -78,7 +78,7 @@ class VectorTester {
     print_vec(v5, "v5.clear");
 
     // need to add enable_if to move this test
-    ft::vector<T> v6(v4.begin(), v4.end());
+    ft::vector<T> v6(v3.begin(), v3.end());
     print_vec(v6, "v6(v4.begin(), v4.end())");
   }
 
@@ -98,32 +98,32 @@ class VectorTester {
   }
 
   void test_assign() {
-   std::cout << YELLOW << "< assign >" << RESET << std::endl;
-   ft::vector<T> characters;
-   characters.assign(5, 'a');
-   print_vec(characters, "characters.assign(5, 'a')");
+    std::cout << YELLOW << "< assign >" << RESET << std::endl;
+    ft::vector<T> characters;
+    characters.assign(5, _base_vec.at(2));
+    print_vec(characters, "characters.assign(5, _base_vec.at(2))");
 
-   ft::vector<T> it_assign;
-   it_assign.assign(characters.begin(), characters.end());
-   print_vec(it_assign, "it_assign.assign(characters.begin(), characters.end())");
+    ft::vector<T> it_assign;
+    it_assign.assign(characters.begin(), characters.end());
+    print_vec(it_assign,
+              "it_assign.assign(characters.begin(), characters.end())");
 
-  //後ほど対応
-  //  std::stringstream ss;
-  // ss << 1 << std::endl << 2 << std::endl << 3;
+    //後ほど対応
+    //  std::stringstream ss;
+    // ss << 1 << std::endl << 2 << std::endl << 3;
 
-  // std::istream_iterator< int > beg(ss);
-  // std::istream_iterator< int > last;
+    // std::istream_iterator< int > beg(ss);
+    // std::istream_iterator< int > last;
 
-  // ft::vector< int > v;
-  // v.assign(beg, last);
-  // for (ft::vector< int >::iterator it = v.begin(); it != v.end(); it++) {
-  //   std::cout << *it << std::endl;
-  // }
-
+    // ft::vector< int > v;
+    // v.assign(beg, last);
+    // for (ft::vector< int >::iterator it = v.begin(); it != v.end(); it++) {
+    //   std::cout << *it << std::endl;
+    // }
   }
 
   void test_at() {
-   std::cout << YELLOW << "< at >" << RESET << std::endl;
+    std::cout << YELLOW << "< at >" << RESET << std::endl;
     try {
       std::cout << _base_vec.at(0) << std::endl;
       std::cout << _base_vec.at(3) << std::endl;
@@ -138,33 +138,33 @@ class VectorTester {
     try {
       std::cout << _base_vec[0] << std::endl;
       std::cout << _base_vec[3] << std::endl;
-      //std::cout << _base_vec[6] << std::endl;
+      // std::cout << _base_vec[6] << std::endl;
     } catch (std::out_of_range &e) {
       std::cout << e.what() << std::endl;
     }
   }
-  
-  void test_push_back_pop_back() {
-   std::cout << YELLOW << "< push_back, pop_back >" << RESET << std::endl;
-    ft::vector<T> vec;
-    for (int i = 0; i < 10; ++i) {
-      vec.push_back(i);
-    }
-    print_vec(vec, "0 to 9");
 
-    for (int i = 0; i < 10; ++i) {
+  void test_push_back_pop_back() {
+    std::cout << YELLOW << "< push_back, pop_back >" << RESET << std::endl;
+    ft::vector<T> vec;
+    for (size_t i = 0; i < _base_vec.size(); ++i) {
+      vec.push_back(_base_vec.at(i));
+    }
+    print_vec(vec, "push_back");
+
+    for (size_t i = 0; i < _base_vec.size() - 1; ++i) {
       vec.pop_back();
       print_vec(vec, "pop_back");
     }
   }
 
   void test_reserve_resize() {
-   std::cout << YELLOW << "< reserve, resize >" << RESET << std::endl;
+    std::cout << YELLOW << "< reserve, resize >" << RESET << std::endl;
     ft::vector<T> vec;
     vec.reserve(10);
     print_vec(vec, "reserve(10)");
 
-    vec.resize(15, 0);
+    vec.resize(15, _base_vec.at(1));
     print_vec(vec, "resize(15)");
 
     try {
@@ -174,28 +174,56 @@ class VectorTester {
       std::cout << e.what() << std::endl;
     }
 
-    _base_vec.resize(6, 1);
+    _base_vec.resize(6, _base_vec.at(4));
     print_vec(_base_vec, "_base_vec.resize(5)");
   }
 
   void test_insert() {
-   std::cout << YELLOW << "< insert >" << RESET << std::endl;
-   _base_vec.insert((_base_vec.begin() + 1), 100);
-   print_vec(_base_vec, "insert((_base_vec.begin() + 1), 100)");
+    std::cout << YELLOW << "< insert >" << RESET << std::endl;
+    ft::vector<T> vec(_base_vec);
+    vec.insert((vec.begin() + 1), vec.at(4));
+    print_vec(vec, "vec.insert((vec.begin() + 1), vec.at(4))");
+  }
 
+  void test_erase() {
+    std::cout << YELLOW << "< erase >" << RESET << std::endl;
+    ft::vector<T> vec = _base_vec;
+    print_vec(vec, "before erase");
+    vec.erase(vec.begin() + 1);
+    print_vec(vec, "after erase");
+
+    vec.erase(vec.begin(), vec.end());
+    print_vec(vec, "after erase all");
+
+    // emptyを消そうとするとstlもセグフォする
+    // vec.erase(vec.begin());
+    // print_vec(vec, "erase empty");
+  }
+
+  void test_swap() {
+    std::cout << YELLOW << "< swap >" << RESET << std::endl;
+    ft::vector<T> vec1(4, _base_vec.front());
+    ft::vector<T> vec2(5, _base_vec.back());
+    print_vec(vec1, "vec1");
+    print_vec(vec2, "vec2");
+    vec1.swap(vec2);
+    print_vec(vec1, "after swap vec1");
+    print_vec(vec2, "after swap vec2");
+
+    swap(vec1, vec2);
+    print_vec(vec1, "vec1 should be original");
+    print_vec(vec2, "vec2 should be original");
 
   }
 
   void test_small_funcs() {
-   std::cout << YELLOW << "< small funcs >" << RESET << std::endl;
-   std::cout << _base_vec.front() << std::endl;
-   std::cout << _base_vec.back() << std::endl;
-   std::cout << *(_base_vec.data()) << std::endl;
+    std::cout << YELLOW << "< small funcs >" << RESET << std::endl;
+    std::cout << _base_vec.front() << std::endl;
+    std::cout << _base_vec.back() << std::endl;
+    std::cout << *(_base_vec.data()) << std::endl;
 
-   std::cout << _base_vec.max_size() << std::endl;
-
+    std::cout << _base_vec.max_size() << std::endl;
   }
-
 };
 
 #endif

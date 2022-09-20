@@ -2,8 +2,9 @@
 #define VECTORBENCHMARK_HPP
 
 #include <iostream>
-#include <string>
 #include <sstream>
+#include <string>
+
 #include "test.hpp"
 
 template <class T>
@@ -12,7 +13,6 @@ class VectorBenchmark {
   Timer time_;
 
  public:
-
   VectorBenchmark(ft::vector<T> &vec) : _base_vec(vec) {}
   ~VectorBenchmark() {}
 
@@ -20,7 +20,6 @@ class VectorBenchmark {
     test_constructor();
     test_assignment_operator();
     test_push_back_pop_back();
-    
   }
 
  private:
@@ -50,7 +49,6 @@ class VectorBenchmark {
     time_.start("constructor6");
     ft::vector<T> v5(_base_vec);
     time_.stop_print();
-
   }
 
   void test_assignment_operator() {
@@ -69,9 +67,8 @@ class VectorBenchmark {
     v2 = v1;
     time_.stop_print();
   }
- 
-  void test_push_back_pop_back() {
 
+  void test_push_back_pop_back() {
     ft::vector<T> vec;
 
     time_.start("push_back");

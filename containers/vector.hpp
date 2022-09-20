@@ -274,17 +274,28 @@ class vector {
     return (std::max<size_type>(new_size, cap * 2));
   }
 
-  void move_range(size_type offset, size_type count) {
-    size_type now_size = size();
-    size_type new_size = now_size + count;
+  iterator erase(iterator pos) { return (erase(pos, pos + 1)); }
 
-    for (size_t i = 0; i < now_size - offset; i++) {
-      if (new_size - i > now_size) {
-        alloc_.construct(&first_[new_size - i - 1], first_[now_size - i - 1]);
-      } else {
-        first_[new_size - i - 1] = first_[now_size - i - 1];
-      }
-    }
+  iterator erase(iterator first, iterator last) {
+    size_type erase_size = std::distance(first, last);
+    pointer new_last = last_ - erase_size;
+    std::copy(last, end(), first);
+    destroy_range(new_last, last_);
+    last_ = new_last;
+    return first;
+  }
+
+  void swap(vector& other) {
+    pointer tmp_first = other.first_;
+    pointer tmp_last = other.last_;
+    pointer tmp_reserved_last = other.reserved_last_;
+
+    other.first_ = first_;
+    other.last_ = last_;
+    other.reserved_last_ = reserved_last_;
+    first_ = tmp_first;
+    last_ = tmp_last;
+    reserved_last_ = tmp_reserved_last;
   }
 
   // iterator access
@@ -376,7 +387,50 @@ class vector {
     for (reverse_iterator riter = rbegin(); riter != rend; ++riter, --last_)
       destroy(&*riter);
   }
+  void destroy_range(pointer first, pointer last) {
+    for (pointer p = first; p < last; p++) {
+      alloc_.destroy(p);
+    }
+  }
 };
+
+template <class T, class Alloc>
+bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+  return (lhs.size() == rhs.size() &&
+          ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+}
+
+template <class T, class Alloc>
+bool operator!=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+  return (!(lhs == rhs));
+}
+
+template <class T, class Alloc>
+bool operator<(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+  return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(),
+                                      rhs.end()));
+}
+
+template <class T, class Alloc>
+bool operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+  return (!(rhs < lhs));
+}
+
+template <class T, class Alloc>
+bool operator>(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+  return (rhs < lhs);
+}
+
+template <class T, class Alloc>
+bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+  return (!(lhs < rhs));
+}
+
+template <class T, class Alloc>
+void swap(vector<T, Alloc>& lhs, vector<T, Alloc>& rhs) {
+  lhs.swap(rhs);
+}
+
 }  // namespace ft
 
 #endif
