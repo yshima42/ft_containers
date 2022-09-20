@@ -13,7 +13,7 @@ void (*const benchmark_funcs[])(void) = {benchmark_vector, benchmark_map, benchm
 
 int container_index(std::string arg) {
   int i = 0;
-  while (i < 1) {
+  while (i < 3) {
     if (arg == containers[i]) {
 		return i;
 	}

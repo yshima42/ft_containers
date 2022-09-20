@@ -30,13 +30,19 @@ $(OBJDIR_FT)/%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -o $@ -D IS_FT=1 -c $<
 
 test		:	all
-	bash tests/exec_test.sh vector
+	bash tests/exec_test.sh vector stack map
 
-ft		: all
+ft_vector		: all
 	./tester_ft -t vector
 
-stl		: all
+stl_vector		: all
 	./tester_stl -t vector
+
+ft_stack		: all
+	./tester_ft -t stack
+
+stl_stack		: all
+	./tester_stl -t stack
 
 clean	:
 	rm -rf $(OBJDIR_STL) $(OBJDIR_FT)
