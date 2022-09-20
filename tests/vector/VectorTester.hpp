@@ -211,11 +211,9 @@ class VectorTester {
     vec1.swap(vec2);
     print_vec(vec1, "after swap vec1");
     print_vec(vec2, "after swap vec2");
-
     swap(vec1, vec2);
     print_vec(vec1, "vec1 should be original");
     print_vec(vec2, "vec2 should be original");
-
   }
 
   void test_get_allocator() {
