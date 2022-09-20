@@ -349,10 +349,7 @@ class vector {
   void resize(size_type sz, const_reference value) {
     // smaller than current elems
     if (sz < size()) {
-      // eraseを作ったら変更する
-      difference_type diff = size() - sz;
-      destroy_until(rbegin() + diff);
-      last_ = first_ + sz;
+      erase(begin() + sz, end());
     } else if (sz > size()) {
       // biger than current elems
       insert(end(), sz - size(), value);
