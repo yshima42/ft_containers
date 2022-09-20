@@ -116,9 +116,10 @@ class VectorTester {
     // std::istream_iterator< int > beg(ss);
     // std::istream_iterator< int > last;
 
-    // ft::vector< int > v;
-    // v.assign(beg, last);
-    // for (ft::vector< int >::iterator it = v.begin(); it != v.end(); it++) {
+    // ft::vector< int > v1;
+    // v1.assign(beg, last);
+    // std::cout << "size: " << v1.size() << std::endl;
+    // for (ft::vector< int >::iterator it = v1.begin(); it != v1.end(); it++) {
     //   std::cout << *it << std::endl;
     // }
   }

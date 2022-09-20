@@ -158,7 +158,7 @@ class vector {
   void assign(InputIt first, InputIt last,
               typename ft::enable_if<!ft::is_integral<InputIt>::value,
                                      InputIt>::type* = NULL) {
-    size_type count = last - first;
+    size_type count = std::distance(first, last);
     if (count > capacity()) {
       clear();
       deallocate();
@@ -397,7 +397,7 @@ class vector {
       alloc_.destroy(p);
     }
   }
-  // 最初使っていたが使うのやめた
+  // 最初使っていたが使うのやめた 一応コメントアウトで残しとく
   // void destroy_until(reverse_iterator rend) {
   //   for (reverse_iterator riter = rbegin(); riter != rend; ++riter, --last_)
   //     destroy(&*riter);
