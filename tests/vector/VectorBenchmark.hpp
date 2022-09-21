@@ -7,7 +7,6 @@
 
 #include "test.hpp"
 
-
 template <class T>
 class VectorBenchmark {
  private:
@@ -22,9 +21,12 @@ class VectorBenchmark {
   void test_all() {
     test_constructor();
     test_assignment_operator();
-    test_push_back_pop_back();
     test_assign();
+    test_push_back_pop_back();
     test_reserve_resize();
+    test_insert();
+    test_iterator();
+    test_small_funcs();
   }
 
  private:
@@ -97,7 +99,7 @@ class VectorBenchmark {
 
     ft::vector<T> it_assign;
     time_.start("assign iterator");
-    it_assign.assign(v.begin(), v.end());    
+    it_assign.assign(v.begin(), v.end());
     time_.stop_print();
   }
 
@@ -117,8 +119,47 @@ class VectorBenchmark {
     time_.stop_print();
   }
 
-  
+  void test_insert() {
+    ft::vector<T> vec(_base_vec);
+    typename ft::vector<T>::iterator it = vec.begin();
+    T t = vec.at(4);
+    time_.start("insert");
+    vec.insert((it + 1), t);
+    time_.stop_print();
+  }
 
+  void test_iterator() {
+    time_.start("begin");
+    _base_vec.begin();
+    time_.stop_print();
+    time_.start("end");
+    _base_vec.end();
+    time_.stop_print();
+    time_.start("rbegin");
+    _base_vec.rbegin();
+    time_.stop_print();
+    time_.start("rend");
+    _base_vec.rend();
+    time_.stop_print();
+  }
+
+  void test_small_funcs() {
+    time_.start("front");
+    _base_vec.front();
+    time_.stop_print();
+
+    time_.start("back");
+    _base_vec.back();
+    time_.stop_print();
+
+    time_.start("data");
+    (void)*(_base_vec.data());
+    time_.stop_print();
+
+    time_.start("max_size");
+    _base_vec.max_size();
+    time_.stop_print();
+  }
 };
 
 #endif

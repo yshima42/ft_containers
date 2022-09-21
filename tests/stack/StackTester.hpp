@@ -4,14 +4,15 @@
 #include <iostream>
 #include <iterator>
 #include <sstream>
-#include <string>
 #include <stack>
+#include <string>
 
 // constのテストも作る
 template <class T>
 class StackTester {
  public:
-  StackTester(ft::stack<T> &stack) : _base_stack(stack), _base_const_stack(stack) {}
+  StackTester(ft::stack<T> &stack)
+      : _base_stack(stack), _base_const_stack(stack) {}
   ~StackTester() {}
   void test_all() {
     test_constructor();
@@ -32,14 +33,14 @@ class StackTester {
 
   void print_stack_info(ft::stack<T> &stack) {
     // size()テスト
-    std::cout << std::endl
-              << "size->" << stack.size() << " ";
+    std::cout << std::endl << "size->" << stack.size() << " ";
   }
 
   void print_stack_elems(ft::stack<T> &stack) {
     std::cout << "elems->";
     // empty()テスト
-    if (stack.empty()) std::cout << "empty";
+    if (stack.empty())
+      std::cout << "empty";
     else {
       std::cout << "top:" << stack.top();
     }
@@ -79,7 +80,6 @@ class StackTester {
     }
     print_stack(stack, "pop");
   }
-
 };
 
 #endif

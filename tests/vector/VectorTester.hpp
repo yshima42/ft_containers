@@ -22,6 +22,7 @@ class VectorTester {
     test_push_back_pop_back();
     test_reserve_resize();
     test_insert();
+    test_iterator();
     test_erase();
     test_swap();
     test_get_allocator();
@@ -106,8 +107,7 @@ class VectorTester {
 
     ft::vector<T> it_assign;
     it_assign.assign(v.begin(), v.end());
-    print_vec(it_assign,
-              "it_assign.assign(v.begin(), v.end())");
+    print_vec(it_assign, "it_assign.assign(v.begin(), v.end())");
 
     //後ほど対応
     //  std::stringstream ss;
@@ -187,6 +187,14 @@ class VectorTester {
     print_vec(vec, "vec.insert((vec.begin() + 1), vec.at(4))");
   }
 
+  void test_iterator() {
+    std::cout << YELLOW << "< iterator >" << RESET << std::endl;
+    std::cout << *(_base_vec.begin()) << std::endl;
+    std::cout << *(_base_vec.end() - 1) << std::endl;
+    std::cout << *(_base_vec.rbegin()) << std::endl;
+    std::cout << *(_base_vec.rend() - 1) << std::endl << std::endl;
+  }
+
   void test_erase() {
     std::cout << YELLOW << "< erase >" << RESET << std::endl;
     ft::vector<T> vec = _base_vec;
@@ -197,7 +205,7 @@ class VectorTester {
     vec.erase(vec.begin(), vec.end());
     print_vec(vec, "after erase all");
 
-    // emptyを消そうとするとstlもセグフォする
+    // emptyのeraseはセグフォ(stlと同様)
     // vec.erase(vec.begin());
     // print_vec(vec, "erase empty");
   }
@@ -220,7 +228,6 @@ class VectorTester {
     // 後ほど自分で作ったallocatorテストを追加する
     std::cout << YELLOW << "< get_allocator >" << RESET << std::endl;
     std::cout << _base_vec.get_allocator().max_size() << std::endl << std::endl;
-
   }
 
   void test_small_funcs() {

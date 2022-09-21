@@ -20,7 +20,7 @@ void test_vector() {
 }
 
 void benchmark_vector() {
-  ft::vector<int> base(5, 10);
+  ft::vector<int> base(10000, 10);
   VectorBenchmark<int> v(base);
   v.test_all();
 }
