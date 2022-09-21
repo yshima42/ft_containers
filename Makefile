@@ -44,6 +44,12 @@ ft_stack		: all
 stl_stack		: all
 	./tester_stl -t stack
 
+ft_map		: all
+	./tester_ft -t map
+
+stl_map		: all
+	./tester_stl -t map
+
 clean	:
 	rm -rf $(OBJDIR_STL) $(OBJDIR_FT)
 

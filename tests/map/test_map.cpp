@@ -2,31 +2,29 @@
 
 #include "MapBenchmark.hpp"
 #include "MapTester.hpp"
+#include "PairTester.hpp"
 #include "test.hpp"
 
-void test_map() {
-  ft::map<int> base;
-  for (int i = 0; i < 10; i++) {
-    base.push(i);
-  }
-  MapTester<int> v(base);
-  v.test_all();
+void test_pair() {
+  std::cout << "(pair test)" << std::endl;
+  ft::pair<int, int> p1(1, 2);
+  PairTester<int, int> p(p1);
+  p.test_all();
+}
 
-  ft::map<std::string> base_str;
-  base_str.push("str1");
-  base_str.push("str2");
-  base_str.push("str3");
-  base_str.push("str4");
-  base_str.push("str5");
-  MapTester<std::string> v_str(base_str);
-  v_str.test_all();
+void test_map() {
+  test_pair();
+  // ft::map<int, int> base;
+  // MapTester<int, int> v(base);
+  // v.test_all();
+
+  // ft::map<std::string, std::string> base_str;
+  // MapTester<std::string, std::string> v_str(base_str);
+  // v_str.test_all();
 }
 
 void benchmark_map() {
-  ft::map<int> base;
-  for (int i = 0; i < 10; i++) {
-    base.push(i);
-  }
-  MapBenchmark<int> s(base);
-  s.test_all();
+  // ft::map<int, int> base;
+  // MapBenchmark<int, int> s(base);
+  // s.test_all();
 }

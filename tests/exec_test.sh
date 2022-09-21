@@ -42,11 +42,13 @@ test() {
 main() {
   test $1
   test $2
+  test $3
 }
 
-main $1 $2
+main $1 $2 $3
 
 rm bm_$1_ft.log bm_$1_stl.log $1_ft.log $1_stl.log $1_diff.log
 rm bm_$2_ft.log bm_$2_stl.log $2_ft.log $2_stl.log $2_diff.log
+rm bm_$3_ft.log bm_$3_stl.log $3_ft.log $3_stl.log $3_diff.log
 
 exit 0
