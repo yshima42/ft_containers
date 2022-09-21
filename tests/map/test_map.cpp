@@ -14,9 +14,9 @@ void test_pair() {
 
 void test_map() {
   test_pair();
-  // ft::map<int, int> base;
-  // MapTester<int, int> v(base);
-  // v.test_all();
+  ft::map<int, int> base;
+  MapTester<int, int> v(base);
+  v.test_all();
 
   // ft::map<std::string, std::string> base_str;
   // MapTester<std::string, std::string> v_str(base_str);
