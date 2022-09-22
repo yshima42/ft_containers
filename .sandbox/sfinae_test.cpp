@@ -2,26 +2,26 @@
 
 using namespace std;
 
-struct Test{
-	typedef int Value;
+struct Test {
+  typedef int Value;
 
-	Value a;
+  Value a;
 };
 
-template<class T>
+template <class T>
 bool hasValue(typename T::Value) {
-	return true;
+  return true;
 }
 
-template<class T>
+template <class T>
 bool hasValue(T) {
-	return false;
+  return false;
 }
 
 int main() {
-	Test test;
-	test.a = 1;
+  Test test;
+  test.a = 1;
 
-	cout<<hasValue<Test>(0)<<endl;
-	cout<<hasValue<int>(0)<<endl;
+  cout << hasValue<Test>(0) << endl;
+  cout << hasValue<int>(0) << endl;
 }

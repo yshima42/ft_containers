@@ -1,9 +1,15 @@
 #include "avl_copy.hpp"
+
 #include <iostream>
 
 int main() {
-    AVLTree<int> a;
-    a.insert(2);
-    std::cout << a.at(1)<< std::endl;
-
+  AVL<int> a;
+  a.insert(100);
+  a.insert(3);
+  a.insert(4);
+  a.insert(5);
+  a.insert(6);
+  a.insert(7);
+  a.inorder();
+  // std::cout << a.search(2)<< std::endl;
 }
