@@ -44,7 +44,9 @@ class PairTester {
     print_pair(p);
   }
 
-  void test_make_pair() { print_pair(ft::make_pair<int, int>(10, 20)); }
+  void test_make_pair() { 
+    //print_pair(ft::make_pair<T1, T2>(10, 20)); 
+  }
 
   void test_operators() {
     ft::pair<int, int> p1(1, 1);

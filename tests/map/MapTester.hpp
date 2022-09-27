@@ -8,10 +8,10 @@
 #include <string>
 
 // constのテストも作る
-template <class T1, class T2>
+template <class Key, class T>
 class MapTester {
  public:
-  MapTester(ft::map<T1, T2> &m) {(void)m;}
+  MapTester(ft::map<Key, T> &m) : _base_map(m), _base_const_map(m) {(void)m;}
   ~MapTester() {}
   void test_all() {
     test_constructor();
@@ -20,15 +20,27 @@ class MapTester {
   }
 
  private:
-  ft::map<T1, T2> _base_map;
-  ft::map<T1, T2> const _base_const_map;
+  ft::map<Key, T> _base_map;
+  ft::map<Key, T> const _base_const_map;
 
-  // void print_map(ft::map<T> &map, const std::string &map_name) {
-  //   std::cout << map_name << ": ";
-  //   print_map_info(map);
-  //   print_map_elems(map);
-  //   std::cout << std::endl;
-  // }
+  void print_pair(ft::pair<Key, T> p) {
+    std::cout << "(" << p.first << ", " << p.second << ")";
+  }
+
+  void print_map(ft::map<Key, T> &m) {
+    std::cout << std::boolalpha << "size = " << m.size() << ", empty = " << m.empty() <<
+    ", elems: ";
+    typename ft::map<Key, T>::iterator iter = m.begin();
+    for (size_t i = 0; i < m.size(); i++) {
+      std::cout << "[" << i << "] = ";
+      print_pair(*iter);
+      ++iter;
+      if (i < m.size() - 1) {
+        std::cout << ", ";
+      }
+    }
+    std::cout << std::endl;
+  }
 
   // void print_map_info(ft::map<T> &map) {
   //   // size()テスト
@@ -48,11 +60,18 @@ class MapTester {
 
   void test_constructor() {
     std::cout << YELLOW << "< constructor >" << RESET << std::endl;
-    ft::map<T1, T2> a;
-    (void)a;
+    ft::map<Key, T> m;
+    print_map(m);
 
-    ft::map<T1, T2> b(_base_map);
-    (void)b;
+    typename ft::map<Key, T>::iterator it_begin = _base_map.begin();
+    typename ft::map<Key, T>::iterator it_end = _base_map.end();
+    it_end--;
+    ft::map<Key, T> itr_map(it_begin, it_end);
+    print_map(itr_map);
+
+    ft::map<Key, T> copy_map(_base_map);
+    print_map(copy_map);
+
   }
 
   // void test_assignment_operator() {

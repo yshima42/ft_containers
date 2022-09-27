@@ -7,16 +7,29 @@
 
 void test_pair() {
   std::cout << "(pair test)" << std::endl;
-  ft::pair<int, int> p1(1, 2);
-  PairTester<int, int> p(p1);
+  ft::pair<int, std::string> p1(1, "hello");
+  PairTester<int, std::string> p(p1);
   p.test_all();
 }
 
 void test_map() {
   test_pair();
-  ft::map<int, int> base;
-  MapTester<int, int> v(base);
-  v.test_all();
+  ft::pair<int, std::string> pair_elems[] = {
+    ft::make_pair(-1, "A"),
+    ft::make_pair(0, "B"),
+    ft::make_pair(1, "C"),
+    ft::make_pair(2, "D"),
+    ft::make_pair(3, "E"),
+  };
+
+  ft::map<int, std::string> base_map;
+  for (size_t i = 0; i < 5; i++) {
+    base_map.insert(pair_elems[i]);
+  }
+
+  MapTester<int, std::string> m(base_map);
+  //std::cout << base_map.at(0);
+  m.test_all();
 
   // ft::map<std::string, std::string> base_str;
   // MapTester<std::string, std::string> v_str(base_str);

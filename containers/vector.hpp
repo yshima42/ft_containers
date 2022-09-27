@@ -6,6 +6,7 @@
 #include "../utils/algorithm.hpp"
 #include "../utils/iterator.hpp"
 #include "../utils/random_access_iterator.hpp"
+#include "../utils/reverse_iterator.hpp"
 #include "../utils/utils.hpp"
 
 namespace ft {
