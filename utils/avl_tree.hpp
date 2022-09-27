@@ -151,6 +151,12 @@ class avl_tree {
     return ft::make_pair(iterator(new_node), true);
   }
 
+  //20倍で実行できるか確認してできなければ実装する
+  iterator insert(iterator position, const value_type &value) {
+    (void)position;
+    return insert(value).first;
+  }
+
   template <class InputIterator>
   void insert(InputIterator first, InputIterator last) {
     for (InputIterator p = first; p != last; ++p) {

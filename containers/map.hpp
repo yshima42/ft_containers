@@ -4,10 +4,10 @@
 #include <functional>
 #include <iostream>
 
+#include "../utils/algorithm.hpp"
 #include "../utils/avl_tree.hpp"
 #include "../utils/pair.hpp"
 #include "../utils/reverse_iterator.hpp"
-#include "../utils/algorithm.hpp"
 
 namespace ft {
 
@@ -121,7 +121,10 @@ class map {
   pair<iterator, bool> insert(const value_type& val) {
     return tree_.insert(val);
   }
-  // hint insertやる
+
+  iterator insert(iterator hint, const value_type& value) {
+    return tree_.insert(hint, value);
+  }
 
   template <class InputIterator>
   void insert(InputIterator first, InputIterator last) {

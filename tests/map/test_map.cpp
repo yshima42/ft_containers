@@ -15,11 +15,14 @@ void test_pair() {
 void test_map() {
   test_pair();
   ft::pair<int, std::string> pair_elems[] = {
-    ft::make_pair(-1, "A"),
-    ft::make_pair(0, "B"),
-    ft::make_pair(1, "C"),
-    ft::make_pair(2, "D"),
-    ft::make_pair(3, "E"),
+      ft::make_pair(-1, "A"), ft::make_pair(0, "B"), ft::make_pair(1, "C"),
+      ft::make_pair(2, "D"),  ft::make_pair(3, "E"),
+  };
+
+  ft::pair<int, std::string> test_pairs[] = {
+        ft::make_pair(10, "ccccc"), ft::make_pair(-10, "aaaaa"),
+        ft::make_pair(30, "eeeee"), ft::make_pair(20, "ddddd"),
+        ft::make_pair(0, "bbbbb"),
   };
 
   ft::map<int, std::string> base_map;
@@ -27,8 +30,8 @@ void test_map() {
     base_map.insert(pair_elems[i]);
   }
 
-  MapTester<int, std::string> m(base_map);
-  //std::cout << base_map.at(0);
+  MapTester<int, std::string> m(base_map, test_pairs);
+  // std::cout << base_map.at(0);
   m.test_all();
 
   // ft::map<std::string, std::string> base_str;

@@ -44,8 +44,8 @@ class PairTester {
     print_pair(p);
   }
 
-  void test_make_pair() { 
-    //print_pair(ft::make_pair<T1, T2>(10, 20)); 
+  void test_make_pair() {
+    // print_pair(ft::make_pair<T1, T2>(10, 20));
   }
 
   void test_operators() {
@@ -53,8 +53,7 @@ class PairTester {
     ft::pair<int, int> p2(2, 1);
     ft::pair<int, int> p3(1, 2);
 
-    std::cout << std::boolalpha 
-              << "p1 == p1: " << (p1 == p1) << std::endl
+    std::cout << std::boolalpha << "p1 == p1: " << (p1 == p1) << std::endl
               << "p1 == p2: " << (p1 == p2) << std::endl
               << "p1 == p3: " << (p1 == p3) << std::endl
               << "p1 != p1: " << (p1 != p1) << std::endl
@@ -82,7 +81,5 @@ class PairTester {
               << "p3 >= p1: " << (p3 >= p1) << std::endl;
   }
 };
-
-
 
 #endif
