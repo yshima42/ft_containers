@@ -21,6 +21,7 @@ class MapTester {
     test_max_size();
     test_subscript_operator();
     test_insert();
+    test_clear();
     test_erase();
   }
 
@@ -128,6 +129,14 @@ class MapTester {
     m2.insert(++m.begin(), --m.end());
     print_map(m2);
 
+  }
+
+  void test_clear() {
+    std::cout << YELLOW << "< clear >" << RESET << std::endl;
+    ft::map<Key, T> m(_base_map);
+    print_map(m);
+    m.clear();
+    print_map(m);
   }
 
   void test_erase() {

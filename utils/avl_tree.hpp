@@ -164,6 +164,52 @@ class avl_tree {
     }
   }
 
+  void erase(iterator position) {
+    node_pointer erase_node = position.base();
+
+    if (erase_node == begin_) {
+      begin_ = erase_node->next_node();
+    }
+
+    node_pointer alt_node;
+    if (erase_node->left_ == NULL && erase_node->right_ == NULL) {
+      alt_node = NULL;
+    } else if (erase_node->balance() >= 0) {
+      alt_node = erase_node->left_->max_node();
+    } else {
+      alt_node = erase_node->right_->min_node();
+    }
+
+    node_pointer bottom_node;
+    if (alt_node == NULL) {
+      bottom_node == erase_node->parent_;
+    } else if (alt_node->parent == erase_node) {
+      bottom_node = alt_node;
+    } else {
+      bottom_node = alt_node->parent_;
+    }
+
+    // replace_node(erase_node, alt_node);
+    delete_node(erase_node);
+    --size_;
+    // replace_tree(bottom_node);
+  }
+
+  size_type erase(const key_type& k) {
+    iterator position = find(k);
+    if (position == end()) {
+      return 0;
+    }
+    erase(position);
+    return 1;
+  }
+  
+  void erase(iterator first, iterator last) {
+    while(first != last) {
+      erase(first++);
+    }
+  }
+
   void swap(avl_tree& other) {
     std::swap(node_alloc_, other.node_alloc_);
     std::swap(comp_, other.comp_);
