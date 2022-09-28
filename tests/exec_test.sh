@@ -1,7 +1,7 @@
 #!/bin/bash
 
 print_benchmark() {
-  paste bm_$1_ft.log bm_$1_stl.log
+  paste bm_$1_stl.log bm_$1_ft.log
 }
 
 test_benchmark() {

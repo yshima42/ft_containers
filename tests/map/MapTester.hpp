@@ -18,11 +18,26 @@ class MapTester {
   void test_all() {
     test_constructor();
     test_assignment_operator();
-    test_max_size();
+
+    //element access
     test_subscript_operator();
+
+    // capacity
+    test_max_size();
+  
     test_insert();
     test_clear();
     test_erase();
+    test_swap();
+
+    test_find();
+    test_count();
+
+    test_lower_bound();
+    test_upper_bound();
+    test_equal_range();
+
+
   }
 
  private:
@@ -46,24 +61,9 @@ class MapTester {
         std::cout << ", ";
       }
     }
+    
     std::cout << std::endl;
   }
-
-  // void print_map_info(ft::map<T> &map) {
-  //   // size()テスト
-  //   std::cout << std::endl << "size->" << map.size() << " ";
-  // }
-
-  // void print_map_elems(ft::map<T> &map) {
-  //   std::cout << "elems->";
-  //   // empty()テスト
-  //   if (map.empty())
-  //     std::cout << "empty";
-  //   else {
-  //     std::cout << "top:" << map.top();
-  //   }
-  //   std::cout << std::endl;
-  // }
 
   void test_constructor() {
     std::cout << YELLOW << "< constructor >" << RESET << std::endl;
@@ -140,12 +140,81 @@ class MapTester {
   }
 
   void test_erase() {
-    // std::cout << YELLOW << "< erase >" << RESET << std::endl;
-    // ft::map<Key, T> m(_base_map);
-    // m.erase(10);
-    // print_map(m);
+    std::cout << YELLOW << "< erase >" << RESET << std::endl;
+    ft::map<Key, T> m(_base_map);
+    print_map(m);
+    m.erase(1);
+    print_map(m);
+    m.erase(++m.begin());
+    print_map(m);
+    //これはセグフォ(stlも)
+    //m.erase(m.end());
+  }
+
+  void test_swap() {
+    std::cout << YELLOW << "< swap >" << RESET << std::endl;
+    ft::map<Key, T> m1(_base_map);
+    ft::map<Key, T> m2;
+    for (size_t i = 0; i < 5; i++) {
+    m2.insert(_test_pairs[i]); }
+    print_map(m1);
+    print_map(m2);
+    ft::swap(m1, m2);
+    print_map(m1);
+    print_map(m2);
+  }
+
+  void test_find() {
+    std::cout << YELLOW << "< find >" << RESET << std::endl;
+    ft::map<Key, T> m;
+    for (size_t i = 0; i < 5; i++) {
+    m.insert(_test_pairs[i]); }
+    std::cout << m.find(_test_pairs[2].first)->second << std::endl;
+  }
+
+  void test_count() {
+    std::cout << YELLOW << "< count >" << RESET << std::endl;
+   ft::map<Key, T> m;
+    for (size_t i = 0; i < 5; i++) {
+    m.insert(_test_pairs[i]); }
+    std::cout << m.count(_test_pairs[2].first) << std::endl; 
+    // 適当なkey
+    std::cout << m.count(9999) << std::endl; 
+  }
+
+  void test_lower_bound() {
+    std::cout << YELLOW << "< lower_bound >" << RESET << std::endl;
+    ft::map<Key, T> m(_base_map);
+    typename ft::map<Key, T>::iterator it = m.lower_bound(_test_pairs[1].first);
+    std::cout << it->second << std::endl;
+
+      ft::map<Key, T> m1(_base_map);
+    for (size_t i = 0; i < 5; i++) {
+    m1.insert(_test_pairs[i]); }
+
+    std::cout << m1.lower_bound(_test_pairs[1].first)->second << std::endl;
+  }
+
+   void test_upper_bound() {
+    std::cout << YELLOW << "< upper_bound >" << RESET << std::endl;
+    ft::map<Key, T> m(_base_map);
+    typename ft::map<Key, T>::iterator it = m.upper_bound(_test_pairs[1].first);
+    std::cout << it->second << std::endl;
+    
+     ft::map<Key, T> m1(_base_map);
+    for (size_t i = 0; i < 5; i++) {
+    m1.insert(_test_pairs[i]); }
+    
+    std::cout << m1.lower_bound(_test_pairs[1].first)->second << std::endl;
+  }
+
+  void test_equal_range() {
+    std::cout << YELLOW << "< equal_range >" << RESET << std::endl;
+    _base_map.equal_range(1);
 
   }
+
+ 
 
 };
 

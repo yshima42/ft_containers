@@ -31,6 +31,7 @@ class tree_node {
         value_(other.value_),
         height_(other.height_) {}
 
+  // 左が重ければ+、右が重ければ-
   difference_type balance() const {
     size_type left_height = left_ ? left_->height_ : 0;
     size_type right_height = right_ ? right_->height_ : 0;

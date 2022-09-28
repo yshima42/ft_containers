@@ -27,6 +27,7 @@ class VectorBenchmark {
     test_insert();
     test_iterator();
     test_small_funcs();
+    test_erase();
   }
 
  private:
@@ -158,6 +159,16 @@ class VectorBenchmark {
 
     time_.start("max_size");
     _base_vec.max_size();
+    time_.stop_print();
+  }
+
+  void test_erase() {
+    ft::vector<T> v(_base_vec);
+    typename ft::vector<T>::iterator it = v.begin();
+    time_.start("erase");
+    v.erase(it);
+    v.erase(++it);
+    v.erase(++it);
     time_.stop_print();
   }
 };

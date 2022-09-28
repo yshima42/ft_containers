@@ -54,6 +54,8 @@ class avl_tree {
   }
 
   ~avl_tree() {
+    // 最後消す
+    verify_avl();
     delete_tree();
     delete_node(end_);
   }
@@ -89,7 +91,9 @@ class avl_tree {
     if (is_left && parent_node == begin_) {
       begin_ = new_node;
     }
+
     ++size_;
+
     return new_node;
   }
 
@@ -142,12 +146,15 @@ class avl_tree {
       } else if (comp_(parent_node->value_, val)) {
         node = parent_node->right_;
       } else {
+        // 同じvalが存在、insert失敗
         return (ft::make_pair(iterator(parent_node), false));
       }
     }
 
     node_pointer new_node = create_node_at(val, parent_node);
+
     rebalance_tree(new_node);
+
     return ft::make_pair(iterator(new_node), true);
   }
 
@@ -164,6 +171,23 @@ class avl_tree {
     }
   }
 
+  void replace_node(node_pointer erase_node, node_pointer alt_node) {
+    if (alt_node == NULL) {
+      erase_node->disconnect_parent();
+    } else {
+      if (alt_node->left_ == NULL && alt_node->right_ == NULL) {
+        alt_node->disconnect_parent();
+      } else if (alt_node->left_) {
+        alt_node->left_->connect_parent(alt_node->parent_, alt_node->is_left());
+      } else {
+        alt_node->right_->connect_parent(alt_node->parent_, alt_node->is_left());
+      }
+      alt_node->connect_parent(erase_node->parent_, erase_node->is_left());
+      alt_node->connect_left(erase_node->left_);
+      alt_node->connect_right(erase_node->right_);
+    }
+  }
+
   void erase(iterator position) {
     node_pointer erase_node = position.base();
 
@@ -171,6 +195,7 @@ class avl_tree {
       begin_ = erase_node->next_node();
     }
 
+  // eraseするnodeと入れ替えるnodeをセット
     node_pointer alt_node;
     if (erase_node->left_ == NULL && erase_node->right_ == NULL) {
       alt_node = NULL;
@@ -182,17 +207,17 @@ class avl_tree {
 
     node_pointer bottom_node;
     if (alt_node == NULL) {
-      bottom_node == erase_node->parent_;
-    } else if (alt_node->parent == erase_node) {
+      bottom_node = erase_node->parent_;
+    } else if (alt_node->parent_ == erase_node) {
       bottom_node = alt_node;
     } else {
       bottom_node = alt_node->parent_;
     }
 
-    // replace_node(erase_node, alt_node);
+    replace_node(erase_node, alt_node);
     delete_node(erase_node);
     --size_;
-    // replace_tree(bottom_node);
+    rebalance_tree(bottom_node);
   }
 
   size_type erase(const key_type& k) {
@@ -217,6 +242,84 @@ class avl_tree {
     std::swap(begin_, other.begin_);
     std::swap(end_, other.end_);
   }
+
+  node_pointer find_node(const key_type& k) const {
+    node_pointer node = root();
+    while (node) {
+      if (comp_(k, node->value_)) {
+        node = node->left_;
+      } else if (comp_(node->value_, k)) {
+        node = node->right_;
+      } else {
+        return node;
+      }
+    }
+    return end_;
+  }
+
+  iterator find(const key_type& k) {
+    node_pointer node = find_node(k);
+    return iterator(node);
+  }
+
+  const_iterator find(const key_type& k) const {
+    node_pointer node = find_node(k);
+    return const_iterator(node);
+  }
+
+  // 重複は許されないので0か1のみ返す
+  size_type count(const key_type& k) const {
+    return (find_node(k) != end_);
+  }
+
+  node_pointer lower_bound_node(const key_type& k) const {
+    node_pointer node = root();
+    node_pointer result = end_;
+    while (node) {
+      if (!comp_(node->value_, k)) {
+        result = node;
+        node = node->left_;
+      } else {
+        node = node->right_;
+      }
+    }
+    return result;
+  }
+
+  iterator lower_bound(const key_type& k) {
+    node_pointer node = lower_bound_node(k);
+    return iterator(node);
+  }
+
+  const_iterator lower_bound(const key_type& k) const {
+    node_pointer node = lower_bound_node(k);
+    return const_iterator(node);
+  }
+
+  node_pointer upper_bound_node(const key_type& k) const {
+    node_pointer node = root();
+    node_pointer result = end_;
+    while (node) {
+      if (comp_(k, node->value_)) {
+        result = node;
+        node = node->left_;
+      } else {
+        node = node->right_;
+      }
+    }
+    return result;
+  }
+
+  iterator upper_bound(const key_type& k) {
+    node_pointer node = upper_bound_node(k);
+    return iterator(node);
+  }
+
+  const_iterator upper_bound(const key_type& k) const {
+    node_pointer node = upper_bound_node(k);
+    return const_iterator(node);
+  }
+
 
   void clear() {
     delete_tree();
@@ -247,8 +350,7 @@ class avl_tree {
     left_node->update_height();
   }
 
-  // verifyする関数をどこかに入れる
-
+  //追加または削除した部分のbottom_node
   void rebalance_tree(node_pointer bottom_node) {
     node_pointer node = bottom_node;
     node_pointer parent_node;
@@ -270,6 +372,19 @@ class avl_tree {
         node->update_height();
       }
       node = parent_node;
+    }
+  }
+
+  //verify関数を入れる
+  void verify_avl() {
+    node_pointer node = begin_;
+    while (node != end_) {
+      difference_type bal = node->balance();
+      if (bal > 1 || bal < -1) {
+        std::cerr << "avl is not verified" << std::endl;
+        throw "wrong tree!!!";
+      }
+      node = node->next_node();
     }
   }
 

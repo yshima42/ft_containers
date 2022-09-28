@@ -281,7 +281,8 @@ class vector {
   iterator erase(iterator first, iterator last) {
     size_type erase_size = std::distance(first, last);
     pointer new_last = last_ - erase_size;
-    std::copy(last, end(), first);
+    // ポインタにした方がめちゃ早い
+    std::copy(last.base(), last_, first.base());
     destroy_range(new_last, last_);
     last_ = new_last;
     return first;

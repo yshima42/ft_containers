@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include "Timer.hpp"
+#include "color.hpp"
+
 
 
 #endif
