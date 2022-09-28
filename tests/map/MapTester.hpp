@@ -37,6 +37,9 @@ class MapTester {
     test_upper_bound();
     test_equal_range();
 
+    test_get_allocator();
+    test_key_comp();
+    test_value_comp();
 
   }
 
@@ -210,10 +213,73 @@ class MapTester {
 
   void test_equal_range() {
     std::cout << YELLOW << "< equal_range >" << RESET << std::endl;
-    _base_map.equal_range(1);
-
+    ft::map<Key, T> m(_base_map);
+    {
+        ft::pair<typename ft::map<Key, T>::iterator, typename ft::map<Key, T>::iterator> p = m.equal_range(1);
+        std::cout << p.first->first << p.second->first << std::endl;
+        std::cout << "m[" << p.first->first << "] = " << p.first->second << '\n';
+ 
+        if (p.second == m.find(2)) {
+            std::cout << "end of equal_range (p.second) is one-past p.first\n";
+        } else {
+            std::cout << "unexpected; p.second expected to be one-past p.first\n";
+        }
+    }
+ 
+    {
+        ft::pair<typename ft::map<Key, T>::iterator, typename ft::map<Key, T>::iterator> pp = m.equal_range(-1);
+        if (pp.first == m.begin()) {
+            std::cout << "pp.first is iterator to first not-less than -1\n";
+        } else {
+            std::cout << "unexpected pp.first\n";
+        }
+ 
+        if (pp.second == m.begin()) {
+            std::cout << "pp.second is iterator to first element greater-than -1\n";
+        } else {
+            std::cout << "unexpected pp.second\n";
+        }
+    }
+ 
+    {
+        ft::pair<typename ft::map<Key, T>::iterator, typename ft::map<Key, T>::iterator> ppp = m.equal_range(3);
+        if (ppp.first == m.end()) {
+            std::cout << "ppp.first is iterator to first not-less than 3\n";
+        } else {
+            std::cout << "unexpected ppp.first\n";
+        }
+ 
+        if (ppp.second == m.end()) {
+            std::cout << "ppp.second is iterator to first element greater-than 3\n";
+        } else {
+            std::cout << "unexpected ppp.second\n";
+        }
+    }
   }
 
+    void test_get_allocator() {
+    // 後ほど自分で作ったallocatorテストを追加する
+    std::cout << YELLOW << "< get_allocator >" << RESET << std::endl;
+    std::cout << _base_map.get_allocator().max_size() << std::endl;
+  }
+
+  void test_key_comp() {
+    std::cout << YELLOW << "< key_comp >" << RESET << std::endl;
+    ft::map<Key, T> m;
+    typename ft::map<Key, T>::key_compare comp = m.key_comp();
+    std::cout << std::boolalpha << comp(_test_pairs[0].first, _test_pairs[1].first) << std::endl
+    << comp(_test_pairs[1].first, _test_pairs[1].first) << std::endl
+    << comp(_test_pairs[1].first, _test_pairs[0].first) << std::endl;
+  }
+
+  void test_value_comp() {
+    std::cout << YELLOW << "< value_comp >" << RESET << std::endl;
+    ft::map<Key, T> m;
+    typename ft::map<Key, T>::value_compare comp = m.value_comp();
+    std::cout << std::boolalpha << comp(_test_pairs[0], _test_pairs[1]) << std::endl
+    << comp(_test_pairs[1], _test_pairs[1]) << std::endl
+    << comp(_test_pairs[1], _test_pairs[0]) << std::endl;
+  }
  
 
 };

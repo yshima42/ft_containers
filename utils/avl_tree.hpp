@@ -320,6 +320,32 @@ class avl_tree {
     return const_iterator(node);
   }
 
+  pair<const_iterator, const_iterator> equal_range(const key_type& k) const {
+    pair<node_pointer, node_pointer> pair = equal_range_node(k);
+    return ft::make_pair(const_iterator(pair.first), const_iterator(pair.second));
+  }
+
+  pair<iterator, iterator> equal_range(const key_type &k) {
+    pair<node_pointer, node_pointer> pair = equal_range_node(k);
+    return ft::make_pair(iterator(pair.first), iterator(pair.second));
+  }
+
+
+  pair<node_pointer, node_pointer> equal_range_node(const key_type &k) const {
+    node_pointer upper = end_;
+    node_pointer lower = root();
+    while (lower) {
+      if (comp_(k, lower->value_)) {
+        upper = lower;
+        lower = lower->left_;
+      } else if (comp_(lower->value_, k)) {
+        lower = lower->right_;
+      } else {
+        return ft::make_pair(lower, lower->right_ ? lower->right_->min_node() : upper);
+      }
+    }
+    return ft::make_pair(upper, upper);
+  }
 
   void clear() {
     delete_tree();
