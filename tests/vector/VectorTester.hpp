@@ -27,6 +27,7 @@ class VectorTester {
     test_swap();
     test_get_allocator();
     test_small_funcs();
+    test_relational_operator();
   }
 
  private:
@@ -171,6 +172,13 @@ class VectorTester {
     ft::vector<T> vec(_base_vec);
     vec.insert((vec.begin() + 1), vec.at(4));
     print_vec(vec, "vec.insert((vec.begin() + 1), vec.at(4))");
+
+    vec.insert(vec.begin(), 5, vec.back());
+    print_vec(vec, "vec.insert(vec.begin(), 5, vec.back())");
+
+    vec.insert(vec.begin() + 3, vec.begin() + 1, vec.end() - 1);
+    print_vec(vec,
+              "vec.insert(vec.begin() + 3, vec.begin() + 1, vec.end() - 1)");
   }
 
   void test_iterator() {
@@ -203,17 +211,19 @@ class VectorTester {
 
     typename ft::vector<T>::iterator first = _base_vec.begin();
     typename ft::vector<T>::iterator second = _base_vec.begin() + 1;
-     std::cout << std::boolalpha
-                      << "first  < first  : " << (first < first) << std::endl
-                      << "first  < second : " << (first < second) << std::endl
-                      << "first  > first  : " << (first > first) << std::endl
-                      << "second > first  : " << (second > first) << std::endl
-                      << "first <= first  : " << (first <= first) << std::endl
-                      << "first <= second : " << (first <= second) << std::endl
-                      << "second<= first  : " << (second <= first) << std::endl
-                      << "first >= first  : " << (first >= first) << std::endl
-                      << "first >= second : " << (first >= second) << std::endl
-                      << "second>= first  : " << (second >= first) << std::endl;
+    std::cout << std::boolalpha << "first  < first  : " << (first < first)
+              << std::endl
+              << "first  < second : " << (first < second) << std::endl
+              << "first  > first  : " << (first > first) << std::endl
+              << "second > first  : " << (second > first) << std::endl
+              << "first <= first  : " << (first <= first) << std::endl
+              << "first <= second : " << (first <= second) << std::endl
+              << "second<= first  : " << (second <= first) << std::endl
+              << "first >= first  : " << (first >= first) << std::endl
+              << "first >= second : " << (first >= second) << std::endl
+              << "second>= first  : " << (second >= first) << std::endl;
+
+    std::cout << second[2] << std::endl;
   }
 
   void test_erase() {
@@ -246,7 +256,6 @@ class VectorTester {
   }
 
   void test_get_allocator() {
-    // 後ほど自分で作ったallocatorテストを追加する
     std::cout << YELLOW << "< get_allocator >" << RESET << std::endl;
     std::cout << _base_vec.get_allocator().max_size() << std::endl << std::endl;
   }
@@ -258,6 +267,85 @@ class VectorTester {
     std::cout << *(_base_vec.data()) << std::endl;
 
     std::cout << _base_vec.max_size() << std::endl;
+  }
+
+  //nafuka11さんからテスト引用
+  void test_relational_operator() {
+    std::cout << YELLOW << "< relational operator >" << RESET << std::endl;
+    ft::vector<T> empty1;
+    ft::vector<T> empty2;
+    ft::vector<T> five1(5, _base_vec.front());
+    ft::vector<T> five2(5, _base_vec.front());
+    ft::vector<T> front_diff(5, _base_vec.front());
+    ft::vector<T> back_diff(5, _base_vec.front());
+    ft::vector<T> six(6, _base_vec.front());
+    front_diff[0] = _base_vec.back();
+    back_diff[back_diff.size() - 1] = _base_vec.back();
+
+    std::cout << std::boolalpha << "empty == empty     : " << (empty1 == empty2)
+              << std::endl
+              << "empty == five      : " << (empty1 == five1) << std::endl
+              << "five  == five      : " << (five1 == five2) << std::endl
+              << "five  == frontDiff : " << (five1 == front_diff) << std::endl
+              << "five  == backDiff  : " << (five2 == back_diff) << std::endl;
+    std::cout << std::boolalpha << "empty != empty     : " << (empty1 != empty2)
+              << std::endl
+              << "empty != five      : " << (empty1 != five1) << std::endl
+              << "five  != five      : " << (five1 != five2) << std::endl
+              << "five  != frontDiff : " << (five1 != front_diff) << std::endl
+              << "five  != backDiff  : " << (five2 != back_diff) << std::endl;
+    std::cout << std::boolalpha
+              << "empty    <  empty     : " << (empty1 < empty2) << std::endl
+              << "empty    <  five      : " << (empty1 < five1) << std::endl
+              << "five     <  empty     : " << (five1 < empty1) << std::endl
+              << "five     <  five      : " << (five1 < five2) << std::endl
+              << "six      <  five      : " << (six < five1) << std::endl
+              << "five     <  six       : " << (five1 < six) << std::endl
+              << "five     <  frontDiff : " << (five1 < front_diff) << std::endl
+              << "frontDiff<  five      : " << (front_diff < five1) << std::endl
+              << "five     <  backDiff  : " << (five2 < back_diff) << std::endl
+              << "backDiff <  five      : " << (back_diff < back_diff)
+              << std::endl;
+    std::cout << std::boolalpha
+              << "empty    <= empty     : " << (empty1 <= empty2) << std::endl
+              << "empty    <= five      : " << (empty1 <= five1) << std::endl
+              << "five     <= empty     : " << (five1 <= empty1) << std::endl
+              << "five     <= five      : " << (five1 <= five2) << std::endl
+              << "six      <= five      : " << (six <= five1) << std::endl
+              << "five     <= six       : " << (five1 <= six) << std::endl
+              << "five     <= frontDiff : " << (five1 <= front_diff)
+              << std::endl
+              << "frontDiff<= five      : " << (front_diff <= five1)
+              << std::endl
+              << "five     <= backDiff  : " << (five2 <= back_diff) << std::endl
+              << "backDiff <= five      : " << (back_diff <= back_diff)
+              << std::endl;
+    std::cout << std::boolalpha
+              << "empty    >  empty     : " << (empty1 > empty2) << std::endl
+              << "empty    >  five      : " << (empty1 > five1) << std::endl
+              << "five     >  empty     : " << (five1 > empty1) << std::endl
+              << "five     >  five      : " << (five1 > five2) << std::endl
+              << "six      >  five      : " << (six > five1) << std::endl
+              << "five     >  six       : " << (five1 > six) << std::endl
+              << "five     >  frontDiff : " << (five1 > front_diff) << std::endl
+              << "frontDiff>  five      : " << (front_diff > five1) << std::endl
+              << "five     >  backDiff  : " << (five2 > back_diff) << std::endl
+              << "backDiff >  five      : " << (back_diff > back_diff)
+              << std::endl;
+    std::cout << std::boolalpha
+              << "empty    >= empty     : " << (empty1 >= empty2) << std::endl
+              << "empty    >= five      : " << (empty1 >= five1) << std::endl
+              << "five     >= empty     : " << (five1 >= empty1) << std::endl
+              << "five     >= five      : " << (five1 >= five2) << std::endl
+              << "six      >= five      : " << (six >= five1) << std::endl
+              << "five     >= six       : " << (five1 >= six) << std::endl
+              << "five     >= frontDiff : " << (five1 >= front_diff)
+              << std::endl
+              << "frontDiff>= five      : " << (front_diff >= five1)
+              << std::endl
+              << "five     >= backDiff  : " << (five2 >= back_diff) << std::endl
+              << "backDiff >= five      : " << (back_diff >= back_diff)
+              << std::endl;
   }
 };
 
