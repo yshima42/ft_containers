@@ -56,6 +56,7 @@ class avl_tree {
   ~avl_tree() {
     // 最後消す
     verify_avl();
+
     delete_tree();
     delete_node(end_);
   }
@@ -158,10 +159,33 @@ class avl_tree {
     return ft::make_pair(iterator(new_node), true);
   }
 
-  //20倍で実行できるか確認してできなければ実装する
-  iterator insert(iterator position, const value_type &value) {
-    (void)position;
-    return insert(value).first;
+  // 20倍で実行できるか確認してできなければ実装する
+  iterator insert(iterator position, const value_type& val) {
+    node_pointer pos_node = position.base();
+    node_pointer parent_node;
+
+    //hint(position)の一つ前にinsertする時
+    if (pos_node == end_ || comp_(val, pos_node->value_)) {
+      node_pointer prev_node = (pos_node == begin_) ? NULL : pos_node->prev_node();
+      if (pos_node == begin_ || comp_(prev_node->value_, val)) {
+        parent_node = (pos_node->left_ == NULL) ? pos_node : prev_node;
+      } else {
+        return (insert(val).first);
+      }
+    // 一つ後にinsertする時
+    } else if (comp_(pos_node->value_, val)) {
+      node_pointer next_node = pos_node->next_node();
+      if (next_node == end_ || comp_(val, next_node->value_)) {
+        parent_node = (pos_node->right_ == NULL) ? pos_node : next_node;
+      } else {
+        return (insert(val).first);
+      }
+    } else {
+      return (iterator(pos_node));
+    }
+    node_pointer new_node = create_node_at(val, parent_node);
+    rebalance_tree(new_node);
+    return (iterator(new_node));
   }
 
   template <class InputIterator>
@@ -180,7 +204,8 @@ class avl_tree {
       } else if (alt_node->left_) {
         alt_node->left_->connect_parent(alt_node->parent_, alt_node->is_left());
       } else {
-        alt_node->right_->connect_parent(alt_node->parent_, alt_node->is_left());
+        alt_node->right_->connect_parent(alt_node->parent_,
+                                         alt_node->is_left());
       }
       alt_node->connect_parent(erase_node->parent_, erase_node->is_left());
       alt_node->connect_left(erase_node->left_);
@@ -195,7 +220,7 @@ class avl_tree {
       begin_ = erase_node->next_node();
     }
 
-  // eraseするnodeと入れ替えるnodeをセット
+    // eraseするnodeと入れ替えるnodeをセット
     node_pointer alt_node;
     if (erase_node->left_ == NULL && erase_node->right_ == NULL) {
       alt_node = NULL;
@@ -228,9 +253,9 @@ class avl_tree {
     erase(position);
     return 1;
   }
-  
+
   void erase(iterator first, iterator last) {
-    while(first != last) {
+    while (first != last) {
       erase(first++);
     }
   }
@@ -268,9 +293,7 @@ class avl_tree {
   }
 
   // 重複は許されないので0か1のみ返す
-  size_type count(const key_type& k) const {
-    return (find_node(k) != end_);
-  }
+  size_type count(const key_type& k) const { return (find_node(k) != end_); }
 
   node_pointer lower_bound_node(const key_type& k) const {
     node_pointer node = root();
@@ -322,16 +345,16 @@ class avl_tree {
 
   pair<const_iterator, const_iterator> equal_range(const key_type& k) const {
     pair<node_pointer, node_pointer> pair = equal_range_node(k);
-    return ft::make_pair(const_iterator(pair.first), const_iterator(pair.second));
+    return ft::make_pair(const_iterator(pair.first),
+                         const_iterator(pair.second));
   }
 
-  pair<iterator, iterator> equal_range(const key_type &k) {
+  pair<iterator, iterator> equal_range(const key_type& k) {
     pair<node_pointer, node_pointer> pair = equal_range_node(k);
     return ft::make_pair(iterator(pair.first), iterator(pair.second));
   }
 
-
-  pair<node_pointer, node_pointer> equal_range_node(const key_type &k) const {
+  pair<node_pointer, node_pointer> equal_range_node(const key_type& k) const {
     node_pointer upper = end_;
     node_pointer lower = root();
     while (lower) {
@@ -341,7 +364,8 @@ class avl_tree {
       } else if (comp_(lower->value_, k)) {
         lower = lower->right_;
       } else {
-        return ft::make_pair(lower, lower->right_ ? lower->right_->min_node() : upper);
+        return ft::make_pair(lower,
+                             lower->right_ ? lower->right_->min_node() : upper);
       }
     }
     return ft::make_pair(upper, upper);
@@ -401,7 +425,7 @@ class avl_tree {
     }
   }
 
-  //verify関数を入れる
+  // verify関数を入れる
   void verify_avl() {
     node_pointer node = begin_;
     while (node != end_) {
@@ -413,7 +437,6 @@ class avl_tree {
       node = node->next_node();
     }
   }
-
 };
 
 }  // namespace ft

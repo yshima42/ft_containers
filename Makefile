@@ -6,14 +6,18 @@ OBJDIR_STL	:=	./objs_stl
 OBJDIR_FT	:=	./objs_ft
 
 OBJS_STL		:=	$(addprefix $(OBJDIR_STL)/, $(SRCS:.cpp=.o))
+DEPS_STL	:= $(addprefix $(OBJDIR_STL)/, $(SRCS:.o=.d))
 OBJS_FT		:=	$(addprefix $(OBJDIR_FT)/, $(SRCS:.cpp=.o))
+DEPS_FT		:= $(addprefix $(OBJDIR_FT)/, $(SRCS:.o=.d))
 
 INC				:=	-I./containers -I./tests
 
 CXX				:=	c++
-CXXFLAGS	:=	-Wall -Wextra -Werror -std=c++98 -Wshadow -pedantic $(INC)
+CXXFLAGS	:=	-Wall -Wextra -Werror -std=c++98 -Wshadow -pedantic -MMD -MP $(INC)
 
 all			:	$(NAME_STL) $(NAME_FT)
+
+-include $(DEPS_STL) $(DEPS_FT)
 
 $(NAME_STL)	:	$(OBJS_STL)
 	$(CXX) $(CXXFLAGS) -o $(NAME_STL) $(OBJS_STL)

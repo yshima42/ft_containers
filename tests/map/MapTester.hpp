@@ -162,7 +162,7 @@ class MapTester {
     m2.insert(_test_pairs[i]); }
     print_map(m1);
     print_map(m2);
-    ft::swap(m1, m2);
+    std::swap(m1, m2);
     print_map(m1);
     print_map(m2);
   }
@@ -258,7 +258,6 @@ class MapTester {
   }
 
     void test_get_allocator() {
-    // 後ほど自分で作ったallocatorテストを追加する
     std::cout << YELLOW << "< get_allocator >" << RESET << std::endl;
     std::cout << _base_map.get_allocator().max_size() << std::endl;
   }

@@ -20,6 +20,7 @@ namespace ft = std;
 
 #include "utils/Timer.hpp"
 #include "utils/color.hpp"
+#include "utils/Fixed.hpp"
 #include "utils/utils.hpp"
 
 #endif

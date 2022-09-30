@@ -20,6 +20,13 @@ void test_stack() {
   base_str.push("str5");
   StackTester<std::string> v_str(base_str);
   v_str.test_all();
+
+  ft::stack<Fixed> base_fixed;
+  for (Fixed i = 1.1F; i < 2; i++) {
+    base_fixed.push(i);
+  }
+  StackTester<Fixed> v_fixed(base_fixed);
+  v_fixed.test_all();
 }
 
 void benchmark_stack() {

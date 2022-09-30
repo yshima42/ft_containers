@@ -73,11 +73,10 @@ void test_node() {
   print("[OK]");
 }
 
-template<class T1, class T2> 
+template <class T1, class T2>
 void print_tree(ft::avl_tree<T1, T2> tree) {
   typename ft::avl_tree<T1, T2>::iterator it = tree.begin();
-  for (; it != tree.end(); it++)
-    it.base()->print_node();
+  for (; it != tree.end(); it++) it.base()->print_node();
 }
 
 void test_avl() {
@@ -95,7 +94,6 @@ void test_avl() {
   assert(tree2.size() == 5);
 
   print_tree(tree);
-
 }
 
 // int main() {

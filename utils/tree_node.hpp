@@ -144,7 +144,8 @@ class tree_node {
   void print_node() {
     std::cout << "  " << value_ << "   " << std::endl;
     std::cout << " /  \\ " << std::endl;
-    std::cout << (left_ ? left_->value_ : NULL) << "    " << (right_ ? right_->value_ : NULL) << std::endl;
+    std::cout << (left_ ? left_->value_ : NULL) << "    "
+              << (right_ ? right_->value_ : NULL) << std::endl;
   }
 };
 

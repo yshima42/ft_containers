@@ -14,6 +14,8 @@ void test_pair() {
 
 void test_map() {
   test_pair();
+
+  //vectorにした方がよい
   ft::pair<int, std::string> pair_elems[] = {
       ft::make_pair(-1, "A"), ft::make_pair(0, "B"), ft::make_pair(1, "C"),
       ft::make_pair(2, "D"),  ft::make_pair(3, "E"),
@@ -26,12 +28,11 @@ void test_map() {
   };
 
   ft::map<int, std::string> base_map;
-  for (size_t i = 0; i < 5; i++) {
+  for (size_t i = 0; i < sizeof(pair_elems) / sizeof(pair_elems[0]); i++) {
     base_map.insert(pair_elems[i]);
   }
 
   MapTester<int, std::string> m(base_map, test_pairs);
-  // std::cout << base_map.at(0);
   m.test_all();
 
   // ft::map<std::string, std::string> base_str;

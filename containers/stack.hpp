@@ -11,74 +11,54 @@ class stack {
   typedef T value_type;
   typedef Container container_type;
   typedef size_t size_type;
-  typedef typename Container::reference reference;
-  typedef typename Container::const_reference const_reference;
 
-  explicit stack(const container_type& ctnr = container_type()) : c(ctnr) {}
+  explicit stack(const container_type &ctnr = container_type()) : c(ctnr) {}
 
-  stack(const stack& other) : c(other.c) {}
+  stack(const stack &other) : c(other.c) {}
 
   ~stack() {}
-
-  // これなくてもいける??
-  stack& operator=(const stack& other) {
-    if (this == &other) return *this;
-    c = other.c;
-    return *this;
-  }
 
   bool empty() const { return c.empty(); }
 
   size_type size() const { return c.size(); }
 
-  value_type& top() { return c.back(); }
+  value_type &top() { return c.back(); }
 
-  const value_type& top() const { return c.back(); }
+  const value_type &top() const { return c.back(); }
 
-  void push(const value_type& val) { c.push_back(val); }
+  void push(const value_type &val) { c.push_back(val); }
 
   void pop() { return c.pop_back(); }
+
+  // Non-member functions
+  friend bool operator==(const stack<T, Container> &lhs,
+                         const stack<T, Container> &rhs) {
+    return lhs.c == rhs.c;
+  }
+  friend bool operator!=(const stack<T, Container> &lhs,
+                         const stack<T, Container> &rhs) {
+    return !(lhs.c == rhs.c);
+  }
+  friend bool operator<(const stack<T, Container> &lhs,
+                        const stack<T, Container> &rhs) {
+    return lhs.c < rhs.c;
+  }
+  friend bool operator<=(const stack<T, Container> &lhs,
+                         const stack<T, Container> &rhs) {
+    return !(rhs.c < lhs.c);
+  }
+  friend bool operator>(const stack<T, Container> &lhs,
+                        const stack<T, Container> &rhs) {
+    return rhs.c < lhs.c;
+  }
+  friend bool operator>=(const stack<T, Container> &lhs,
+                         const stack<T, Container> &rhs) {
+    return !(lhs.c < rhs.c);
+  }
 
  protected:
   Container c;
 };
-
-// Non-member function
-template <class T, class Container>
-bool operator==(const ft::stack<T, Container>& lhs,
-                const ft::stack<T, Container>& rhs) {
-  return (lhs.c == rhs.c);
-}
-
-template <class T, class Container>
-bool operator!=(const ft::stack<T, Container>& lhs,
-                const ft::stack<T, Container>& rhs) {
-  return (lhs.c != rhs.c);
-}
-
-template <class T, class Container>
-bool operator<(const ft::stack<T, Container>& lhs,
-               const ft::stack<T, Container>& rhs) {
-  return (lhs.c < rhs.c);
-}
-
-template <class T, class Container>
-bool operator<=(const ft::stack<T, Container>& lhs,
-                const ft::stack<T, Container>& rhs) {
-  return (lhs.c <= rhs.c);
-}
-
-template <class T, class Container>
-bool operator>(const ft::stack<T, Container>& lhs,
-               const ft::stack<T, Container>& rhs) {
-  return (lhs.c > rhs.c);
-}
-
-template <class T, class Container>
-bool operator>=(const ft::stack<T, Container>& lhs,
-                const ft::stack<T, Container>& rhs) {
-  return (lhs.c >= rhs.c);
-}
 
 }  // namespace ft
 
