@@ -302,10 +302,10 @@ class vector {
   }
 
   // iterator access
-  iterator begin() { return first_; }
-  iterator end() { return last_; }
-  iterator begin() const { return first_; }
-  iterator end() const { return last_; }
+  iterator begin() { return iterator(first_); }
+  iterator end() { return iterator(last_); }
+  const_iterator begin() const { return const_iterator(first_); }
+  const_iterator end() const { return const_iterator(last_); }
 
   // この4つ意味わからないので後ほど検討->reverse_iteratorのconstructorを使っている
   reverse_iterator rbegin() { return reverse_iterator(last_); }
@@ -399,11 +399,6 @@ class vector {
       alloc_.destroy(p);
     }
   }
-  // 最初使っていたが使うのやめた 一応コメントアウトで残しとく
-  // void destroy_until(reverse_iterator rend) {
-  //   for (reverse_iterator riter = rbegin(); riter != rend; ++riter, --last_)
-  //     destroy(&*riter);
-  // }
 };
 
 template <class T, class Alloc>

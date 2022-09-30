@@ -96,7 +96,7 @@ bool operator<(const ft::random_access_iterator<Iterator1>& lhs,
 template <class Iterator1, class Iterator2>
 bool operator<=(const ft::random_access_iterator<Iterator1>& lhs,
                 const ft::random_access_iterator<Iterator2>& rhs) {
-  return rhs < lhs;
+  return !(rhs < lhs);
 }
 template <class Iterator1, class Iterator2>
 bool operator>(const ft::random_access_iterator<Iterator1>& lhs,
@@ -106,7 +106,7 @@ bool operator>(const ft::random_access_iterator<Iterator1>& lhs,
 template <class Iterator1, class Iterator2>
 bool operator>=(const ft::random_access_iterator<Iterator1>& lhs,
                 const ft::random_access_iterator<Iterator2>& rhs) {
-  return lhs < rhs;
+  return !(lhs < rhs);
 }
 
 template <class Iter>

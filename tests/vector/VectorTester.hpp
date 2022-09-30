@@ -108,20 +108,6 @@ class VectorTester {
     ft::vector<T> it_assign;
     it_assign.assign(v.begin(), v.end());
     print_vec(it_assign, "it_assign.assign(v.begin(), v.end())");
-
-    //後ほど対応
-    //  std::stringstream ss;
-    // ss << 1 << std::endl << 2 << std::endl << 3;
-
-    // std::istream_iterator< int > beg(ss);
-    // std::istream_iterator< int > last;
-
-    // ft::vector< int > v1;
-    // v1.assign(beg, last);
-    // std::cout << "size: " << v1.size() << std::endl;
-    // for (ft::vector< int >::iterator it = v1.begin(); it != v1.end(); it++) {
-    //   std::cout << *it << std::endl;
-    // }
   }
 
   void test_at() {
@@ -190,9 +176,44 @@ class VectorTester {
   void test_iterator() {
     std::cout << YELLOW << "< iterator >" << RESET << std::endl;
     std::cout << *(_base_vec.begin()) << std::endl;
+    std::cout << *(_base_vec.begin() + 1) << std::endl;
+    std::cout << *(_base_vec.begin() + 2) << std::endl;
     std::cout << *(_base_vec.end() - 1) << std::endl;
+    std::cout << *(_base_vec.end() - 2) << std::endl;
     std::cout << *(_base_vec.rbegin()) << std::endl;
-    std::cout << *(_base_vec.rend() - 1) << std::endl << std::endl;
+    std::cout << *(_base_vec.rbegin() + 1) << std::endl;
+    std::cout << *(_base_vec.rbegin() + 2) << std::endl;
+    std::cout << *(_base_vec.rend() - 1) << std::endl;
+    std::cout << *(_base_vec.rend() - 2) << std::endl;
+
+    typename ft::vector<T>::iterator it = _base_vec.begin();
+    while (it < _base_vec.end()) {
+      std::cout << *(it++) << std::endl;
+    }
+    it--;
+    while (it > _base_vec.begin()) {
+      std::cout << *(it--) << std::endl;
+    }
+    while (it < _base_vec.end() - 1) {
+      std::cout << *(++it) << std::endl;
+    }
+    while (it > _base_vec.begin()) {
+      std::cout << *(--it) << std::endl;
+    }
+
+    typename ft::vector<T>::iterator first = _base_vec.begin();
+    typename ft::vector<T>::iterator second = _base_vec.begin() + 1;
+     std::cout << std::boolalpha
+                      << "first  < first  : " << (first < first) << std::endl
+                      << "first  < second : " << (first < second) << std::endl
+                      << "first  > first  : " << (first > first) << std::endl
+                      << "second > first  : " << (second > first) << std::endl
+                      << "first <= first  : " << (first <= first) << std::endl
+                      << "first <= second : " << (first <= second) << std::endl
+                      << "second<= first  : " << (second <= first) << std::endl
+                      << "first >= first  : " << (first >= first) << std::endl
+                      << "first >= second : " << (first >= second) << std::endl
+                      << "second>= first  : " << (second >= first) << std::endl;
   }
 
   void test_erase() {
