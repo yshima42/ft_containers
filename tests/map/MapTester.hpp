@@ -11,20 +11,19 @@
 template <class Key, class T>
 class MapTester {
  public:
-  MapTester(ft::map<Key, T> &m, ft::pair<Key, T> test_pairs[]) : _base_map(m), _base_const_map(m), _test_pairs(test_pairs){
-  
-  }
+  MapTester(ft::map<Key, T> &m, std::vector<ft::pair<Key, T> > &test_pairs)
+      : _base_map(m), _base_const_map(m), _base_pairs(test_pairs) {}
   ~MapTester() {}
   void test_all() {
     test_constructor();
     test_assignment_operator();
 
-    //element access
+    // element access
     test_subscript_operator();
 
     // capacity
     test_max_size();
-  
+
     test_insert();
     test_clear();
     test_erase();
@@ -40,13 +39,12 @@ class MapTester {
     test_get_allocator();
     test_key_comp();
     test_value_comp();
-
   }
 
  private:
   ft::map<Key, T> _base_map;
   ft::map<Key, T> const _base_const_map;
-  ft::pair<Key, T> *_test_pairs;
+  std::vector<ft::pair<Key, T> > _base_pairs;
 
   void print_pair(ft::pair<Key, T> p) {
     std::cout << "(" << p.first << ", " << p.second << ")";
@@ -64,7 +62,7 @@ class MapTester {
         std::cout << ", ";
       }
     }
-    
+
     std::cout << std::endl;
   }
 
@@ -115,23 +113,24 @@ class MapTester {
   void test_insert() {
     std::cout << YELLOW << "< insert >" << RESET << std::endl;
     ft::map<Key, T> m;
-    for (size_t i = 0; i < 5; i++) {
-    m.insert(_test_pairs[i]); }
+    std::cout << _base_pairs.size() << std::endl;
+    for (size_t i = 0; i < _base_pairs.size(); i++) {
+      m.insert(_base_pairs[i]);
+    }
     print_map(m);
 
     ft::map<Key, T> m1(_base_map);
     typename ft::map<Key, T>::iterator it = ++_base_map.begin();
-    m1.insert(it, _test_pairs[0]); 
-    m1.insert(it, _test_pairs[1]); 
-    m1.insert(it, _test_pairs[2]); 
-    m1.insert(it, _test_pairs[3]); 
-    m1.insert(it, _test_pairs[4]); 
+    m1.insert(it, _base_pairs[0]);
+    m1.insert(it, _base_pairs[1]);
+    m1.insert(it, _base_pairs[2]);
+    m1.insert(it, _base_pairs[3]);
+    m1.insert(it, _base_pairs[4]);
     print_map(m1);
 
     ft::map<Key, T> m2(_base_map);
     m2.insert(++m.begin(), --m.end());
     print_map(m2);
-
   }
 
   void test_clear() {
@@ -151,15 +150,16 @@ class MapTester {
     m.erase(++m.begin());
     print_map(m);
     //これはセグフォ(stlも)
-    //m.erase(m.end());
+    // m.erase(m.end());
   }
 
   void test_swap() {
     std::cout << YELLOW << "< swap >" << RESET << std::endl;
     ft::map<Key, T> m1(_base_map);
     ft::map<Key, T> m2;
-    for (size_t i = 0; i < 5; i++) {
-    m2.insert(_test_pairs[i]); }
+    for (size_t i = 0; i < _base_pairs.size(); i++) {
+      m2.insert(_base_pairs[i]);
+    }
     print_map(m1);
     print_map(m2);
     std::swap(m1, m2);
@@ -170,94 +170,104 @@ class MapTester {
   void test_find() {
     std::cout << YELLOW << "< find >" << RESET << std::endl;
     ft::map<Key, T> m;
-    for (size_t i = 0; i < 5; i++) {
-    m.insert(_test_pairs[i]); }
-    std::cout << m.find(_test_pairs[2].first)->second << std::endl;
+    for (size_t i = 0; i < _base_pairs.size(); i++) {
+      m.insert(_base_pairs[i]);
+    }
+    std::cout << m.find(_base_pairs[2].first)->second << std::endl;
   }
 
   void test_count() {
     std::cout << YELLOW << "< count >" << RESET << std::endl;
-   ft::map<Key, T> m;
-    for (size_t i = 0; i < 5; i++) {
-    m.insert(_test_pairs[i]); }
-    std::cout << m.count(_test_pairs[2].first) << std::endl; 
+    ft::map<Key, T> m;
+    for (size_t i = 0; i < _base_pairs.size(); i++) {
+      m.insert(_base_pairs[i]);
+    }
+    std::cout << m.count(_base_pairs[2].first) << std::endl;
     // 適当なkey
-    std::cout << m.count(9999) << std::endl; 
+    std::cout << m.count(9999) << std::endl;
   }
 
   void test_lower_bound() {
     std::cout << YELLOW << "< lower_bound >" << RESET << std::endl;
     ft::map<Key, T> m(_base_map);
-    typename ft::map<Key, T>::iterator it = m.lower_bound(_test_pairs[1].first);
+    typename ft::map<Key, T>::iterator it = m.lower_bound(_base_pairs[1].first);
     std::cout << it->second << std::endl;
 
-      ft::map<Key, T> m1(_base_map);
-    for (size_t i = 0; i < 5; i++) {
-    m1.insert(_test_pairs[i]); }
+    ft::map<Key, T> m1(_base_map);
+    for (size_t i = 0; i < _base_pairs.size(); i++) {
+      m1.insert(_base_pairs[i]);
+    }
 
-    std::cout << m1.lower_bound(_test_pairs[1].first)->second << std::endl;
+    std::cout << m1.lower_bound(_base_pairs[1].first)->second << std::endl;
   }
 
-   void test_upper_bound() {
+  void test_upper_bound() {
     std::cout << YELLOW << "< upper_bound >" << RESET << std::endl;
     ft::map<Key, T> m(_base_map);
-    typename ft::map<Key, T>::iterator it = m.upper_bound(_test_pairs[1].first);
+    typename ft::map<Key, T>::iterator it = m.upper_bound(_base_pairs[1].first);
     std::cout << it->second << std::endl;
-    
-     ft::map<Key, T> m1(_base_map);
-    for (size_t i = 0; i < 5; i++) {
-    m1.insert(_test_pairs[i]); }
-    
-    std::cout << m1.lower_bound(_test_pairs[1].first)->second << std::endl;
+
+    ft::map<Key, T> m1(_base_map);
+    for (size_t i = 0; i < _base_pairs.size(); i++) {
+      m1.insert(_base_pairs[i]);
+    }
+
+    std::cout << m1.lower_bound(_base_pairs[1].first)->second << std::endl;
   }
 
   void test_equal_range() {
     std::cout << YELLOW << "< equal_range >" << RESET << std::endl;
     ft::map<Key, T> m(_base_map);
     {
-        ft::pair<typename ft::map<Key, T>::iterator, typename ft::map<Key, T>::iterator> p = m.equal_range(1);
-        std::cout << p.first->first << p.second->first << std::endl;
-        std::cout << "m[" << p.first->first << "] = " << p.first->second << '\n';
- 
-        if (p.second == m.find(2)) {
-            std::cout << "end of equal_range (p.second) is one-past p.first\n";
-        } else {
-            std::cout << "unexpected; p.second expected to be one-past p.first\n";
-        }
+      ft::pair<typename ft::map<Key, T>::iterator,
+               typename ft::map<Key, T>::iterator>
+          p = m.equal_range(1);
+      std::cout << p.first->first << p.second->first << std::endl;
+      std::cout << "m[" << p.first->first << "] = " << p.first->second << '\n';
+
+      if (p.second == m.find(2)) {
+        std::cout << "end of equal_range (p.second) is one-past p.first\n";
+      } else {
+        std::cout << "unexpected; p.second expected to be one-past p.first\n";
+      }
     }
- 
+
     {
-        ft::pair<typename ft::map<Key, T>::iterator, typename ft::map<Key, T>::iterator> pp = m.equal_range(-1);
-        if (pp.first == m.begin()) {
-            std::cout << "pp.first is iterator to first not-less than -1\n";
-        } else {
-            std::cout << "unexpected pp.first\n";
-        }
- 
-        if (pp.second == m.begin()) {
-            std::cout << "pp.second is iterator to first element greater-than -1\n";
-        } else {
-            std::cout << "unexpected pp.second\n";
-        }
+      ft::pair<typename ft::map<Key, T>::iterator,
+               typename ft::map<Key, T>::iterator>
+          pp = m.equal_range(-1);
+      if (pp.first == m.begin()) {
+        std::cout << "pp.first is iterator to first not-less than -1\n";
+      } else {
+        std::cout << "unexpected pp.first\n";
+      }
+
+      if (pp.second == m.begin()) {
+        std::cout << "pp.second is iterator to first element greater-than -1\n";
+      } else {
+        std::cout << "unexpected pp.second\n";
+      }
     }
- 
+
     {
-        ft::pair<typename ft::map<Key, T>::iterator, typename ft::map<Key, T>::iterator> ppp = m.equal_range(3);
-        if (ppp.first == m.end()) {
-            std::cout << "ppp.first is iterator to first not-less than 3\n";
-        } else {
-            std::cout << "unexpected ppp.first\n";
-        }
- 
-        if (ppp.second == m.end()) {
-            std::cout << "ppp.second is iterator to first element greater-than 3\n";
-        } else {
-            std::cout << "unexpected ppp.second\n";
-        }
+      ft::pair<typename ft::map<Key, T>::iterator,
+               typename ft::map<Key, T>::iterator>
+          ppp = m.equal_range(3);
+      if (ppp.first == m.end()) {
+        std::cout << "ppp.first is iterator to first not-less than 3\n";
+      } else {
+        std::cout << "unexpected ppp.first\n";
+      }
+
+      if (ppp.second == m.end()) {
+        std::cout << "ppp.second is iterator to first element greater-than 3\n";
+      } else {
+        std::cout << "unexpected ppp.second\n";
+      }
     }
   }
 
-    void test_get_allocator() {
+  void test_get_allocator() {
     std::cout << YELLOW << "< get_allocator >" << RESET << std::endl;
     std::cout << _base_map.get_allocator().max_size() << std::endl;
   }
@@ -266,21 +276,21 @@ class MapTester {
     std::cout << YELLOW << "< key_comp >" << RESET << std::endl;
     ft::map<Key, T> m;
     typename ft::map<Key, T>::key_compare comp = m.key_comp();
-    std::cout << std::boolalpha << comp(_test_pairs[0].first, _test_pairs[1].first) << std::endl
-    << comp(_test_pairs[1].first, _test_pairs[1].first) << std::endl
-    << comp(_test_pairs[1].first, _test_pairs[0].first) << std::endl;
+    std::cout << std::boolalpha
+              << comp(_base_pairs[0].first, _base_pairs[1].first) << std::endl
+              << comp(_base_pairs[1].first, _base_pairs[1].first) << std::endl
+              << comp(_base_pairs[1].first, _base_pairs[0].first) << std::endl;
   }
 
   void test_value_comp() {
     std::cout << YELLOW << "< value_comp >" << RESET << std::endl;
     ft::map<Key, T> m;
     typename ft::map<Key, T>::value_compare comp = m.value_comp();
-    std::cout << std::boolalpha << comp(_test_pairs[0], _test_pairs[1]) << std::endl
-    << comp(_test_pairs[1], _test_pairs[1]) << std::endl
-    << comp(_test_pairs[1], _test_pairs[0]) << std::endl;
+    std::cout << std::boolalpha << comp(_base_pairs[0], _base_pairs[1])
+              << std::endl
+              << comp(_base_pairs[1], _base_pairs[1]) << std::endl
+              << comp(_base_pairs[1], _base_pairs[0]) << std::endl;
   }
- 
-
 };
 
 #endif

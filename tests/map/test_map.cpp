@@ -6,7 +6,7 @@
 #include "test.hpp"
 
 void test_pair() {
-  std::cout << "(pair test)" << std::endl;
+  std::cout << "<pair test>" << std::endl;
   ft::pair<int, std::string> p1(1, "hello");
   PairTester<int, std::string> p(p1);
   p.test_all();
@@ -15,29 +15,52 @@ void test_pair() {
 void test_map() {
   test_pair();
 
-  //vectorにした方がよい
-  ft::pair<int, std::string> pair_elems[] = {
-      ft::make_pair(-1, "A"), ft::make_pair(0, "B"), ft::make_pair(1, "C"),
-      ft::make_pair(2, "D"),  ft::make_pair(3, "E"),
-  };
+  std::vector<ft::pair<int, std::string> > pair_elems;
+  pair_elems.push_back(ft::make_pair(-1, "A"));
+  pair_elems.push_back(ft::make_pair(0, "B"));
+  pair_elems.push_back(ft::make_pair(1, "C"));
+  pair_elems.push_back(ft::make_pair(2, "D"));
+  pair_elems.push_back(ft::make_pair(3, "E"));
 
-  ft::pair<int, std::string> test_pairs[] = {
-        ft::make_pair(10, "ccccc"), ft::make_pair(-10, "aaaaa"),
-        ft::make_pair(30, "eeeee"), ft::make_pair(20, "ddddd"),
-        ft::make_pair(0, "bbbbb"),
-  };
+  std::vector<ft::pair<int, std::string> > base_pairs;
+  base_pairs.push_back(ft::make_pair(10, "ccccc"));
+  base_pairs.push_back(ft::make_pair(-10, "aaaaa"));
+  base_pairs.push_back(ft::make_pair(30, "eeeee"));
+  base_pairs.push_back(ft::make_pair(20, "ddddd"));
+  base_pairs.push_back(ft::make_pair(0, "bbbbb"));
 
   ft::map<int, std::string> base_map;
-  for (size_t i = 0; i < sizeof(pair_elems) / sizeof(pair_elems[0]); i++) {
+  for (size_t i = 0; i < pair_elems.size(); i++) {
     base_map.insert(pair_elems[i]);
   }
 
-  MapTester<int, std::string> m(base_map, test_pairs);
+  MapTester<int, std::string> m(base_map, base_pairs);
   m.test_all();
 
-  // ft::map<std::string, std::string> base_str;
-  // MapTester<std::string, std::string> v_str(base_str);
-  // v_str.test_all();
+  std::cout << GREEN << "Fixed class" << std::endl;
+
+  std::vector<ft::pair<Fixed, std::string> > pair_elems2;
+  pair_elems2.push_back(ft::make_pair(-1.2f, "A"));
+  pair_elems2.push_back(ft::make_pair(0, "B"));
+  pair_elems2.push_back(ft::make_pair(1.54f, "C"));
+  pair_elems2.push_back(ft::make_pair(2.34f, "D"));
+  pair_elems2.push_back(ft::make_pair(3.34f, "E"));
+
+  std::vector<ft::pair<Fixed, std::string> > base_pairs2;
+  base_pairs2.push_back(ft::make_pair(10.1f, "ccccc"));
+  base_pairs2.push_back(ft::make_pair(-10.2f, "aaaaa"));
+  base_pairs2.push_back(ft::make_pair(30.44f, "eeeee"));
+  base_pairs2.push_back(ft::make_pair(20.44f, "ddddd"));
+  base_pairs2.push_back(ft::make_pair(0, "bbbbb"));
+
+  ft::map<Fixed, std::string> base_map2;
+  for (size_t i = 0; i < pair_elems2.size(); i++) {
+    base_map2.insert(pair_elems2[i]);
+  }
+
+  MapTester<Fixed, std::string> m2(base_map2, base_pairs2);
+  m2.test_all();
+
 }
 
 void benchmark_map() {

@@ -23,7 +23,8 @@ class avl_tree {
 
  public:
   typedef node_type* node_pointer;
-  // ここ確認
+
+  // わかりやすいサイト(https://in-neuro.hatenablog.com/entry/2018/08/01/114441)
   typedef
       typename Allocator::template rebind<node_type>::other node_allocator_type;
 
@@ -54,9 +55,6 @@ class avl_tree {
   }
 
   ~avl_tree() {
-    // 最後消す
-    verify_avl();
-
     delete_tree();
     delete_node(end_);
   }
@@ -69,59 +67,6 @@ class avl_tree {
       insert(other.begin(), other.end());
     }
     return (*this);
-  }
-
-  node_pointer create_node() {
-    node_pointer new_node = node_alloc_.allocate(1);
-    node_alloc_.construct(new_node);
-    return new_node;
-  }
-
-  node_pointer create_node(const value_type& val) {
-    node_pointer new_node = node_alloc_.allocate(1);
-    node_alloc_.construct(new_node, node_type(val));
-    return new_node;
-  }
-
-  node_pointer create_node_at(const value_type& val, node_pointer parent_node) {
-    node_pointer new_node = create_node(val);
-
-    bool is_left = (parent_node == end_ || comp_(val, parent_node->value_));
-    new_node->connect_parent(parent_node, is_left);
-
-    if (is_left && parent_node == begin_) {
-      begin_ = new_node;
-    }
-
-    ++size_;
-
-    return new_node;
-  }
-
-  node_pointer root() const { return end_->left_; }
-
-  void delete_node(node_pointer node) {
-    node_alloc_.destroy(node);
-    node_alloc_.deallocate(node, 1);
-  }
-
-  void delete_tree() {
-    node_pointer node = root();
-    if (node == NULL) {
-      return;
-    }
-    while (node != end_) {
-      if (node->left_) {
-        node = node->left_;
-      } else if (node->right_) {
-        node = node->right_;
-      } else {
-        node_pointer parent_node = node->parent_;
-        node->disconnect_parent();
-        delete_node(node);
-        node = parent_node;
-      }
-    }
   }
 
   iterator begin() { return (iterator(begin_)); }
@@ -159,20 +104,20 @@ class avl_tree {
     return ft::make_pair(iterator(new_node), true);
   }
 
-  // 20倍で実行できるか確認してできなければ実装する
   iterator insert(iterator position, const value_type& val) {
     node_pointer pos_node = position.base();
     node_pointer parent_node;
 
-    //hint(position)の一つ前にinsertする時
+    // hint(position)の一つ前にinsertする時
     if (pos_node == end_ || comp_(val, pos_node->value_)) {
-      node_pointer prev_node = (pos_node == begin_) ? NULL : pos_node->prev_node();
+      node_pointer prev_node =
+          (pos_node == begin_) ? NULL : pos_node->prev_node();
       if (pos_node == begin_ || comp_(prev_node->value_, val)) {
         parent_node = (pos_node->left_ == NULL) ? pos_node : prev_node;
       } else {
         return (insert(val).first);
       }
-    // 一つ後にinsertする時
+      // 一つ後にinsertする時
     } else if (comp_(pos_node->value_, val)) {
       node_pointer next_node = pos_node->next_node();
       if (next_node == end_ || comp_(val, next_node->value_)) {
@@ -192,24 +137,6 @@ class avl_tree {
   void insert(InputIterator first, InputIterator last) {
     for (InputIterator p = first; p != last; ++p) {
       insert(*p);
-    }
-  }
-
-  void replace_node(node_pointer erase_node, node_pointer alt_node) {
-    if (alt_node == NULL) {
-      erase_node->disconnect_parent();
-    } else {
-      if (alt_node->left_ == NULL && alt_node->right_ == NULL) {
-        alt_node->disconnect_parent();
-      } else if (alt_node->left_) {
-        alt_node->left_->connect_parent(alt_node->parent_, alt_node->is_left());
-      } else {
-        alt_node->right_->connect_parent(alt_node->parent_,
-                                         alt_node->is_left());
-      }
-      alt_node->connect_parent(erase_node->parent_, erase_node->is_left());
-      alt_node->connect_left(erase_node->left_);
-      alt_node->connect_right(erase_node->right_);
     }
   }
 
@@ -268,20 +195,6 @@ class avl_tree {
     std::swap(end_, other.end_);
   }
 
-  node_pointer find_node(const key_type& k) const {
-    node_pointer node = root();
-    while (node) {
-      if (comp_(k, node->value_)) {
-        node = node->left_;
-      } else if (comp_(node->value_, k)) {
-        node = node->right_;
-      } else {
-        return node;
-      }
-    }
-    return end_;
-  }
-
   iterator find(const key_type& k) {
     node_pointer node = find_node(k);
     return iterator(node);
@@ -295,20 +208,6 @@ class avl_tree {
   // 重複は許されないので0か1のみ返す
   size_type count(const key_type& k) const { return (find_node(k) != end_); }
 
-  node_pointer lower_bound_node(const key_type& k) const {
-    node_pointer node = root();
-    node_pointer result = end_;
-    while (node) {
-      if (!comp_(node->value_, k)) {
-        result = node;
-        node = node->left_;
-      } else {
-        node = node->right_;
-      }
-    }
-    return result;
-  }
-
   iterator lower_bound(const key_type& k) {
     node_pointer node = lower_bound_node(k);
     return iterator(node);
@@ -317,20 +216,6 @@ class avl_tree {
   const_iterator lower_bound(const key_type& k) const {
     node_pointer node = lower_bound_node(k);
     return const_iterator(node);
-  }
-
-  node_pointer upper_bound_node(const key_type& k) const {
-    node_pointer node = root();
-    node_pointer result = end_;
-    while (node) {
-      if (comp_(k, node->value_)) {
-        result = node;
-        node = node->left_;
-      } else {
-        node = node->right_;
-      }
-    }
-    return result;
   }
 
   iterator upper_bound(const key_type& k) {
@@ -354,6 +239,126 @@ class avl_tree {
     return ft::make_pair(iterator(pair.first), iterator(pair.second));
   }
 
+  void clear() {
+    delete_tree();
+    size_ = 0;
+    end_->left_ = NULL;
+    begin_ = end_;
+  }
+
+ private:
+  node_pointer create_node() {
+    node_pointer new_node = node_alloc_.allocate(1);
+    node_alloc_.construct(new_node);
+    return new_node;
+  }
+
+  node_pointer create_node(const value_type& val) {
+    node_pointer new_node = node_alloc_.allocate(1);
+    node_alloc_.construct(new_node, node_type(val));
+    return new_node;
+  }
+
+  node_pointer create_node_at(const value_type& val, node_pointer parent_node) {
+    node_pointer new_node = create_node(val);
+
+    bool is_left = (parent_node == end_ || comp_(val, parent_node->value_));
+    new_node->connect_parent(parent_node, is_left);
+
+    if (is_left && parent_node == begin_) {
+      begin_ = new_node;
+    }
+
+    ++size_;
+
+    return new_node;
+  }
+
+  node_pointer root() const { return end_->left_; }
+
+  void delete_node(node_pointer node) {
+    node_alloc_.destroy(node);
+    node_alloc_.deallocate(node, 1);
+  }
+
+  void delete_tree() {
+    node_pointer node = root();
+    if (node == NULL) {
+      return;
+    }
+    while (node != end_) {
+      if (node->left_) {
+        node = node->left_;
+      } else if (node->right_) {
+        node = node->right_;
+      } else {
+        node_pointer parent_node = node->parent_;
+        node->disconnect_parent();
+        delete_node(node);
+        node = parent_node;
+      }
+    }
+  }
+
+  void replace_node(node_pointer erase_node, node_pointer alt_node) {
+    if (alt_node == NULL) {
+      erase_node->disconnect_parent();
+    } else {
+      if (alt_node->left_ == NULL && alt_node->right_ == NULL) {
+        alt_node->disconnect_parent();
+      } else if (alt_node->left_) {
+        alt_node->left_->connect_parent(alt_node->parent_, alt_node->is_left());
+      } else {
+        alt_node->right_->connect_parent(alt_node->parent_,
+                                         alt_node->is_left());
+      }
+      alt_node->connect_parent(erase_node->parent_, erase_node->is_left());
+      alt_node->connect_left(erase_node->left_);
+      alt_node->connect_right(erase_node->right_);
+    }
+  }
+
+  node_pointer find_node(const key_type& k) const {
+    node_pointer node = root();
+    while (node) {
+      if (comp_(k, node->value_)) {
+        node = node->left_;
+      } else if (comp_(node->value_, k)) {
+        node = node->right_;
+      } else {
+        return node;
+      }
+    }
+    return end_;
+  }
+
+  node_pointer lower_bound_node(const key_type& k) const {
+    node_pointer node = root();
+    node_pointer result = end_;
+    while (node) {
+      if (!comp_(node->value_, k)) {
+        result = node;
+        node = node->left_;
+      } else {
+        node = node->right_;
+      }
+    }
+    return result;
+  }
+
+  node_pointer upper_bound_node(const key_type& k) const {
+    node_pointer node = root();
+    node_pointer result = end_;
+    while (node) {
+      if (comp_(k, node->value_)) {
+        result = node;
+        node = node->left_;
+      } else {
+        node = node->right_;
+      }
+    }
+    return result;
+  }
   pair<node_pointer, node_pointer> equal_range_node(const key_type& k) const {
     node_pointer upper = end_;
     node_pointer lower = root();
@@ -369,13 +374,6 @@ class avl_tree {
       }
     }
     return ft::make_pair(upper, upper);
-  }
-
-  void clear() {
-    delete_tree();
-    size_ = 0;
-    end_->left_ = NULL;
-    begin_ = end_;
   }
 
   void rotate_left(node_pointer node) {
