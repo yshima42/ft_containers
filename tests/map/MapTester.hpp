@@ -106,7 +106,7 @@ class MapTester {
     std::cout << YELLOW << "< operator[] >" << RESET << std::endl;
     ft::map<Key, T> m(++_base_map.begin(), --_base_map.end());
     std::cout << m[1] << std::endl;
-    m[1] = "cccc";
+    m[1] = _base_pairs[2].second;
     std::cout << m[1] << std::endl;
   }
 
