@@ -72,9 +72,11 @@ class VectorTester {
     print_vec(v2, "v2(10)");
 
     ft::vector<T> v3(2, _base_vec.at(1));
+    ft::vector<T> v3_c(2, _base_const_vec.at(1));
     print_vec(v3, "v3(2, _base_vec.at(1))");
 
     ft::vector<T> v5(_base_vec);
+    ft::vector<T> v5_c(_base_const_vec);
     print_vec(v5, "v5(_base_vec)");
 
     v5.clear();
@@ -184,14 +186,20 @@ class VectorTester {
   void test_iterator() {
     std::cout << YELLOW << "< iterator >" << RESET << std::endl;
     std::cout << *(_base_vec.begin()) << std::endl;
+    std::cout << *(_base_const_vec.begin()) << std::endl;
     std::cout << *(_base_vec.begin() + 1) << std::endl;
+    std::cout << *(_base_const_vec.begin() + 1) << std::endl;
     std::cout << *(_base_vec.begin() + 2) << std::endl;
     std::cout << *(_base_vec.end() - 1) << std::endl;
+    std::cout << *(_base_const_vec.end() - 1) << std::endl;
     std::cout << *(_base_vec.end() - 2) << std::endl;
     std::cout << *(_base_vec.rbegin()) << std::endl;
+    std::cout << *(_base_const_vec.rbegin()) << std::endl;
     std::cout << *(_base_vec.rbegin() + 1) << std::endl;
+    std::cout << *(_base_const_vec.rbegin() + 1) << std::endl;
     std::cout << *(_base_vec.rbegin() + 2) << std::endl;
     std::cout << *(_base_vec.rend() - 1) << std::endl;
+    std::cout << *(_base_const_vec.rend() - 1) << std::endl;
     std::cout << *(_base_vec.rend() - 2) << std::endl;
 
     typename ft::vector<T>::iterator it = _base_vec.begin();

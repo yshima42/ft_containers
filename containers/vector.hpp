@@ -307,7 +307,6 @@ class vector {
   const_iterator begin() const { return const_iterator(first_); }
   const_iterator end() const { return const_iterator(last_); }
 
-  // この4つ意味わからないので後ほど検討->reverse_iteratorのconstructorを使っている
   reverse_iterator rbegin() { return reverse_iterator(last_); }
   reverse_iterator rend() { return reverse_iterator(first_); }
   const_reverse_iterator rbegin() const { return reverse_iterator(last_); }
@@ -340,7 +339,6 @@ class vector {
 
     for (pointer old_iter = old_first; old_iter != old_last;
          ++old_iter, ++last_) {
-      //理解にはムーブセマンティクスを理解が必要
       construct(last_, *old_iter);
     }
 
@@ -401,6 +399,7 @@ class vector {
   }
 };
 
+// non-member funcs
 template <class T, class Alloc>
 bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
   return (lhs.size() == rhs.size() &&

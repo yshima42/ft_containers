@@ -17,7 +17,9 @@ class StackTester {
   void test_all() {
     test_constructor();
     test_assignment_operator();
+    test_push();
     test_pop();
+    test_relational_operators();
   }
 
  private:
@@ -71,14 +73,53 @@ class StackTester {
     print_stack(s2, "assigned identical stack");
   }
 
+  void test_push() {
+    std::cout << YELLOW << "< push >" << RESET << std::endl;
+
+    ft::stack<T> s1;
+    ft::stack<T> s2(_base_stack);
+
+    for (size_t i = 0; i < s2.size() - 1; ++i) {
+      s1.push(s2.top());
+    }
+    print_stack(s1, "push");
+
+  }
+
   void test_pop() {
-    std::cout << YELLOW << "< push_back, pop_back >" << RESET << std::endl;
+    std::cout << YELLOW << "< pop >" << RESET << std::endl;
     ft::stack<T> stack(_base_stack);
 
     for (size_t i = 0; i < _base_stack.size() - 1; ++i) {
       stack.pop();
     }
     print_stack(stack, "pop");
+  }
+
+  void test_relational_operators() {
+    std::cout << YELLOW << "< relational operators >" << RESET << std::endl;
+
+    ft::stack<T> s1(_base_stack);
+    ft::stack<T> s2(_base_stack);
+
+    s2.pop();
+
+    std::cout << std::boolalpha << "s1 == s1 : " << (s1 == s1) << std::endl
+              << "s1 == s2 : " << (s1 == s2) << std::endl
+              << "s1 != s1 : " << (s1 != s1) << std::endl
+              << "s1 != s2 : " << (s1 != s2) << std::endl
+              << "s1 < s1 : " << (s1 < s1) << std::endl
+              << "s1 < s2 : " << (s1 < s2) << std::endl
+              << "s2 < s1 : " << (s2 < s1) << std::endl
+              << "s1 <= s1 : " << (s1 <= s1) << std::endl
+              << "s1 <= s2 : " << (s1 <= s2) << std::endl
+              << "s2 <= s1 : " << (s2 <= s1) << std::endl
+              << "s1 > s1 : " << (s1 > s1) << std::endl
+              << "s1 > s2 : " << (s1 > s2) << std::endl
+              << "s2 > s1 : " << (s2 > s1) << std::endl
+              << "s1 >= s1 : " << (s1 >= s1) << std::endl
+              << "s1 >= s2 : " << (s1 >= s2) << std::endl
+              << "s2 >= s1 : " << (s2 >= s1) << std::endl;
   }
 };
 
