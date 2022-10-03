@@ -68,14 +68,13 @@ class MapTester {
     std::cout << std::endl;
   }
 
- template <class Iter>
-  void print_iter(Iter iter, Iter end) const
-  {
-      std::cout << "Iter:";
-      if (iter == end)
-          std::cout << "end";
-      else
-          print_pair(*iter);
+  template <class Iter>
+  void print_iter(Iter iter, Iter end) const {
+    std::cout << "Iter:";
+    if (iter == end)
+      std::cout << "end";
+    else
+      print_pair(*iter);
   }
 
   void test_constructor() {
@@ -184,17 +183,21 @@ class MapTester {
 
     typename ft::map<Key, T>::iterator it = _base_map.begin();
     while (it != _base_map.end()) {
-      print_pair(*(it++)); std::cout << std::endl;
+      print_pair(*(it++));
+      std::cout << std::endl;
     }
     it--;
     while (it != _base_map.begin()) {
-      print_pair(*(it--)); std::cout  << std::endl;
+      print_pair(*(it--));
+      std::cout << std::endl;
     }
     while (it != --_base_map.end()) {
-      print_pair(*(++it)); std::cout  << std::endl;
+      print_pair(*(++it));
+      std::cout << std::endl;
     }
     while (it != _base_map.begin()) {
-      print_pair(*(--it)); std::cout << std::endl;
+      print_pair(*(--it));
+      std::cout << std::endl;
     }
   }
 

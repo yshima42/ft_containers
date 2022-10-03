@@ -39,12 +39,7 @@ void test_map() {
 
   ft::map<int, char> base_map = make_random_map();
 
-  std::vector<ft::pair<int, char> > base_pairs;
-  base_pairs.push_back(ft::make_pair(10, 'c'));
-  base_pairs.push_back(ft::make_pair(-10, 'a'));
-  base_pairs.push_back(ft::make_pair(30, 'e'));
-  base_pairs.push_back(ft::make_pair(20, 'd'));
-  base_pairs.push_back(ft::make_pair(0, 'b'));
+  std::vector<ft::pair<int, char> > base_pairs = make_random_vec();
 
   MapTester<int, char> m(base_map, base_pairs);
   m.test_all();
@@ -76,6 +71,7 @@ void test_map() {
 
 void benchmark_map() {
   ft::map<int, char> base_map = make_random_map();
-  MapBenchmark<int, char> s(base_map);
+  std::vector<ft::pair<int, char> > base_pairs = make_random_vec();
+  MapBenchmark<int, char> s(base_map, base_pairs);
   s.test_all();
 }
