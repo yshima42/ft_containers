@@ -5,7 +5,7 @@
 #include <sstream>
 #include <string>
 
-#include "test.hpp"
+#include "../test.hpp"
 
 template <class T>
 class VectorBenchmark {

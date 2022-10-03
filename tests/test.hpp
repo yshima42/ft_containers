@@ -2,15 +2,17 @@
 #define TEST_HPP
 
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 #ifndef IS_FT
 #define IS_FT 0
 #endif
 
 #if IS_FT
-#include "vector.hpp"
-#include "map.hpp"
-#include "stack.hpp"
+#include "../containers/vector.hpp"
+#include "../containers/map.hpp"
+#include "../containers/stack.hpp"
 #else
 #include <map>
 #include <stack>

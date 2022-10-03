@@ -1,9 +1,9 @@
 #include "test_map.hpp"
 
+#include "../test.hpp"
 #include "MapBenchmark.hpp"
 #include "MapTester.hpp"
 #include "PairTester.hpp"
-#include "test.hpp"
 
 void test_pair() {
   std::cout << "<pair test>" << std::endl;
@@ -12,29 +12,41 @@ void test_pair() {
   p.test_all();
 }
 
-void test_map() {
-  test_pair();
+// 20~30個の数字がランダムな順でmapに入れるためのvectorの作成
+std::vector<ft::pair<int, char> > make_random_vec() {
+  std::vector<ft::pair<int, char> > pair_elems;
+  std::srand(time(NULL));
+  int num = rand() % 10 + 20;
+  for (int i = 0; i < num; i++) {
+    pair_elems.push_back(ft::make_pair(i, 'A' + i));
+  }
+  std::random_shuffle(pair_elems.begin(), pair_elems.end());
+  return pair_elems;
+}
 
-  std::vector<ft::pair<int, std::string> > pair_elems;
-  pair_elems.push_back(ft::make_pair(-1, "A"));
-  pair_elems.push_back(ft::make_pair(0, "B"));
-  pair_elems.push_back(ft::make_pair(1, "C"));
-  pair_elems.push_back(ft::make_pair(2, "D"));
-  pair_elems.push_back(ft::make_pair(3, "E"));
+ft::map<int, char> make_random_map() {
+  std::vector<ft::pair<int, char> > pair_elems = make_random_vec();
 
-  std::vector<ft::pair<int, std::string> > base_pairs;
-  base_pairs.push_back(ft::make_pair(10, "ccccc"));
-  base_pairs.push_back(ft::make_pair(-10, "aaaaa"));
-  base_pairs.push_back(ft::make_pair(30, "eeeee"));
-  base_pairs.push_back(ft::make_pair(20, "ddddd"));
-  base_pairs.push_back(ft::make_pair(0, "bbbbb"));
-
-  ft::map<int, std::string> base_map;
+  ft::map<int, char> base_map;
   for (size_t i = 0; i < pair_elems.size(); i++) {
     base_map.insert(pair_elems[i]);
   }
+  return base_map;
+}
 
-  MapTester<int, std::string> m(base_map, base_pairs);
+void test_map() {
+  test_pair();
+
+  ft::map<int, char> base_map = make_random_map();
+
+  std::vector<ft::pair<int, char> > base_pairs;
+  base_pairs.push_back(ft::make_pair(10, 'c'));
+  base_pairs.push_back(ft::make_pair(-10, 'a'));
+  base_pairs.push_back(ft::make_pair(30, 'e'));
+  base_pairs.push_back(ft::make_pair(20, 'd'));
+  base_pairs.push_back(ft::make_pair(0, 'b'));
+
+  MapTester<int, char> m(base_map, base_pairs);
   m.test_all();
 
   std::cout << GREEN << "Fixed class" << std::endl;
@@ -60,11 +72,10 @@ void test_map() {
 
   MapTester<Fixed, char> m2(base_map2, base_pairs2);
   m2.test_all();
-
 }
 
 void benchmark_map() {
-  // ft::map<int, int> base;
-  // MapBenchmark<int, int> s(base);
-  // s.test_all();
+  ft::map<int, char> base_map = make_random_map();
+  MapBenchmark<int, char> s(base_map);
+  s.test_all();
 }

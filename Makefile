@@ -33,6 +33,20 @@ $(OBJDIR_FT)/%.o: %.cpp
 	@if [ ! -e `dirname $@` ]; then mkdir -p `dirname $@`; fi
 	$(CXX) $(CXXFLAGS) -o $@ -D IS_FT=1 -c $<
 
+#mapのcoverageのみ確認する
+cover : 
+	$(CXX) -fprofile-arcs -ftest-coverage -D IS_FT=1 $(SRCS) -o cover_test
+	./cover_test -t map
+	lcov -c -d . -o cover_test.info
+	genhtml cover_test.info -o ./info
+	$(RM) -rf cover_test.info
+	$(RM) -rf cover_test
+	$(RM) -rf *.gcda
+	$(RM) -rf *.gcno
+	$(RM) -rf *.info
+	$(RM) -rf cover_test.dSYM
+	open info/index.html
+
 test		:	all
 	bash tests/exec_test.sh vector stack map
 
@@ -55,7 +69,8 @@ stl_map		: all
 	./tester_stl -t map
 
 clean	:
-	rm -rf $(OBJDIR_STL) $(OBJDIR_FT)
+	$(RM) -rf $(OBJDIR_STL) $(OBJDIR_FT)
+	$(RM) -rf ./info
 
 fclean		: clean
 	$(RM) $(NAME_STL) $(NAME_FT)
