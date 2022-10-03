@@ -13,7 +13,7 @@ DEPS_FT		:= $(addprefix $(OBJDIR_FT)/, $(SRCS:.o=.d))
 INC				:=	-I./containers -I./tests
 
 CXX				:=	c++
-CXXFLAGS	:=	-Wall -Wextra -Werror -std=c++98 -Wshadow -pedantic -MMD -MP $(INC)
+CXXFLAGS	:=	-Wall -Wextra -Werror -std=c++98 -Wshadow -pedantic -MMD -MP $(INC) -g -fsanitize=address
 
 all			:	$(NAME_STL) $(NAME_FT)
 

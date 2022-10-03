@@ -189,7 +189,6 @@ class MapBenchmark {
     time_.stop_print();
   }
 
-
 };
 
 #endif

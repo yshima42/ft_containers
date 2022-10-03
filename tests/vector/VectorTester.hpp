@@ -164,9 +164,6 @@ class VectorTester {
     } catch (std::length_error &e) {
       std::cout << e.what() << std::endl;
     }
-
-    _base_vec.resize(6, _base_vec.at(4));
-    print_vec(_base_vec, "_base_vec.resize(5)");
   }
 
   void test_insert() {
@@ -175,12 +172,13 @@ class VectorTester {
     vec.insert((vec.begin() + 1), vec.at(4));
     print_vec(vec, "vec.insert((vec.begin() + 1), vec.at(4))");
 
-    vec.insert(vec.begin(), 5, vec.back());
-    print_vec(vec, "vec.insert(vec.begin(), 5, vec.back())");
+  //   vec.insert(vec.begin(), 5, vec.back());
+  //   print_vec(vec, "vec.insert(vec.begin(), 5, vec.back())");
 
-    vec.insert(vec.begin() + 3, vec.begin() + 1, vec.end() - 1);
-    print_vec(vec,
-              "vec.insert(vec.begin() + 3, vec.begin() + 1, vec.end() - 1)");
+  //   vec.insert(vec.begin() + 3, vec.begin() + 1, vec.end() - 1);
+  //   print_vec(vec,
+  //             "vec.insert(vec.begin() + 3, vec.begin() + 1, vec.end() - 1)");
+  // 
   }
 
   void test_iterator() {
