@@ -6,7 +6,7 @@
 #include "PairTester.hpp"
 
 void test_pair() {
-  std::cout << "<pair test>" << std::endl;
+  std::cout << GREEN << "<pair test>" << std::endl;
   ft::pair<int, std::string> p1(1, "hello");
   PairTester<int, std::string> p(p1);
   p.test_all();

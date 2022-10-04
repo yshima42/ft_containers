@@ -71,7 +71,8 @@
         "utility": "cpp",
         "__memory": "cpp",
         "functional": "cpp",
-        "__functional_base": "cpp"
+        "__functional_base": "cpp",
+        "list": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }

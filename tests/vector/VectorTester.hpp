@@ -208,18 +208,14 @@ class VectorTester {
     std::cout << *(_base_const_vec.begin()) << std::endl;
     std::cout << *(_base_vec.begin() + 1) << std::endl;
     std::cout << *(_base_const_vec.begin() + 1) << std::endl;
-    std::cout << *(_base_vec.begin() + 2) << std::endl;
     std::cout << *(_base_vec.end() - 1) << std::endl;
     std::cout << *(_base_const_vec.end() - 1) << std::endl;
-    std::cout << *(_base_vec.end() - 2) << std::endl;
     std::cout << *(_base_vec.rbegin()) << std::endl;
     std::cout << *(_base_const_vec.rbegin()) << std::endl;
     std::cout << *(_base_vec.rbegin() + 1) << std::endl;
     std::cout << *(_base_const_vec.rbegin() + 1) << std::endl;
-    std::cout << *(_base_vec.rbegin() + 2) << std::endl;
     std::cout << *(_base_vec.rend() - 1) << std::endl;
     std::cout << *(_base_const_vec.rend() - 1) << std::endl;
-    std::cout << *(_base_vec.rend() - 2) << std::endl;
 
     typename ft::vector<T>::iterator it = _base_vec.begin();
     while (it < _base_vec.end()) {

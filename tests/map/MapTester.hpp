@@ -194,12 +194,10 @@ class MapTester {
       m2.insert(_base_pairs[i]);
     }
 
-    std::cout << &m1 << std::endl;
     print_map(m1);
     print_map(m2);
     std::swap(m1, m2);
 
-    std::cout << &m1 << std::endl;
     print_map(m1);
     print_map(m2);
   }

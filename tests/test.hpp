@@ -14,11 +14,13 @@
 #include "../containers/map.hpp"
 #include "../containers/stack.hpp"
 #else
+namespace ft = std;
+#endif
+
 #include <map>
 #include <stack>
 #include <vector>
-namespace ft = std;
-#endif
+#include <list>
 
 #include "utils/Timer.hpp"
 #include "utils/color.hpp"

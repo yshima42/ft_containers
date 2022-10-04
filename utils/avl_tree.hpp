@@ -421,6 +421,7 @@ class avl_tree {
       }
       node = parent_node;
     }
+    // verify_avl();
   }
 
   // verify関数を入れる
