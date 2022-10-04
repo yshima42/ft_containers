@@ -6,7 +6,7 @@
 
 void test_vector() {
   ft::vector<int> base;
-  for(int i = 0; i < 100; i++) {
+  for(int i = 0; i < 10; i++) {
     base.push_back(i);
   }
   VectorTester<int> v(base);
