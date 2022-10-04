@@ -17,17 +17,30 @@ class VectorTester {
     test_constructor();
     test_assignment_operator();
     test_assign();
+    test_get_allocator();
+
+    // element access
     test_at();
     test_operators();
-    test_push_back_pop_back();
-    test_reserve_resize();
-    test_insert();
+    //front, back, data, max_size
+    test_small_funcs();
+
     test_iterator();
+
+    // capacity
+    // empty等はprint_vecにて
+    test_reserve_resize();
+
+    // modifiers
+    test_push_back_pop_back();
+    test_clear();
+    test_insert();
     test_erase();
     test_swap();
-    test_get_allocator();
-    test_small_funcs();
+
     test_relational_operator();
+
+    test_compare_iterator();
   }
 
  private:
@@ -166,6 +179,13 @@ class VectorTester {
     }
   }
 
+  void test_clear() {
+    ft::vector<T> vec(_base_vec);
+    print_vec(vec, "before clear()");
+    vec.clear();
+    print_vec(vec, "after clear()");
+  }
+
   void test_insert() {
     std::cout << YELLOW << "< insert >" << RESET << std::endl;
     ft::vector<T> vec(_base_vec);
@@ -252,14 +272,27 @@ class VectorTester {
     std::cout << YELLOW << "< swap >" << RESET << std::endl;
     ft::vector<T> vec1(4, _base_vec.front());
     ft::vector<T> vec2(5, _base_vec.back());
+    typename ft::vector<T>::iterator it = vec1.begin();
+    typename ft::vector<T>::reference ref = vec1.at(2);
+    // typename ft::vector<T>::pointer po = vec1.data();
     print_vec(vec1, "vec1");
     print_vec(vec2, "vec2");
+    std::cout << "iterator: " << *it << std::endl;
+    std::cout << "reference: " << ref << std::endl;
+    // ポインタなのでstl, ftで差が出るためコメントアウト
+    // std::cout << "pointer: " << po << std::endl;
     vec1.swap(vec2);
     print_vec(vec1, "after swap vec1");
     print_vec(vec2, "after swap vec2");
+    std::cout << "iterator: " << *it << std::endl;
+    std::cout << "reference: " << ref << std::endl;
+    // std::cout << "pointer: " << po << std::endl;
     swap(vec1, vec2);
     print_vec(vec1, "vec1 should be original");
     print_vec(vec2, "vec2 should be original");
+    std::cout << "iterator: " << *it << std::endl;
+    std::cout << "reference: " << ref << std::endl;
+    // std::cout << "pointer: " << po << std::endl;
   }
 
   void test_get_allocator() {
@@ -276,31 +309,22 @@ class VectorTester {
     std::cout << _base_vec.max_size() << std::endl;
   }
 
-  //nafuka11さんからテスト引用
   void test_relational_operator() {
     std::cout << YELLOW << "< relational operator >" << RESET << std::endl;
     ft::vector<T> empty1;
     ft::vector<T> empty2;
     ft::vector<T> five1(5, _base_vec.front());
     ft::vector<T> five2(5, _base_vec.front());
-    ft::vector<T> front_diff(5, _base_vec.front());
-    ft::vector<T> back_diff(5, _base_vec.front());
     ft::vector<T> six(6, _base_vec.front());
-    front_diff[0] = _base_vec.back();
-    back_diff[back_diff.size() - 1] = _base_vec.back();
 
     std::cout << std::boolalpha << "empty == empty     : " << (empty1 == empty2)
               << std::endl
               << "empty == five      : " << (empty1 == five1) << std::endl
-              << "five  == five      : " << (five1 == five2) << std::endl
-              << "five  == frontDiff : " << (five1 == front_diff) << std::endl
-              << "five  == backDiff  : " << (five2 == back_diff) << std::endl;
+              << "five  == five      : " << (five1 == five2) << std::endl;
     std::cout << std::boolalpha << "empty != empty     : " << (empty1 != empty2)
               << std::endl
               << "empty != five      : " << (empty1 != five1) << std::endl
-              << "five  != five      : " << (five1 != five2) << std::endl
-              << "five  != frontDiff : " << (five1 != front_diff) << std::endl
-              << "five  != backDiff  : " << (five2 != back_diff) << std::endl;
+              << "five  != five      : " << (five1 != five2) << std::endl;
     std::cout << std::boolalpha
               << "empty    <  empty     : " << (empty1 < empty2) << std::endl
               << "empty    <  five      : " << (empty1 < five1) << std::endl
@@ -308,10 +332,6 @@ class VectorTester {
               << "five     <  five      : " << (five1 < five2) << std::endl
               << "six      <  five      : " << (six < five1) << std::endl
               << "five     <  six       : " << (five1 < six) << std::endl
-              << "five     <  frontDiff : " << (five1 < front_diff) << std::endl
-              << "frontDiff<  five      : " << (front_diff < five1) << std::endl
-              << "five     <  backDiff  : " << (five2 < back_diff) << std::endl
-              << "backDiff <  five      : " << (back_diff < back_diff)
               << std::endl;
     std::cout << std::boolalpha
               << "empty    <= empty     : " << (empty1 <= empty2) << std::endl
@@ -320,12 +340,6 @@ class VectorTester {
               << "five     <= five      : " << (five1 <= five2) << std::endl
               << "six      <= five      : " << (six <= five1) << std::endl
               << "five     <= six       : " << (five1 <= six) << std::endl
-              << "five     <= frontDiff : " << (five1 <= front_diff)
-              << std::endl
-              << "frontDiff<= five      : " << (front_diff <= five1)
-              << std::endl
-              << "five     <= backDiff  : " << (five2 <= back_diff) << std::endl
-              << "backDiff <= five      : " << (back_diff <= back_diff)
               << std::endl;
     std::cout << std::boolalpha
               << "empty    >  empty     : " << (empty1 > empty2) << std::endl
@@ -334,10 +348,6 @@ class VectorTester {
               << "five     >  five      : " << (five1 > five2) << std::endl
               << "six      >  five      : " << (six > five1) << std::endl
               << "five     >  six       : " << (five1 > six) << std::endl
-              << "five     >  frontDiff : " << (five1 > front_diff) << std::endl
-              << "frontDiff>  five      : " << (front_diff > five1) << std::endl
-              << "five     >  backDiff  : " << (five2 > back_diff) << std::endl
-              << "backDiff >  five      : " << (back_diff > back_diff)
               << std::endl;
     std::cout << std::boolalpha
               << "empty    >= empty     : " << (empty1 >= empty2) << std::endl
@@ -346,13 +356,16 @@ class VectorTester {
               << "five     >= five      : " << (five1 >= five2) << std::endl
               << "six      >= five      : " << (six >= five1) << std::endl
               << "five     >= six       : " << (five1 >= six) << std::endl
-              << "five     >= frontDiff : " << (five1 >= front_diff)
-              << std::endl
-              << "frontDiff>= five      : " << (front_diff >= five1)
-              << std::endl
-              << "five     >= backDiff  : " << (five2 >= back_diff) << std::endl
-              << "backDiff >= five      : " << (back_diff >= back_diff)
               << std::endl;
+  }
+
+  void test_compare_iterator() {
+    typename ft::vector<T>::const_iterator cit = _base_vec.begin();
+    typename ft::vector<T>::iterator it = _base_vec.begin();
+
+    std::cout << std::boolalpha << "cit      == it        : " << (cit == it) << std::endl;
+    std::cout << std::boolalpha << "cit      <  it        : " << (cit < it) << std::endl;
+    std::cout << std::boolalpha << "cit      >  it        : " << (cit > it) << std::endl;
   }
 };
 

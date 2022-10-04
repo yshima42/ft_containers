@@ -13,7 +13,7 @@ DEPS_FT		:= $(addprefix $(OBJDIR_FT)/, $(SRCS:.o=.d))
 INC				:=	-I./containers -I./tests
 
 CXX				:=	c++
-CXXFLAGS	:=	-Wall -Wextra -Werror -std=c++98 -Wshadow -pedantic -MMD -MP $(INC) -g -fsanitize=address
+CXXFLAGS	:=	-Wall -Wextra -Werror -std=c++98 -Wshadow -pedantic -MMD -MP $(INC) #-g -fsanitize=address
 
 all			:	$(NAME_STL) $(NAME_FT)
 
@@ -34,18 +34,18 @@ $(OBJDIR_FT)/%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -o $@ -D IS_FT=1 -c $<
 
 #mapのcoverageのみ確認する
-cover : 
-	$(CXX) -fprofile-arcs -ftest-coverage -D IS_FT=1 $(SRCS) -o cover_test
-	./cover_test -t map
-	lcov -c -d . -o cover_test.info
-	genhtml cover_test.info -o ./info
-	$(RM) -rf cover_test.info
-	$(RM) -rf cover_test
-	$(RM) -rf *.gcda
-	$(RM) -rf *.gcno
-	$(RM) -rf *.info
-	$(RM) -rf cover_test.dSYM
-	open info/index.html
+# cover : 
+# 	$(CXX) -fprofile-arcs -ftest-coverage -D IS_FT=1 $(SRCS) -o cover_test
+# 	./cover_test -t map
+# 	lcov -c -d . -o cover_test.info
+# 	genhtml cover_test.info -o ./info
+# 	$(RM) -rf cover_test.info
+# 	$(RM) -rf cover_test
+# 	$(RM) -rf *.gcda
+# 	$(RM) -rf *.gcno
+# 	$(RM) -rf *.info
+# 	$(RM) -rf cover_test.dSYM
+# 	open info/index.html
 
 test		:	all
 	bash tests/exec_test.sh vector stack map
