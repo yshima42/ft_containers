@@ -211,15 +211,10 @@ class vector {
   const_pointer data() const { return first_; }
 
   void push_back(const_reference value) {
-    if (size() + 1 > capacity()) {
-      size_type c = size();
-      if (c == 0)
-        c = 1;
-      else
-        c *= 2;  // オーバーフロー処理
-      reserve(c);
+    if (last_ == reserved_last_) {
+      reserve(recommend_size(size() + 1));
     }
-    construct(last_, value);
+    alloc_.construct(last_, value);
     ++last_;
   }
 
@@ -319,7 +314,7 @@ class vector {
   }
 
   void reserve(size_type sz) {
-    if (sz <= capacity()) return;
+     if (sz <= capacity()) return;
     if (sz > max_size()) {
       throw std::length_error(
           "allocator<T>::allocate(size_t n) 'n' exceeds maximum supported "

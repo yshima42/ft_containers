@@ -17,30 +17,33 @@ class MapTester {
   void test_all() {
     test_constructor();
     test_assignment_operator();
+    test_get_allocator();
 
     // element access
     test_subscript_operator();
 
+    test_iterator();
+
     // capacity
+    // empty, sizeはprint_mapにて
     test_max_size();
 
     test_insert();
     test_clear();
     test_erase();
-    test_swap();
-
-    test_iterator();
 
     test_find();
     test_count();
-
     test_lower_bound();
     test_upper_bound();
     test_equal_range();
 
-    test_get_allocator();
     test_key_comp();
     test_value_comp();
+    
+    test_swap();
+
+    test_relational_operator();
   }
 
  private:
@@ -124,19 +127,31 @@ class MapTester {
   void test_insert() {
     std::cout << YELLOW << "< insert >" << RESET << std::endl;
     ft::map<Key, T> m;
-    std::cout << _base_pairs.size() << std::endl;
+    std::cout << "size: " << _base_pairs.size() << std::endl;
+
     for (size_t i = 0; i < _base_pairs.size(); i++) {
       m.insert(_base_pairs[i]);
     }
-    print_map(m);
-
     ft::map<Key, T> m1(_base_map);
+
+    typename ft::map<Key, T>::iterator ite = m.begin();
+    std::cout << "iterator: ";
+    print_pair(*ite);
+    std::cout << std::endl;
+
     typename ft::map<Key, T>::iterator it = ++_base_map.begin();
+    m1.insert(it, _base_pairs[0]);
     m1.insert(it, _base_pairs[0]);
     m1.insert(it, _base_pairs[1]);
     m1.insert(it, _base_pairs[2]);
     m1.insert(it, _base_pairs[3]);
     m1.insert(it, _base_pairs[4]);
+
+    std::cout << "iterator: ";
+    print_pair(*ite);
+    std::cout << std::endl;
+    print_map(m);
+
     print_map(m1);
 
     ft::map<Key, T> m2(_base_map);
@@ -155,8 +170,15 @@ class MapTester {
   void test_erase() {
     std::cout << YELLOW << "< erase >" << RESET << std::endl;
     ft::map<Key, T> m(_base_map);
+    typename ft::map<Key, T>::iterator it = m.begin();
+    std::cout << "iterator: ";
+    print_pair(*it);
+    std::cout << std::endl;
     print_map(m);
-    m.erase(1);
+    m.erase(++m.begin());
+    std::cout << "iterator: ";
+    print_pair(*it);
+    std::cout << std::endl;
     print_map(m);
     m.erase(++m.begin());
     print_map(m);
@@ -171,9 +193,13 @@ class MapTester {
     for (size_t i = 0; i < _base_pairs.size(); i++) {
       m2.insert(_base_pairs[i]);
     }
+
+    std::cout << &m1 << std::endl;
     print_map(m1);
     print_map(m2);
     std::swap(m1, m2);
+
+    std::cout << &m1 << std::endl;
     print_map(m1);
     print_map(m2);
   }
@@ -182,21 +208,26 @@ class MapTester {
     std::cout << YELLOW << "< iterator >" << RESET << std::endl;
 
     typename ft::map<Key, T>::iterator it = _base_map.begin();
-    while (it != _base_map.end()) {
+    typename ft::map<Key, T>::const_iterator cit = _base_const_map.begin();
+    while (it != _base_map.end() && cit != _base_const_map.end()) {
       print_pair(*(it++));
+      print_pair(*(cit++));
       std::cout << std::endl;
     }
     it--;
-    while (it != _base_map.begin()) {
+    while (it != _base_map.begin()&& cit != _base_const_map.end()) {
       print_pair(*(it--));
+      print_pair(*(cit--));
       std::cout << std::endl;
     }
-    while (it != --_base_map.end()) {
+    while (it != --_base_map.end()&& cit != _base_const_map.end()) {
       print_pair(*(++it));
+      print_pair(*(++cit));
       std::cout << std::endl;
     }
-    while (it != _base_map.begin()) {
+    while (it != _base_map.begin()&& cit != _base_const_map.end()) {
       print_pair(*(--it));
+      print_pair(*(--cit));
       std::cout << std::endl;
     }
   }
@@ -324,6 +355,57 @@ class MapTester {
               << std::endl
               << comp(_base_pairs[1], _base_pairs[1]) << std::endl
               << comp(_base_pairs[1], _base_pairs[0]) << std::endl;
+  }
+
+    void test_relational_operator() {
+    std::cout << YELLOW << "< relational operator >" << RESET << std::endl;
+    ft::map<Key, T> empty1;
+    ft::map<Key, T> empty2;
+    ft::map<Key, T> five1(_base_map);
+    ft::map<Key, T> five2(_base_map);
+    ft::map<Key, T> six(_base_map);
+    six.insert(_base_pairs[2]);
+
+    std::cout << std::boolalpha << "empty == empty     : " << (empty1 == empty2)
+              << std::endl
+              << "empty == five      : " << (empty1 == five1) << std::endl
+              << "five  == five      : " << (five1 == five2) << std::endl;
+    std::cout << std::boolalpha << "empty != empty     : " << (empty1 != empty2)
+              << std::endl
+              << "empty != five      : " << (empty1 != five1) << std::endl
+              << "five  != five      : " << (five1 != five2) << std::endl;
+    std::cout << std::boolalpha
+              << "empty    <  empty     : " << (empty1 < empty2) << std::endl
+              << "empty    <  five      : " << (empty1 < five1) << std::endl
+              << "five     <  empty     : " << (five1 < empty1) << std::endl
+              << "five     <  five      : " << (five1 < five2) << std::endl
+              << "six      <  five      : " << (six < five1) << std::endl
+              << "five     <  six       : " << (five1 < six) << std::endl
+              << std::endl;
+    std::cout << std::boolalpha
+              << "empty    <= empty     : " << (empty1 <= empty2) << std::endl
+              << "empty    <= five      : " << (empty1 <= five1) << std::endl
+              << "five     <= empty     : " << (five1 <= empty1) << std::endl
+              << "five     <= five      : " << (five1 <= five2) << std::endl
+              << "six      <= five      : " << (six <= five1) << std::endl
+              << "five     <= six       : " << (five1 <= six) << std::endl
+              << std::endl;
+    std::cout << std::boolalpha
+              << "empty    >  empty     : " << (empty1 > empty2) << std::endl
+              << "empty    >  five      : " << (empty1 > five1) << std::endl
+              << "five     >  empty     : " << (five1 > empty1) << std::endl
+              << "five     >  five      : " << (five1 > five2) << std::endl
+              << "six      >  five      : " << (six > five1) << std::endl
+              << "five     >  six       : " << (five1 > six) << std::endl
+              << std::endl;
+    std::cout << std::boolalpha
+              << "empty    >= empty     : " << (empty1 >= empty2) << std::endl
+              << "empty    >= five      : " << (empty1 >= five1) << std::endl
+              << "five     >= empty     : " << (five1 >= empty1) << std::endl
+              << "five     >= five      : " << (five1 >= five2) << std::endl
+              << "six      >= five      : " << (six >= five1) << std::endl
+              << "five     >= six       : " << (five1 >= six) << std::endl
+              << std::endl;
   }
 };
 
