@@ -69,11 +69,6 @@ class VectorBenchmark {
     time_.start("assign v1(20)");
     v1 = _base_vec;
     time_.stop_print();
-
-    ft::vector<T> v2(v1);
-    time_.start("assign identical");
-    v2 = v1;
-    time_.stop_print();
   }
 
   void test_push_back_pop_back() {
