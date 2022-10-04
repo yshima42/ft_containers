@@ -86,7 +86,7 @@ class vector {
       alloc_ = other.alloc_;
       assign(other.first_, other.last_);
     }
-    return (*this);
+    return *this;
   }
 
   // check size and capacity

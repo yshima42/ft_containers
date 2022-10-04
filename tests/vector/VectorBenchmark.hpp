@@ -61,13 +61,8 @@ class VectorBenchmark {
 
   void test_assignment_operator() {
     ft::vector<T> v;
-    time_.start("assign no_size");
+    time_.start("operator =");
     v = _base_vec;
-    time_.stop_print();
-
-    ft::vector<T> v1(20);
-    time_.start("assign v1(20)");
-    v1 = _base_vec;
     time_.stop_print();
   }
 
