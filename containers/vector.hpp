@@ -78,37 +78,15 @@ class vector {
 
   // assignment operator
   vector& operator=(vector const& other) {
-    // 1.self assignment, do nothing
-    if (this == &other) return *this;
-    // 2.if the size is same, copy everything
-    if (size() == other.size()) {
-      std::copy(other.begin(), other.end(), begin());
-    }
-    // 3.other case
-    else if (capacity() >= other.size()) {
-      std::copy(other.begin(), other.begin() + other.size(), begin());
-      // copy the remaining
-      for (const_iterator src_iter = other.begin() + other.size(),
-                          src_end = other.end();
-           src_iter != src_end; ++src_iter, ++last_) {
-        construct(last_, *src_iter);
+    if (this != &other) {
+      if (alloc_ != other.alloc_) {
+        clear();
+        deallocate();
       }
+      alloc_ = other.alloc_;
+      assign(other.first_, other.last_);
     }
-    // not enough size
-    else {
-      // destroy all the elements
-      // destroy_until(rbegin());
-      clear();
-      // reserve size
-      reserve(other.size());
-      // copy
-      for (const_iterator src_iter = other.begin(), src_end = other.end(),
-                          dest_iter = begin();
-           src_iter != src_end; ++src_iter, ++dest_iter, ++last_) {
-        construct(last_, *src_iter);
-      }
-    }
-    return *this;
+    return (*this);
   }
 
   // check size and capacity
@@ -314,7 +292,7 @@ class vector {
   }
 
   void reserve(size_type sz) {
-     if (sz <= capacity()) return;
+    if (sz <= capacity()) return;
     if (sz > max_size()) {
       throw std::length_error(
           "allocator<T>::allocate(size_t n) 'n' exceeds maximum supported "

@@ -3,9 +3,9 @@
 #include <iomanip>
 
 void Timer::start(const std::string &case_name) {
-   case_name_ = case_name;
-   start_time_ = clock();
-   }
+  case_name_ = case_name;
+  start_time_ = clock();
+}
 
 void Timer::stop() { stop_time_ = clock(); }
 
@@ -17,10 +17,9 @@ double Timer::passed_time() const {
 void Timer::print() const {
   double passed_time = this->passed_time();
   // 0.001以下の場合は0.001とする
-  if (passed_time == 0)
-    passed_time = 0.001;
+  if (passed_time == 0) passed_time = 0.001;
   std::cout << std::setw(20) << std::left << case_name_;
-	std::cout << passed_time << std::endl;
+  std::cout << passed_time << std::endl;
 }
 
 void Timer::stop_print() {

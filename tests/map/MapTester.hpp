@@ -40,7 +40,7 @@ class MapTester {
 
     test_key_comp();
     test_value_comp();
-    
+
     test_swap();
 
     test_relational_operator();
@@ -213,17 +213,17 @@ class MapTester {
       std::cout << std::endl;
     }
     it--;
-    while (it != _base_map.begin()&& cit != _base_const_map.end()) {
+    while (it != _base_map.begin() && cit != _base_const_map.end()) {
       print_pair(*(it--));
       print_pair(*(cit--));
       std::cout << std::endl;
     }
-    while (it != --_base_map.end()&& cit != _base_const_map.end()) {
+    while (it != --_base_map.end() && cit != _base_const_map.end()) {
       print_pair(*(++it));
       print_pair(*(++cit));
       std::cout << std::endl;
     }
-    while (it != _base_map.begin()&& cit != _base_const_map.end()) {
+    while (it != _base_map.begin() && cit != _base_const_map.end()) {
       print_pair(*(--it));
       print_pair(*(--cit));
       std::cout << std::endl;
@@ -355,7 +355,7 @@ class MapTester {
               << comp(_base_pairs[1], _base_pairs[0]) << std::endl;
   }
 
-    void test_relational_operator() {
+  void test_relational_operator() {
     std::cout << YELLOW << "< relational operator >" << RESET << std::endl;
     ft::map<Key, T> empty1;
     ft::map<Key, T> empty2;

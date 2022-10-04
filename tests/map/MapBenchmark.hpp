@@ -128,7 +128,7 @@ class MapBenchmark {
     ft::map<T1, T2> m(_base_map);
     time_.start("erase");
     for (size_t i = 0; i < LOOP_NUM; i++) {
-        m.erase(i);
+      m.erase(i);
     }
     time_.stop_print();
   }
@@ -151,7 +151,7 @@ class MapBenchmark {
   void test_find() {
     time_.start("find");
     for (size_t i = 0; i < LOOP_NUM; i++) {
-        _base_map.find(i);
+      _base_map.find(i);
     }
     time_.stop_print();
   }
@@ -159,7 +159,7 @@ class MapBenchmark {
   void test_count() {
     time_.start("count");
     for (size_t i = 0; i < LOOP_NUM; i++) {
-        _base_map.count(i);
+      _base_map.count(i);
     }
     time_.stop_print();
   }
@@ -167,16 +167,15 @@ class MapBenchmark {
   void test_lower_bound() {
     time_.start("lower_bound");
     for (size_t i = 0; i < LOOP_NUM; i++) {
-        _base_map.lower_bound(i);
+      _base_map.lower_bound(i);
     }
     time_.stop_print();
- 
   }
 
   void test_upper_bound() {
     time_.start("upper_bound");
     for (size_t i = 0; i < LOOP_NUM; i++) {
-        _base_map.upper_bound(i);
+      _base_map.upper_bound(i);
     }
     time_.stop_print();
   }
@@ -184,11 +183,10 @@ class MapBenchmark {
   void test_equal_range() {
     time_.start("equal_range");
     for (size_t i = 0; i < LOOP_NUM; i++) {
-        _base_map.equal_range(i);
+      _base_map.equal_range(i);
     }
     time_.stop_print();
   }
-
 };
 
 #endif

@@ -12,7 +12,7 @@ class StackBenchmark {
  private:
   Timer time_;
   static const size_t LOOP_NUM = 10000;
-  
+
  public:
   StackBenchmark(ft::stack<T> &stack) : _base_stack(stack) {}
   ~StackBenchmark() {}
@@ -21,7 +21,7 @@ class StackBenchmark {
     test_constructor();
     test_push_pop();
     test_empty();
-     test_size();
+    test_size();
     // test_top();
   }
 
@@ -58,9 +58,9 @@ class StackBenchmark {
     ft::stack<T> s1;
     time_.start("empty");
     for (size_t i = 0; i < LOOP_NUM; ++i) {
-    s1.empty();
-    _base_stack.empty();
-  }
+      s1.empty();
+      _base_stack.empty();
+    }
     time_.stop_print();
   }
 
@@ -68,9 +68,9 @@ class StackBenchmark {
     ft::stack<T> s1;
     time_.start("size");
     for (size_t i = 0; i < LOOP_NUM; ++i) {
-    s1.size();
-    _base_stack.size();
-  }
+      s1.size();
+      _base_stack.size();
+    }
     time_.stop_print();
   }
 
@@ -78,13 +78,11 @@ class StackBenchmark {
     ft::stack<T> s1;
     time_.start("top");
     for (size_t i = 0; i < LOOP_NUM; ++i) {
-    s1.top();
-    _base_stack.top();
-  }
+      s1.top();
+      _base_stack.top();
+    }
     time_.stop_print();
- 
   }
-
 };
 
 #endif

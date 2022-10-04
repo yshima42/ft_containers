@@ -1,20 +1,21 @@
-#include "vector/test_vector.hpp"
 #include "map/test_map.hpp"
 #include "stack/test_stack.hpp"
 #include "test.hpp"
+#include "vector/test_vector.hpp"
 
 const std::string containers[] = {"vector", "map", "stack"};
 
 void (*const test_funcs[])(void) = {test_vector, test_map, test_stack};
 
-void (*const benchmark_funcs[])(void) = {benchmark_vector, benchmark_map, benchmark_stack};
+void (*const benchmark_funcs[])(void) = {benchmark_vector, benchmark_map,
+                                         benchmark_stack};
 
 int container_index(std::string arg) {
   int i = 0;
   while (i < 3) {
     if (arg == containers[i]) {
-		return i;
-	}
+      return i;
+    }
     i++;
   }
   return (-1);

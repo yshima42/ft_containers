@@ -1,12 +1,12 @@
 #include "test_vector.hpp"
 
+#include "../test.hpp"
 #include "VectorBenchmark.hpp"
 #include "VectorTester.hpp"
-#include "../test.hpp"
 
 void test_vector() {
   ft::vector<int> base;
-  for(int i = 0; i < 10; i++) {
+  for (int i = 0; i < 10; i++) {
     base.push_back(i);
   }
   VectorTester<int> v(base);

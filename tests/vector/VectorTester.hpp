@@ -22,7 +22,7 @@ class VectorTester {
     // element access
     test_at();
     test_operators();
-    //front, back, data, max_size
+    // front, back, data, max_size
     test_small_funcs();
 
     test_iterator();
@@ -199,7 +199,6 @@ class VectorTester {
     vec.insert(vec.begin() + 3, vec2.begin() + 1, vec2.end() - 1);
     print_vec(vec,
               "vec.insert(vec.begin() + 3, vec.begin() + 1, vec.end() - 1)");
-  
   }
 
   void test_iterator() {
@@ -359,9 +358,12 @@ class VectorTester {
     typename ft::vector<T>::const_iterator cit = _base_vec.begin();
     typename ft::vector<T>::iterator it = _base_vec.begin();
 
-    std::cout << std::boolalpha << "cit      == it        : " << (cit == it) << std::endl;
-    std::cout << std::boolalpha << "cit      <  it        : " << (cit < it) << std::endl;
-    std::cout << std::boolalpha << "cit      >  it        : " << (cit > it) << std::endl;
+    std::cout << std::boolalpha << "cit      == it        : " << (cit == it)
+              << std::endl;
+    std::cout << std::boolalpha << "cit      <  it        : " << (cit < it)
+              << std::endl;
+    std::cout << std::boolalpha << "cit      >  it        : " << (cit > it)
+              << std::endl;
   }
 };
 

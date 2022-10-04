@@ -28,7 +28,8 @@ class StackTester {
   ft::stack<T, Container> _base_stack;
   ft::stack<T, Container> const _base_const_stack;
 
-  void print_stack(ft::stack<T, Container> &stack, const std::string &stack_name) {
+  void print_stack(ft::stack<T, Container> &stack,
+                   const std::string &stack_name) {
     std::cout << stack_name << ": ";
     print_stack_info(stack);
     print_stack_elems(stack);
@@ -88,7 +89,6 @@ class StackTester {
       s1.push(s2.top());
     }
     print_stack(s1, "push");
-
   }
 
   void test_pop() {
@@ -132,7 +132,6 @@ class StackTester {
     // _base_stack.begin();
     // _base_stack.end();
   }
-
 };
 
 #endif

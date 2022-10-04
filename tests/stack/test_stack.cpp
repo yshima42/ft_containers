@@ -1,8 +1,8 @@
 #include "test_stack.hpp"
 
+#include "../test.hpp"
 #include "StackBenchmark.hpp"
 #include "StackTester.hpp"
-#include "../test.hpp"
 
 void test_stack() {
   ft::stack<int, ft::vector<int> > base;
@@ -20,7 +20,8 @@ void test_stack() {
   base_str.push("str4");
   base_str.push("str5");
   StackTester<std::string> v_str(base_str);
-  std::cout << GREEN << "ft::stack<std::string, ft::vector<std::string> >" << std::endl;
+  std::cout << GREEN << "ft::stack<std::string, ft::vector<std::string> >"
+            << std::endl;
   v_str.test_all();
 
   ft::stack<Fixed, ft::vector<Fixed> > base_fixed;
