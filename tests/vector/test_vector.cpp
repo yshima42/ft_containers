@@ -18,9 +18,9 @@ void test_vector() {
   VectorTester<std::string> v_str(base_str);
   v_str.test_all();
 
-  ft::vector<Fixed> base_fixed(5, 2.5f);
-  VectorTester<Fixed> v_fixed(base_fixed);
-  v_fixed.test_all();
+  // ft::vector<Fixed> base_fixed(5, 2.5f);
+  // VectorTester<Fixed> v_fixed(base_fixed);
+  // v_fixed.test_all();
 }
 
 void benchmark_vector() {

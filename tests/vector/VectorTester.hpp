@@ -169,16 +169,17 @@ class VectorTester {
   void test_insert() {
     std::cout << YELLOW << "< insert >" << RESET << std::endl;
     ft::vector<T> vec(_base_vec);
-    vec.insert((vec.begin() + 1), vec.at(4));
-    print_vec(vec, "vec.insert((vec.begin() + 1), vec.at(4))");
+    ft::vector<T> vec2(_base_vec);
+    vec2.insert((vec2.begin() + 1), vec.at(2));
+    print_vec(vec2, "vec2.insert((vec.begin() + 1), vec.at(2))");
 
-  //   vec.insert(vec.begin(), 5, vec.back());
-  //   print_vec(vec, "vec.insert(vec.begin(), 5, vec.back())");
+    vec.insert(vec.begin(), 5, vec2.at(2));
+    print_vec(vec, "vec.insert(vec.begin(), 5, vec.back())");
 
-  //   vec.insert(vec.begin() + 3, vec.begin() + 1, vec.end() - 1);
-  //   print_vec(vec,
-  //             "vec.insert(vec.begin() + 3, vec.begin() + 1, vec.end() - 1)");
-  // 
+    vec.insert(vec.begin() + 3, vec2.begin() + 1, vec2.end() - 1);
+    print_vec(vec,
+              "vec.insert(vec.begin() + 3, vec.begin() + 1, vec.end() - 1)");
+  
   }
 
   void test_iterator() {
